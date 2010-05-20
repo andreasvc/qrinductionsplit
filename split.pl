@@ -74,7 +74,7 @@ instance(R, Q1, Q2, QI1, QI2) :-
 same_deps(R, QI1, QI2, M) :-
 	%same_deps1(QI1, QI2
 	forall(
-		instance(R, Q1, Q2, QJ1, QJ2),
+		instance(R, QI1, QI2, QJ1, QJ2),
 		(
 			forall(
 				member(dependency(D, QI1, QI2), M),
@@ -87,13 +87,13 @@ same_deps(R, QI1, QI2, M) :-
 		)
 	).
 
-get_deps(_QI1, QI2, []).
+get_deps(_QI1, _QI2, []).
 get_deps(QI1, QI2, [dependency(D, QI1, QI2) | M ], [dependency(D, Q1, Q2) | Result]) :-
 	!,	
 	entity(Q1, QI1), entity(Q2, QI2),
 	get_deps(QI1, QI2, M, Result).
 
-get_deps(QI1, QI2, [dependency(_, _, _) | M ]) :-
+get_deps(QI1, QI2, [dependency(_, _, _) | M ], Result) :-
 	get_deps(QI1, QI2, M, Result).
 
 
