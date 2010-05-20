@@ -59,7 +59,7 @@ has_quantity(container12, level12).
 % this output can be converted into multiple model fragments
 split(M, MF) :-
 	fragments(M, F),
-	UF = [], %unfragment(M, UF),
+	unfragment(M, F, UF),
 	append(F, UF, MF).
 
 % find an instance of a structural relation and two entity classes
@@ -73,20 +73,17 @@ instance(R, Q1, Q2, QI1, QI2) :-
 % check whether all instances of a triple of a structural relation and two entity classes share the same dependencies
 same_deps(R, QI1, QI2, M) :-
 	%same_deps1(QI1, QI2
-	forall(
-		instance(R, QI1, QI2, QJ1, QJ2),
-		(
-			forall(
-				member(dependency(D, QI1, QI2), M),
+	forall(	instance(R, QI1, QI2, QJ1, QJ2),
+		(	forall(	member(dependency(D, QI1, QI2), M),
 				member(dependency(D, QJ1, QJ2), M)
 			),
-			forall(
-				member(dependency(D, QI2, QI1), M),
+			forall(	member(dependency(D, QI2, QI1), M),
 				member(dependency(D, QJ2, QJ1), M)
 			)
 		)
 	).
 
+% delete this? or is it more efficient than same_deps?
 get_deps(_QI1, _QI2, []).
 get_deps(QI1, QI2, [dependency(D, QI1, QI2) | M ], [dependency(D, Q1, Q2) | Result]) :-
 	!,	
@@ -96,15 +93,20 @@ get_deps(QI1, QI2, [dependency(D, QI1, QI2) | M ], [dependency(D, Q1, Q2) | Resu
 get_deps(QI1, QI2, [dependency(_, _, _) | M ], Result) :-
 	get_deps(QI1, QI2, M, Result).
 
-
-
-
 % fragments that can be generalized (ie., relations between quantity classes)
+% collapes M into a set of sets containing generalized dependencies.
+%
+% incorrect definition (todo): fragments = smallest union of all possible sets
+% { d | dependency(d) & d = generalized(di) & di in M } such that there is
+% exactly one structural relation shared by them.
+%
+% where dependency is true for dependency triples, and generalized is a
+% function that takes a dependency between instances of quantities and returns
+% a dependency between the classes of those entities.
 fragments(M, F) :-
 	findall(
 		(R, Q1, Q2),
-		(
-			instance(R, Q1, Q2, QI1, QI2),
+		(	instance(R, Q1, Q2, QI1, QI2),
 			same_deps(R, QI1, QI2, M)
 		),
 		Rels1
@@ -112,40 +114,34 @@ fragments(M, F) :-
 	write(Rels), nl,
 	findall(
 		[ (R, Q1, Q2) | Deps ],
-		(member((R, Q1, Q2), Rels), 
-		findall(
-			Dep,
-			(
-				instance(R, Q1, Q2, QI1, QI2),
-				member(DepI, M),
-				(
-					(
-						DepI = dependency(D, QI1, QI2),
-						Dep = dependency(D, Q1, Q2)
-					)
-				;
-					(
-						DepI = dependency(D, QI2, QI1),
-						Dep = dependency(D, Q2, Q1)
-					)
-				)	
+		(	member((R, Q1, Q2), Rels), 
+			findall(Dep,
+				(	instance(R, Q1, Q2, QI1, QI2),
+					member(DepI, M), 
+					(	(	DepI = dependency(D, QI1, QI2),
+							Dep = dependency(D, Q1, Q2)
+						)
+					;	(	DepI = dependency(D, QI2, QI1),
+							Dep = dependency(D, Q2, Q1)
+						)
+					)	
+				),
+				Deps1
 			),
-			Deps1
-		),
-		list_to_set(Deps1, Deps)
+			list_to_set(Deps1, Deps)
 		),
 		F
 	).
 
-% unfragments that cannot be generalized (ie., relations between specific quantities, need some conditions to specify) 
-unfragment(M, UF) :-
-setof(
-		Deps,
-		(
-			instance(R, Q1, Q2, QI1, QI2),
-			\+ same_deps(R, QI1, QI2, M),
-			findall(dependency(D, QI1, QI2), (instance(R, Q1, Q2, QI1, QI2), member(dependency(D, QI1, QI2), M)), Deps)
-		),
-		UF1
-	),
-	append(UF1, UF).
+% unfragment: all dependencies that cannot be generalized; ie., relations
+% between specific quantities, would need further conditions to generalize, 
+% here we give up and specify them using particular quantity names).
+%
+% definition: unfragments = { d | dependency(d) & not exists f in Fragments s.t. generalized(d) in f }
+unfragment(M, F, UF) :-
+	findall(X, 
+		(	member(dependency(D, QI1, QI2), M), 
+			\+ (	member(Fr, F), 
+				entity(Q1, QI1), entity(Q2, QI2), 
+				memberchk(dependency(D, Q1, Q2), Fr))),
+		UF).
