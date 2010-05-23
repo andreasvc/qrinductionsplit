@@ -6,6 +6,7 @@ go :-
 	consult('treeshade.pl'),
 	% monolithic model
 	model(M),
+	write('Input: '), nl, write(M), nl, nl,
 	split(M, MF),
 	write(MF).
 
@@ -13,6 +14,7 @@ go1 :-
 	consult('bathtub.pl'),
 	% monolithic model
 	model(M),
+	write('Input: '), nl, write(M), nl, nl,
 	split(M, MF),
 	write(MF).
 
@@ -90,16 +92,22 @@ get_deps(QI1, QI2, [dependency(_, _, _) | M ], Result) :-
 % function that takes a dependency between instances of quantities and returns
 % a dependency between the classes of those entities.
 fragments(M, F) :-
-	findall(
-		(R, Q1, Q2),
+	findall((R, Q1, Q2),
 		(	instance(R, Q1, Q2, QI1, QI2),
 			same_deps(R, QI1, QI2, M)
 		),
 		Rels1
-	), list_to_set(Rels1, Rels),
+	), 
+	findall((R, Q1, Q2),
+		(	member((R, Q1, Q2), Rels1),
+			(R = self ->
+				Q1 @=< Q2
+			; 	true)
+		),
+		Rels2),
+	list_to_set(Rels2, Rels),
 	write('Set of struct rels: '), write(Rels), nl,
-	findall(
-		[ (R, Q1, Q2) | Deps ],
+	findall([ (R, Q1, Q2) | Deps ],
 		(	member((R, Q1, Q2), Rels), 
 			findall(Dep,
 				(	instance(R, Q1, Q2, QI1, QI2),
