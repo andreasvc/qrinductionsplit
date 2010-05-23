@@ -1,16 +1,21 @@
 % split a monolithic model fragment into modular fragments
 
+
+
 go :-
-	% monolithic bath tub model
-	M = [
-		dependency(inf_pos,flow12, level12),
-		dependency(inf_pos,flow11, level11),
-		dependency(inf_neg,flow12, level11),
-		dependency(prop_pos,level11, flow12),
-		dependency(q_correspondence,level11, flow12)
-	],
+	consult('treeshade.pl'),
+	% monolithic model
+	model(M),
 	split(M, MF),
 	write(MF).
+
+go1 :-
+	consult('bathtub.pl'),
+	% monolithic model
+	model(M),
+	split(M, MF),
+	write(MF).
+
 
 % SCENARIO
 
@@ -31,35 +36,16 @@ struct_rel(R, A, B) :-
 
 
 %todo: automate etc. atom_concat etc.
-entity(pipe, pipe11).
-entity(pipe, pipe12).
-entity(container, container11).
-entity(container, container12).
-
-entity(flow, flow11).
-entity(flow, flow12).
-entity(level, level11).
-entity(level, level12).
-
-%struct_rel(in, flow11, level11).
-%struct_rel(out, flow12, level11).
-%struct_rel(in, flow12, level12).
-
-struct_rel(in, pipe11, container11).
-struct_rel(in, pipe12, container12).
-struct_rel(out, pipe12, container11).
-
-% quantity(Entity, Quantity). one to many
-has_quantity(pipe11, flow11).
-has_quantity(pipe12, flow12).
-has_quantity(container11, level11).
-has_quantity(container12, level12).
 
 % given a flat list of dependencies, return a partition corresponding to maximally generalized fragments
 % this output can be converted into multiple model fragments
 split(M, MF) :-
 	fragments(M, F),
+	length(F, N),
+	write('Fragments ('), write(N), write('): '), nl,
+	forall(member(Fr, F), (write(Fr), nl)),
 	unfragment(M, F, UF),
+	write('Unfragments: '), write(UF), nl, nl,
 	append(F, UF, MF).
 
 % find an instance of a structural relation and two entity classes
@@ -111,7 +97,7 @@ fragments(M, F) :-
 		),
 		Rels1
 	), list_to_set(Rels1, Rels),
-	write(Rels), nl,
+	write('Set of struct rels: '), write(Rels), nl,
 	findall(
 		[ (R, Q1, Q2) | Deps ],
 		(	member((R, Q1, Q2), Rels), 
@@ -128,7 +114,8 @@ fragments(M, F) :-
 				),
 				Deps1
 			),
-			list_to_set(Deps1, Deps)
+			list_to_set(Deps1, Deps),
+			\+ Deps = []
 		),
 		F
 	).
@@ -139,7 +126,7 @@ fragments(M, F) :-
 %
 % definition: unfragments = { d | dependency(d) & not exists f in Fragments s.t. generalized(d) in f }
 unfragment(M, F, UF) :-
-	findall(X, 
+	findall(dependency(D, QI1, QI2), 
 		(	member(dependency(D, QI1, QI2), M), 
 			\+ (	member(Fr, F), 
 				entity(Q1, QI1), entity(Q2, QI2), 
