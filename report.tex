@@ -9,7 +9,8 @@
 %\usepackage[utf8x]{inputenc}
 
 \title{Model Induction in Qualitative Reasoning}
-\author{Andreas van Cranenburgh \\ 0440949 \\ acranenb@science.uva.nl \and Hanne Nijhuis \\ 0364568 \\ hnijhuis@science.uva.nl}
+\author{Andreas van Cranenburgh \\ 0440949 \\ acranenb@science.uva.nl 
+\and Hanne Nijhuis \\ 0364568 \\ hnijhuis@science.uva.nl}
 
 \begin{document}
 \maketitle
@@ -20,55 +21,119 @@
 \section{Introduction}
 
 \section{Literature Review}
-In this section we will review a few of the papers that have contributed greatly to the definition of Qualitative Reasoning. We will give a short summary of the papers and will conclude with an overview of the current field of research and possible future work.
+In this section we will review a few of the papers that have contributed
+greatly to the definition of Qualitative Reasoning. We will give a short
+summary of the papers and will conclude with an overview of the current field
+of research and possible future work.
+
 \subsection{Qualitative Reasoning}
-The following papers describe the fundaments of qualitative reasoning.
+The following papers describe the foundations of qualitative reasoning.
+
 \subsubsection{A qualitative Physics based on confluences (de Kleer \& Brown)}
+
 \subsubsection{Qualitative Process Theory (Forbus)}
+
 \subsubsection{Garp3 - Workbench for Qualitative Modelling and Simulation (Bredeweg et al.)}
 
-\subsection{Automated Modelling}
-To introduce the recent developments in the field of automated modelling we will now review a few papers on this topic.
+\subsection{Automated Modeling}
+
+To introduce the recent developments in the field of automated modelling we
+will now review a few papers on this topic.
+
 \subsubsection{Hylke}
 Cluster, Superclusters, Causal paths.
 
 \subsubsection{Jochem}
-
+%less brute force, instead attempt to find the conceptually correct model immediately
 
 \subsubsection{Carsten}
-Causal groups
+Causal groups % feedback loops, interacting processes
 
 \subsection{Overview}
-
+%overview of what?
 
 \section{Theory}
-In the field of QR, models ( / scenario's / systems ?) are build up out of several smaller fragments which can be roughly devided over 3 categories: static, process and agent. This categorization is not without debate, but gives a certain view on how things work. Static fragments are used to describe the structure of a model, as well as proportionalities between quantities. A static fragment cannot have any agents or influences in it. A \emph{process} fragment should have at least one direct influence. Finally, \emph{agent} fragments should be used to describe any influences on a system that are external, hence not part of the system itself.
 
-Fragments can be useful to make the complete system more comprehensable. Also, while building these complex models, fragments allow the user to focus on what happens in a small part of the model, without having to worry about the other 'components'. For example in a model describing a population, seperate fragments could describe processes like birth, death, emigration, etc.
+In the field of QR, models %( / scenario's / systems ?) 
+consist of
+several smaller fragments which can be roughly divided in three categories:
+static, process and agent. This categorization is not strict, but gives
+a certain view on how things work. Static fragments are used to describe the
+structure of a model, as well as proportionalities between quantities. A static
+fragment cannot have any agents or influences in it. A \emph{process} fragment
+should have at least one direct influence and is not restricted in terms of dependencies. %(relations?)
+Finally, \emph{agent} fragments should be used to describe any influences on a
+system that are external, hence not part of the system itself.
 
-Recent work on automated modeling \cite{buisman, vanweelden, liem} has focused on generating a correct model based on a full-envisionment behavior graph. The current algorithms always produce a single modelfragment which describes the complete system. The useful fragmentation of a system is hereby lost and comprehending the output could become quite difficult with large models. We therefor introduce a way of splitting such a single monolithic model into smaller fragments while preserving the correct behavior.
+Fragments can be useful to make the complete system more comprehensible -- ie., they are a form of chunking. 
+Also, while building these complex models, fragments allow the user to focus on
+what happens in a small part of the model, without having to worry about the
+other 'components'. For example in a model describing a population, seperate
+fragments could describe processes like birth, death, emigration, etc.
+
+Recent work on automated modeling \cite{buisman, vanweelden, liem} has focused
+on generating a correct model based on a full-envisionment behavior graph. The
+current algorithms always produce a single model fragment which describes the
+complete system. The useful fragmentation of a system is hereby lost and
+comprehending the output could become quite difficult with large models. We
+therefore introduce a way of splitting such a single monolithic model into
+smaller fragments while preserving the exact same behavior.
 
 \section{Approach}
-In this section we describe our approach on inducing modelfragments.
+In this section we describe our approach on inducing model fragments.
+
 \subsection{Monolithic model}
-We take a monolithic model and divide it into several smaller fragments. To do so, we need to comply to several requirements:
+
+We take a monolithic model and divide it into several smaller fragments. To do
+so, we need to comply to several requirements:
+
 \begin{itemize}
 \item all dependencies have to be retained
+
 \item the behavior has to be reproducable
+
 \item 
+
 \end{itemize}
+
 \subsection{Algorithm}
+
+\begin{itemize}
+
+\item Find a list of pivots, conditions on which the model fragments are based.
+Currently these are single structural relations.
+
+\item For each pivot, find a set of dependencies which apply whenever the pivot
+is present, without exception
+
+\item Generalize these dependencies into a single model fragment, several
+dependencies among instances may be compressed into one
+
+\end{itemize}
 
 \section{Experiments \& Results}
 \subsection{Evaluated Models}
-\subsubsection{Tree and shade growth}
-\subsubsection{Stacked bathtubs}
-\subsubsection{Communicating vessels}
+
+% paste some output here, take screenshots or save EPS files from Garp3
+
+\subsubsection{Tree and shade growth} 
+% maybe show scenario with three trees, number of model fragments should stay the same! proof of concept.
+
+\subsubsection{Stacked bath tubs}
+\subsubsection{Communicating vessels} 
+%both two and three? maybe also the truly compositional one?
+
 \subsubsection{Population dynamics}
+%single population? split into birth, migration etc.
+%interacting populations? but ants garden is too much
 
 \section{Future work}
 
+% World domination etc.
+
 \section{Conclusion}
+
+
 
 \begin{thebibliography}{99}
 
