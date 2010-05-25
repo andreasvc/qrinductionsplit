@@ -1,7 +1,5 @@
 \documentclass{article}
-\usepackage{graphicx}
 \usepackage{fullpage}
-\usepackage{hyperref}
 \usepackage{amsmath}
 \usepackage{verbatim}
 \usepackage[pdftex]{graphicx}
@@ -10,7 +8,7 @@
 %\usepackage{synttree}
 %\usepackage[utf8x]{inputenc}
 
-\title{Automatic Model Induction in Qualitative Reasoning}
+\title{Model Induction in Qualitative Reasoning}
 \author{Andreas van Cranenburgh \\ 0440949 \\ acranenb@science.uva.nl \and Hanne Nijhuis \\ 0364568 \\ hnijhuis@science.uva.nl}
 
 \begin{document}
@@ -22,14 +20,51 @@
 \section{Introduction}
 
 \section{Literature Review}
-\subsection{
-\subsection{Hylke}
-\subsection{Carsten}
+In this section we will review a few of the papers that have contributed greatly to the definition of Qualitative Reasoning. We will give a short summary of the papers and will conclude with an overview of the current field of research and possible future work.
+\subsection{Qualitative Reasoning}
+The following papers describe the fundaments of qualitative reasoning.
+\subsubsection{A qualitative Physics based on confluences (de Kleer \& Brown)}
+\subsubsection{Qualitative Process Theory (Forbus)}
+\subsubsection{Garp3 - Workbench for Qualitative Modelling and Simulation (Bredeweg et al.)}
+
+\subsection{Automated Modelling}
+To introduce the recent developments in the field of automated modelling we will now review a few papers on this topic.
+\subsubsection{Hylke}
+Cluster, Superclusters, Causal paths.
+
+\subsubsection{Jochem}
+
+
+\subsubsection{Carsten}
+Causal groups
+
+\subsection{Overview}
+
+
+\section{Theory}
+In the field of QR, models ( / scenario's / systems ?) are build up out of several smaller fragments which can be roughly devided over 3 categories: static, process and agent. This categorization is not without debate, but gives a certain view on how things work. Static fragments are used to describe the structure of a model, as well as proportionalities between quantities. A static fragment cannot have any agents or influences in it. A \emph{process} fragment should have at least one direct influence. Finally, \emph{agent} fragments should be used to describe any influences on a system that are external, hence not part of the system itself.
+
+Fragments can be useful to make the complete system more comprehensable. Also, while building these complex models, fragments allow the user to focus on what happens in a small part of the model, without having to worry about the other 'components'. For example in a model describing a population, seperate fragments could describe processes like birth, death, emigration, etc.
+
+Recent work on automated modeling \cite{buisman, vanweelden, liem} has focused on generating a correct model based on a full-envisionment behavior graph. The current algorithms always produce a single modelfragment which describes the complete system. The useful fragmentation of a system is hereby lost and comprehending the output could become quite difficult with large models. We therefor introduce a way of splitting such a single monolithic model into smaller fragments while preserving the correct behavior.
 
 \section{Approach}
+In this section we describe our approach on inducing modelfragments.
+\subsection{Monolithic model}
+We take a monolithic model and divide it into several smaller fragments. To do so, we need to comply to several requirements:
+\begin{itemize}
+\item all dependencies have to be retained
+\item the behavior has to be reproducable
+\item 
+\end{itemize}
 \subsection{Algorithm}
 
 \section{Experiments \& Results}
+\subsection{Evaluated Models}
+\subsubsection{Tree and shade growth}
+\subsubsection{Stacked bathtubs}
+\subsubsection{Communicating vessels}
+\subsubsection{Population dynamics}
 
 \section{Future work}
 
@@ -50,7 +85,7 @@ Garp3 - Workbench for Qualitative Modelling and Simulation. Ecological Informati
 %hanne
 \bibitem{forbus} Forbus, K.D. (1984)
 Forbus1984.pdf (4.108 Mb)
-Qualitative process theory. Artificial Intelligence, 24:85-168 (for the course you may ignore section 4.3, 4.4, and 4.5).
+Qualitative process theory. Artificial Intelligence, 24:85-168. 
 
 %andreas
 \bibitem{kleer} Kleer, J. de and Brown J.S. (1984)
@@ -64,13 +99,14 @@ A qualitative reasoning model of algal bloom in the Danube Delta Biosphere Reser
 in: ecological informatics 4 (2009) p282-298
 
 %hanne
-\url{http://staff.science.uva.nl/~bredeweg/pdf/BSc/20062007/Buisman.pdf}
+\bibitem{buisman} Buisman, H., \emph{Automated modeling in process-based qualitative reasoning} \url{http://staff.science.uva.nl/~bredeweg/pdf/BSc/20062007/Buisman.pdf}
 
 % (samenvatting van Buisman plus verbeteringen)
-hanne Liem et al.
+%hanne 
+\bibitem{liem} Liem, J., Buisman, H. and Bredeweg, B., \emph{Supporting Conceptual Knowledge Capture Through Automatic Modelling}
 
 %hanne
-\url{http://staff.science.uva.nl/~bredeweg/pdf/BSc/20082009/vanWeelden.pdf}
+\bibitem{vanweelden} van Weelden, C., \emph{Automated modeling of conceptual knowledge} \url{http://staff.science.uva.nl/~bredeweg/pdf/BSc/20082009/vanWeelden.pdf}
 
 \end{thebibliography}
 
