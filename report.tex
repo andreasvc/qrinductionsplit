@@ -141,7 +141,7 @@ Fragments (2):
 	dependency(inf_pos, growth_rate, size),
 	dependency(prop_pos, size, growth_rate)]
 
-Unfragments: []
+Unfragment: []
 \end{verbatim}
 
 \subsubsection{Stacked bath tubs}
@@ -165,12 +165,38 @@ Fragments (2):
 	dependency(prop_pos, level, flow), 
 	dependency(q_correspondence, level, flow)]
 
-Unfragments: []
+Unfragment: []
 \end{verbatim}
 
 \subsubsection{Communicating vessels} 
 %both two and three? maybe also the truly compositional one?
+Two communicating vessels:
+
 \begin{verbatim}
+Input: 
+[dependency(inf_pos, flow3, amount5), 
+dependency(inf_neg, flow3, amount4), 
+dependency(prop_neg, flow3, pressure5), 
+dependency(prop_pos, flow3, pressure4), 
+dependency(prop_pos, height4, amount4), 
+dependency(prop_pos, height5, amount5), 
+dependency(prop_pos, pressure5, height5), 
+dependency(prop_pos, pressure4, height4), 
+dependency(q_correspondence, height5, amount5), 
+dependency(q_correspondence, pressure4, height4), 
+dependency(q_correspondence, pressure5, height5), 
+dependency(q_correspondence, height4, amount4), 
+dependency(equals, flow3, min(pressure4, pressure5)), 
+dependency(equals, height4, pressure4), 
+dependency(equals, height5, pressure5)]
+
+Set of struct rels: 
+[ (self, flow, flow), (self, amount, amount), (self, amount, height), 
+(self, amount, pressure), (self, height, height), (self, height, pressure),
+(self, pressure, pressure), (from, amount, flow), (from, height, flow), 
+(from, pressure, flow), (to, flow, amount), (to, flow, height), 
+(to, flow, pressure)]
+
 Fragments (6):
 [ (self, amount, height), 
 	dependency(prop_pos, height, amount), 
@@ -184,7 +210,62 @@ Fragments (6):
 [ (to, flow, amount), dependency(inf_pos, flow, amount)]
 [ (to, flow, pressure), dependency(prop_neg, flow, pressure)]
 
-Unfragments: [dependency(equals, flow3, min(pressure4, pressure5))]
+Unfragment: [dependency(equals, flow3, min(pressure4, pressure5))]
+\end{verbatim}
+
+Three communicating vessels.
+
+\begin{verbatim}
+Input:
+[dependency(inf_pos, flow3, amount5), 
+dependency(inf_neg, flow3, amount4), 
+dependency(prop_neg, flow3, pressure5), 
+dependency(prop_pos, flow3, pressure4), 
+dependency(prop_pos, height4, amount4), 
+dependency(prop_pos, height5, amount5), 
+dependency(prop_pos, pressure5, height5), 
+dependency(prop_pos, pressure4, height4), 
+dependency(q_correspondence, height5, amount5), 
+dependency(q_correspondence, pressure4, height4), 
+dependency(q_correspondence, pressure5, height5), 
+dependency(q_correspondence, height4, amount4), 
+dependency(equals, flow3, min(pressure4, pressure5)), 
+dependency(equals, height4, pressure4), 
+dependency(equals, height5, pressure5), 
+dependency(inf_pos, flow4, amount6), 
+dependency(inf_neg, flow4, amount5), 
+dependency(prop_neg, flow4, pressure6), 
+dependency(prop_pos, flow4, pressure5), 
+dependency(prop_pos, height6, amount6), 
+dependency(prop_pos, pressure6, height6), 
+dependency(q_correspondence, height6, amount6), 
+dependency(q_correspondence, pressure6, height6), 
+dependency(equals, flow4, min(pressure5, pressure6)), 
+dependency(equals, height6, pressure6)]
+
+Set of struct rels: 
+[ (self, flow, flow), (self, amount, amount), (self, amount, height), 
+(self, amount, pressure), (self, height, height), (self, height, pressure),
+(self, pressure, pressure), (from, amount, flow), (from, height, flow), 
+(from, pressure, flow), (to, flow, amount), (to, flow, height), 
+(to, flow, pressure)]
+
+Fragments (6):
+[ (self, amount, height), 
+	dependency(prop_pos, height, amount), 
+	dependency(q_correspondence, height, amount)]
+[ (self, height, pressure), 
+	dependency(prop_pos, pressure, height), 
+	dependency(q_correspondence, pressure, height), 
+	dependency(equals, height, pressure)]
+[ (from, amount, flow), dependency(inf_neg, flow, amount)]
+[ (from, pressure, flow), dependency(prop_pos, flow, pressure)]
+[ (to, flow, amount), dependency(inf_pos, flow, amount)]
+[ (to, flow, pressure), dependency(prop_neg, flow, pressure)]
+
+Unfragment:
+[dependency(equals, flow3, min(pressure4, pressure5)), 
+dependency(equals, flow4, min(pressure5, pressure6))]
 \end{verbatim}
 
 
