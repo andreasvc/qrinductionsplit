@@ -128,9 +128,18 @@ dependencies among instances may be compressed into one
 \end{itemize}
 
 \section{Experiments \& Results}
+
+The evaluation is based on a few well known example Garp models. The output of the
+automatic modelling implementations of \citet{buisman} and \citet{vanweelden} is not
+easily accessible in a single prolog list, but rather through the Garp API. Our current
+implementation expects as its input a simple list of dependencies, and as
+background knowledge the scenario and entity hierarchy, in a simple data format
+we defined. Because of this evaluation had to be done manually.
+
 \subsection{Evaluated Models}
 
 % paste some output here, take screenshots or save EPS files from Garp3
+% todo: visual representation of results; either in Garp or Dia diagrams (whichever is least work).
 
 \subsubsection{Tree and shade growth} 
 % maybe show scenario with three trees, number of model fragments should stay the same! proof of concept.
