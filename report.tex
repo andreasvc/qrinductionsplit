@@ -1,5 +1,4 @@
 \documentclass{article}
-\usepackage{fullpage}
 \usepackage{amsmath}
 \usepackage{verbatim}
 \usepackage[pdftex]{graphicx}
@@ -40,8 +39,39 @@ The following papers describe the foundations of qualitative reasoning.
 To introduce the recent developments in the field of automated modelling we
 will now review a few papers on this topic.
 
-\subsubsection{Hylke}
-Cluster, Superclusters, Causal paths.
+\subsubsection{Automated modeling in process-based qualitative reasoning
+(Buisman)}
+The concept of automated modeling was introduced by Buisman \cite{buisman} in
+2007. He motivates the research with the goal to relieve the strain placed on
+experts and to speed up the modelling process. The approach he took however,
+does not provide in these goals yet, but is more of an exploration of the
+possibilities of using Artificial Intelligence to induce models based on
+behavior graphs. We will give a short overview of the algorithm he developed.
+
+The input for the algorithm consists of:
+\begin{itemize}
+\item State-graph (states and state transitions)
+\item Scenario (partial information about structural relations between entities)
+\item ISA-hierarchy (full description of entity type hierarchy)
+\end{itemize}
+With this input, the algorithm produces models which are ready for simulation as
+output.
+
+There are certain constraints on the input. The \emph{full envisionment}
+requirement means that the behavior is known for all possible initial values for
+all quantities in the system. Also, the derivatives and amounts have to be
+defined for every state. Finally, the input data can not contain any noise.
+
+The algorithm start with searching for so called \emph{naive dependencies},
+which are dependencies that are consistent with the entire state-graph. They are
+found by applying consistency rules on all pairs of quantities. These
+consistency rules consider the amount and derivative values of the quantities
+for all states and therewith induce possible dependencies. For example, a
+ positive influence between $Q_1$ and $Q_2$ could exist if for every state 
+ $A_s(Q_1) = D_s(Q_2)$.
+There will be redundancy in the set of naive dependencies which has to be pruned
+by filtering out substitutionary groups. %HAVE TO REWRITE THIS!!
+ 
 
 \subsubsection{Jochem}
 %less brute force, instead attempt to find the conceptually correct model immediately
@@ -140,38 +170,46 @@ dependencies among instances may be compressed into one
 % 1,5 - 2 pp. per artikel
 
 %allebei
-\bibitem{bredeweg-eco} Bredeweg, B. and Salles, P. (2009), Handbook of Ecological Modelling, Chapter 19 - Mediating conceptual knowledge using qualitative reasoning. In: J\/orgen, S.V., Chon, T-S., Recknagel, F.A. (Eds.), Handbook of Ecological Modelling and Informatics. Wit Press, Southampton, UK, pp. 351.398.
+\bibitem{bredeweg-eco} Bredeweg, B. and Salles, P. (2009), Handbook of
+Ecological Modelling, Chapter 19 - Mediating conceptual knowledge using
+qualitative reasoning. In: J\/orgen, S.V., Chon, T-S., Recknagel, F.A. (Eds.),
+Handbook of Ecological Modelling and Informatics. Wit Press, Southampton, UK,
+pp. 351.398.
 
 %allebei
-\bibitem{bredeweg-garp} Bredeweg, B., Linnebank, F., Bouwer, A. and Liem, J. (2009)
-02 Bredeweg EtAl ECOINF 2009.pdf (598.325 Kb)
-Garp3 - Workbench for Qualitative Modelling and Simulation. Ecological Informatics 4(5-6), 263-281.
+\bibitem{bredeweg-garp} Bredeweg, B., Linnebank, F., Bouwer, A. and Liem, J.
+(2009) 02 Bredeweg EtAl ECOINF 2009.pdf (598.325 Kb) Garp3 - Workbench for
+Qualitative Modelling and Simulation. Ecological Informatics 4(5-6), 263-281.
 
 %hanne
-\bibitem{forbus} Forbus, K.D. (1984)
-Forbus1984.pdf (4.108 Mb)
-Qualitative process theory. Artificial Intelligence, 24:85-168. 
+\bibitem{forbus} Forbus, K.D. (1984) Forbus1984.pdf (4.108 Mb) Qualitative
+process theory. Artificial Intelligence, 24:85-168. 
 
 %andreas
-\bibitem{kleer} Kleer, J. de and Brown J.S. (1984)
-deKleerBrown1984.pdf (4.005 Mb)
-A qualitative Physics based on confluences, Artificial Intelligence, 24:7-83 (for the course you may ignore section 6)
+\bibitem{kleer} Kleer, J. de and Brown J.S. (1984) deKleerBrown1984.pdf (4.005
+Mb) A qualitative Physics based on confluences, Artificial Intelligence,
+24:7-83 (for the course you may ignore section 6)
 
 %andreas
-\bibitem{cioaca} Cioaca, Linnebank, Bredeweg, Salles 2009
-Cioaca EtAlECOINF 2009.pdf (1,001.442 Kb)
-A qualitative reasoning model of algal bloom in the Danube Delta Biosphere Resere (DDBR)
-in: ecological informatics 4 (2009) p282-298
+\bibitem{cioaca} Cioaca, Linnebank, Bredeweg, Salles 2009 Cioaca EtAlECOINF
+2009.pdf (1,001.442 Kb) A qualitative reasoning model of algal bloom in the
+Danube Delta Biosphere Resere (DDBR) in: ecological informatics 4 (2009)
+p282-298
 
 %hanne
-\bibitem{buisman} Buisman, H., \emph{Automated modeling in process-based qualitative reasoning} \url{http://staff.science.uva.nl/~bredeweg/pdf/BSc/20062007/Buisman.pdf}
+\bibitem{buisman} Buisman, H., \emph{Automated modeling in process-based
+qualitative reasoning}
+\url{http://staff.science.uva.nl/~bredeweg/pdf/BSc/20062007/Buisman.pdf}
 
 % (samenvatting van Buisman plus verbeteringen)
 %hanne 
-\bibitem{liem} Liem, J., Buisman, H. and Bredeweg, B., \emph{Supporting Conceptual Knowledge Capture Through Automatic Modelling}
+\bibitem{liem} Liem, J., Buisman, H. and Bredeweg, B., \emph{Supporting
+Conceptual Knowledge Capture Through Automatic Modelling}
 
 %hanne
-\bibitem{vanweelden} van Weelden, C., \emph{Automated modeling of conceptual knowledge} \url{http://staff.science.uva.nl/~bredeweg/pdf/BSc/20082009/vanWeelden.pdf}
+\bibitem{vanweelden} van Weelden, C., \emph{Automated modeling of conceptual
+knowledge}
+\url{http://staff.science.uva.nl/~bredeweg/pdf/BSc/20082009/vanWeelden.pdf}
 
 \end{thebibliography}
 
