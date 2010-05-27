@@ -30,6 +30,22 @@ The following papers describe the foundations of qualitative reasoning.
 
 \subsubsection{A qualitative Physics based on confluences (de Kleer \& Brown)}
 
+\cite{kleer} present a framework for formalizing physics in a qualitative
+rather than quantitative manner. Whereas physicists describe the world in terms
+of continuous differential equations, the rest of the world uses an implicit
+psychological model of naive physics. The framework of \cite{kleer} falls between
+these two extremes of precision and informality. Although their framework is completely
+qualitative, as opposed to standard physics, on the other hand their framework
+is formal in the sense of explicitly defining causal and structural relations, as opposed
+to the psychological models of humans (presumably).
+
+This approach is presented as being useful for physics education, expert
+systems and even physics, in that it explicitly deals with causality. The
+latter is in contrast with standard physics, in which laws are merely
+correlations without exceptions.
+
+% more to come.
+
 \subsubsection{Qualitative Process Theory (Forbus)}
 
 \subsubsection{Garp3 - Workbench for Qualitative Modelling and Simulation (Bredeweg et al.)}
@@ -149,9 +165,155 @@ dependencies among instances may be compressed into one
 \subsubsection{Tree and shade growth} 
 % maybe show scenario with three trees, number of model fragments should stay the same! proof of concept.
 
+\begin{verbatim}
+Input: 
+[dependency(inf_pos, growth_rate1, size1), 
+dependency(prop_pos, size1,growth_rate1), 
+dependency(prop_pos, size1, shade1),
+dependency(q_correspondence, size1, shade1), 
+dependency(q_correspondence, shade1, size1)]
+
+Set of struct rels: 
+[ (self, size, size), (self, shade, size), (self, shade, shade), 
+(self, growth_rate, size), (self, growth_rate, shade), 
+(self, growth_rate, growth_rate)]
+
+Fragments (2): 
+[ (self, shade, size), 
+	dependency(prop_pos, size, shade),
+	dependency(q_correspondence, size, shade), 
+	dependency(q_correspondence, shade, size)] 
+[ (self, growth_rate, size),
+	dependency(inf_pos, growth_rate, size),
+	dependency(prop_pos, size, growth_rate)]
+
+Unfragment: []
+\end{verbatim}
+
 \subsubsection{Stacked bath tubs}
+
+\begin{verbatim}
+Input: 
+[dependency(inf_pos, flow12, level12), 
+dependency(inf_pos, flow11, level11), 
+dependency(inf_neg, flow12, level11), 
+dependency(prop_pos, level11, flow12), 
+dependency(q_correspondence, level11, flow12)]
+
+Set of struct rels: 
+[ (self, flow, flow), (self, level, level), (in, flow, level), 
+(out, flow, level)]
+
+Fragments (2): 
+[ (in, flow, level), dependency(inf_pos, flow, level)]
+[ (out, flow, level), 
+	dependency(inf_neg, flow, level), 
+	dependency(prop_pos, level, flow), 
+	dependency(q_correspondence, level, flow)]
+
+Unfragment: []
+\end{verbatim}
+
 \subsubsection{Communicating vessels} 
 %both two and three? maybe also the truly compositional one?
+Two communicating vessels:
+
+\begin{verbatim}
+Input: 
+[dependency(inf_pos, flow3, amount5), 
+dependency(inf_neg, flow3, amount4), 
+dependency(prop_neg, flow3, pressure5), 
+dependency(prop_pos, flow3, pressure4), 
+dependency(prop_pos, height4, amount4), 
+dependency(prop_pos, height5, amount5), 
+dependency(prop_pos, pressure5, height5), 
+dependency(prop_pos, pressure4, height4), 
+dependency(q_correspondence, height5, amount5), 
+dependency(q_correspondence, pressure4, height4), 
+dependency(q_correspondence, pressure5, height5), 
+dependency(q_correspondence, height4, amount4), 
+dependency(equals, flow3, min(pressure4, pressure5)), 
+dependency(equals, height4, pressure4), 
+dependency(equals, height5, pressure5)]
+
+Set of struct rels: 
+[ (self, flow, flow), (self, amount, amount), (self, amount, height), 
+(self, amount, pressure), (self, height, height), (self, height, pressure),
+(self, pressure, pressure), (from, amount, flow), (from, height, flow), 
+(from, pressure, flow), (to, flow, amount), (to, flow, height), 
+(to, flow, pressure)]
+
+Fragments (6):
+[ (self, amount, height), 
+	dependency(prop_pos, height, amount), 
+	dependency(q_correspondence, height, amount)]
+[ (self, height, pressure), 
+	dependency(prop_pos, pressure, height), 
+	dependency(q_correspondence, pressure, height), 
+	dependency(equals, height, pressure)]
+[ (from, amount, flow), dependency(inf_neg, flow, amount)]
+[ (from, pressure, flow), dependency(prop_pos, flow, pressure)]
+[ (to, flow, amount), dependency(inf_pos, flow, amount)]
+[ (to, flow, pressure), dependency(prop_neg, flow, pressure)]
+
+Unfragment: [dependency(equals, flow3, min(pressure4, pressure5))]
+\end{verbatim}
+
+Three communicating vessels.
+
+\begin{verbatim}
+Input:
+[dependency(inf_pos, flow3, amount5), 
+dependency(inf_neg, flow3, amount4), 
+dependency(prop_neg, flow3, pressure5), 
+dependency(prop_pos, flow3, pressure4), 
+dependency(prop_pos, height4, amount4), 
+dependency(prop_pos, height5, amount5), 
+dependency(prop_pos, pressure5, height5), 
+dependency(prop_pos, pressure4, height4), 
+dependency(q_correspondence, height5, amount5), 
+dependency(q_correspondence, pressure4, height4), 
+dependency(q_correspondence, pressure5, height5), 
+dependency(q_correspondence, height4, amount4), 
+dependency(equals, flow3, min(pressure4, pressure5)), 
+dependency(equals, height4, pressure4), 
+dependency(equals, height5, pressure5), 
+dependency(inf_pos, flow4, amount6), 
+dependency(inf_neg, flow4, amount5), 
+dependency(prop_neg, flow4, pressure6), 
+dependency(prop_pos, flow4, pressure5), 
+dependency(prop_pos, height6, amount6), 
+dependency(prop_pos, pressure6, height6), 
+dependency(q_correspondence, height6, amount6), 
+dependency(q_correspondence, pressure6, height6), 
+dependency(equals, flow4, min(pressure5, pressure6)), 
+dependency(equals, height6, pressure6)]
+
+Set of struct rels: 
+[ (self, flow, flow), (self, amount, amount), (self, amount, height), 
+(self, amount, pressure), (self, height, height), (self, height, pressure),
+(self, pressure, pressure), (from, amount, flow), (from, height, flow), 
+(from, pressure, flow), (to, flow, amount), (to, flow, height), 
+(to, flow, pressure)]
+
+Fragments (6):
+[ (self, amount, height), 
+	dependency(prop_pos, height, amount), 
+	dependency(q_correspondence, height, amount)]
+[ (self, height, pressure), 
+	dependency(prop_pos, pressure, height), 
+	dependency(q_correspondence, pressure, height), 
+	dependency(equals, height, pressure)]
+[ (from, amount, flow), dependency(inf_neg, flow, amount)]
+[ (from, pressure, flow), dependency(prop_pos, flow, pressure)]
+[ (to, flow, amount), dependency(inf_pos, flow, amount)]
+[ (to, flow, pressure), dependency(prop_neg, flow, pressure)]
+
+Unfragment:
+[dependency(equals, flow3, min(pressure4, pressure5)), 
+dependency(equals, flow4, min(pressure5, pressure6))]
+\end{verbatim}
+
 
 \subsubsection{Population dynamics}
 %single population? split into birth, migration etc.
