@@ -56,8 +56,8 @@ instance(R, Q1, Q2, QI1, QI2) :-
 	struct_rel(R, EI1, EI2),
 	has_quantity(EI1,QI1),
 	has_quantity(EI2,QI2),
-	entity(Q1, QI1),
-	entity(Q2, QI2).
+	isa(Q1, QI1),
+	isa(Q2, QI2).
 
 % check whether all instances of a triple of a structural relation and two entity classes share the same dependencies
 same_deps(R, QI1, QI2, M) :-
@@ -76,7 +76,7 @@ same_deps(R, QI1, QI2, M) :-
 get_deps(_QI1, _QI2, []).
 get_deps(QI1, QI2, [dependency(D, QI1, QI2) | M ], [dependency(D, Q1, Q2) | Result]) :-
 	!,	
-	entity(Q1, QI1), entity(Q2, QI2),
+	isa(Q1, QI1), isa(Q2, QI2),
 	get_deps(QI1, QI2, M, Result).
 
 get_deps(QI1, QI2, [dependency(_, _, _) | M ], Result) :-
@@ -138,6 +138,6 @@ unfragment(M, F, UF) :-
 	findall(dependency(D, QI1, QI2), 
 		(	member(dependency(D, QI1, QI2), M), 
 			\+ (	member(Fr, F), 
-				entity(Q1, QI1), entity(Q2, QI2), 
+				isa(Q1, QI1), isa(Q2, QI2), 
 				memberchk(dependency(D, Q1, Q2), Fr))),
 		UF).

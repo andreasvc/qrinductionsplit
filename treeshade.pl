@@ -9,11 +9,11 @@ model([
 	dependency(q_correspondence, shade1, size1)
 ]).
 
-entity(tree, tree1).
+isa(tree, tree1).
 
-entity(size, size1).
-entity(shade, shade1).
-entity(growth_rate, growth_rate1).
+isa(size, size1).
+isa(shade, shade1).
+isa(growth_rate, growth_rate1).
 
 % quantity(Entity, Quantity). one to many
 has_quantity(tree1, size1).

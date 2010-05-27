@@ -35,23 +35,23 @@ model([
 
 %TODO: rename entity to "isa"
 % entity(generic, instance)
-entity(pipe, pipe1).
-entity(pipe, pipe2).
-entity(container, container_left).
-entity(container, container_center).
-entity(container, container_right).
+isa(pipe, pipe1).
+isa(pipe, pipe2).
+isa(container, container_left).
+isa(container, container_center).
+isa(container, container_right).
 
-entity(flow, flow3).
-entity(flow, flow4).
-entity(amount, amount4).
-entity(amount, amount5).
-entity(amount, amount6).
-entity(height, height4).
-entity(height, height5).
-entity(height, height6).
-entity(pressure, pressure4).
-entity(pressure, pressure5).
-entity(pressure, pressure6).
+isa(flow, flow3).
+isa(flow, flow4).
+isa(amount, amount4).
+isa(amount, amount5).
+isa(amount, amount6).
+isa(height, height4).
+isa(height, height5).
+isa(height, height6).
+isa(pressure, pressure4).
+isa(pressure, pressure5).
+isa(pressure, pressure6).
 
 struct_rel(from, container_left, pipe1).
 struct_rel(to, pipe1, container_center).

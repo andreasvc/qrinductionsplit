@@ -1,0 +1,4 @@
+
+Based on the Garp reasoning engine for qualitative process models. While
+Garp is freely available (including source, www.garp.org), the induction
+algorithm which this code extends is currently not public.

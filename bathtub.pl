@@ -9,16 +9,16 @@ model([
 	dependency(q_correspondence,level11, flow12)
 ]).
 
-entity(pipe, pipe11).
-entity(pipe, pipe12).
-entity(container, container11).
-entity(container, container12).
+isa(pipe, pipe11).
+isa(pipe, pipe12).
+isa(container, container11).
+isa(container, container12).
 
 % quantities.
-entity(flow, flow11).
-entity(flow, flow12).
-entity(level, level11).
-entity(level, level12).
+isa(flow, flow11).
+isa(flow, flow12).
+isa(level, level11).
+isa(level, level12).
 
 %struct_rel(in, flow11, level11).
 %struct_rel(out, flow12, level11).
