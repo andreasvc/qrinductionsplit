@@ -176,3 +176,48 @@ in: ecological informatics 4 (2009) p282-298
 \end{thebibliography}
 
 \end{document}
+
+----------------------------------------------
+
+Notes
+
+    * For the stacked bath tub model we changed the quantity-space of flow to ZPM (instead of ZP) because then we could replace the value-correspondences by a single Q-correspondence..
+    * To be able to intergrate the splitting into the AM we need full scenario because we need all information about entities and quantities (we've entered them by hand for now..)
+
+Ideas
+
+    * done: split code for model output into generation & garp adding
+    * current: compositional model fragments (also: accept existing model fragments as input)
+    * deferred: lift full envisionment requirement, accept negative input (eg. list of impossible value combinations).
+    * deferred: user interaction: graphical dialog to choose best model in case of ambiguity
+
+----------------------------------------------
+
+Minutes
+April 13th 2010
+
+New plan:
+
+    * Some sort of standard for what a well-formed fragment should be
+    * -- Static vs process fragments?
+    * -- Everything per entity 1 fragment?
+    * -- Things like 'birth', 'death', 'emigration' and 'immigration'?
+    * -- Influences?
+
+    * We need some sort of evaluation to check our models against.
+
+    * First run a the models we want to use and analyze their current output, compare them to our 'ideal' output.
+    * We should not worry about intergration with the current Automatic Modeling code for now. First focus on hand-corrected input.
+    * Recognizing duplicate (super)cluster could be a nice step to start with.. to get working on the code.
+
+Notes:
+
+    * Influences: now written to screen --> should be asserted
+    * I's wrong direction? (inf-pos-a-b = b --> a)
+    * naive dependencies: exponential
+    * Communicating vessels: hack in causal groups: same entities (same_object_group/2)
+    * Choose hacks for conceptually best model
+
+    * Discussed with Floris that finding correspondences could be done faster by first looking for them without considering naive_dependencies yet.
+
+
