@@ -50,6 +50,26 @@ correlations without exceptions.
 
 \subsubsection{Garp3 - Workbench for Qualitative Modelling and Simulation (Bredeweg et al.)}
 
+\subsubsection{Discussion}
+
+The idea that Qualitative Reasoning can formalize common sense knowledge and
+understanding of physics is by now outdated. It is an instance of the ``Good
+Old Fashioned Artificial Intelligence'' (GOFAI) approach, and in line with the
+Symbol System hypothesis of Allan and Newell. %cite?
+Both of these have either failed spectucularly or faded silently, having been
+replaced by stochastic and data-driven approaches.  Claiming that Qualitative
+Reasoning can provide a way to model actual common sense knowledge or mental
+models is ostensively wrong -- the list of mismatches with human intuitions is
+endless, and among these mismatches are the parts where Folk Physics is
+ostensively {\em wrong}. Therefore we submit that it is no longer useful to
+present it as a part of Artificial Intelligence or having anything to do with
+common sense; while QR models are certainly artificial, they are not in the
+least intelligent, nor are they common or do they make sense to non-experts.
+They are simply an explicit formalization of a certain set of behaviors of
+interest. This does not mean that Qualitative Reasoning itself is a fruitless
+enterprise -- it can be used as an educational tool, where there is no need for
+bold philosophical claims.
+
 \subsection{Automated Modeling}
 
 To introduce the recent developments in the field of automated modelling we
@@ -201,6 +221,10 @@ Unfragment: []
 \end{verbatim}
 
 \subsubsection{Stacked bath tubs}
+
+For the stacked bath tub model we changed the quantity space of flow to ZPM
+(instead of ZP) because then we could replace the value-correspondences by a
+single Q-correspondence.
 
 \begin{verbatim}
 Input: 
@@ -391,13 +415,15 @@ knowledge}
 
 Notes
 
-    * For the stacked bath tub model we changed the quantity-space of flow to ZPM (instead of ZP) because then we could replace the value-correspondences by a single Q-correspondence..
-    * To be able to intergrate the splitting into the AM we need full scenario because we need all information about entities and quantities (we've entered them by hand for now..)
+    * Model minimization needs the full entity
+      hierarchy and the structural relations and quantities of all entities
+      (we've entered them by hand for now..)
 
 Ideas
 
     * done: split code for model output into generation & garp adding
-    * current: compositional model fragments (also: accept existing model fragments as input)
+    * done: compositional model fragments 
+    * deferred: (also: accept existing model fragments as input)
     * deferred: lift full envisionment requirement, accept negative input (eg. list of impossible value combinations).
     * deferred: user interaction: graphical dialog to choose best model in case of ambiguity
 
@@ -411,9 +437,18 @@ Todos
     * done: detect necessary structural relations / other conditions required to make a model fragment generic.
     * distinguish between static (no influences) & process; filter current list of fragments and split them in a static and a process list.
     * integrate code with model induction (input) & garp (output)
-    * try other models listed in van Weelden & Buisman. notably, communicating vessels
+	* input directly from AM database instead of coded by hand
+	* output of minimized (split) models to garp.
+    * done: try other models listed in van Weelden & Buisman. notably, communicating vessels
 
-    * report: Intro - Summary per paper (literature review) - Discussion - Conclusion - Project - Theoretical / Practical / Technical Perspectives * further details: blackboard
+    * report: 
+	- Intro 
+	- Summary per paper (literature review) 
+	- Discussion 
+	- Conclusion 
+	- Project 
+	- Theoretical / Practical / Technical Perspectives 
+	* further details: blackboard
 
 ----------------------------------------------
 
