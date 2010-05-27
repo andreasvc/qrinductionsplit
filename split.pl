@@ -3,15 +3,16 @@
 
 
 go :-
-	consult('treeshade.pl'),
-	% monolithic model
-	model(M),
-	write('Input: '), nl, write(M), nl, nl,
-	split(M, MF),
-	write(MF).
+	do(treeshade).
 
 go1 :-
-	consult('bathtub.pl'),
+	do(bathtub).
+
+go2 :-
+	do(comves).
+
+do(File) :-
+	consult(File),
 	% monolithic model
 	model(M),
 	write('Input: '), nl, write(M), nl, nl,
@@ -45,7 +46,7 @@ split(M, MF) :-
 	fragments(M, F),
 	length(F, N),
 	write('Fragments ('), write(N), write('): '), nl,
-	forall(member(Fr, F), (write(Fr), nl)),
+	forall(member(Fr, F), (write(Fr), nl)), nl,
 	unfragment(M, F, UF),
 	write('Unfragments: '), write(UF), nl, nl,
 	append(F, UF, MF).
