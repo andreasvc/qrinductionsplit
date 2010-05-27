@@ -119,9 +119,74 @@ dependencies among instances may be compressed into one
 \subsubsection{Tree and shade growth} 
 % maybe show scenario with three trees, number of model fragments should stay the same! proof of concept.
 
+\begin{verbatim}
+Input: 
+[dependency(inf_pos, growth_rate1, size1), 
+dependency(prop_pos, size1,growth_rate1), 
+dependency(prop_pos, size1, shade1),
+dependency(q_correspondence, size1, shade1), 
+dependency(q_correspondence, shade1, size1)]
+
+Set of struct rels: 
+[ (self, size, size), (self, shade, size), (self, shade, shade), 
+(self, growth_rate, size), (self, growth_rate, shade), 
+(self, growth_rate, growth_rate)]
+
+Fragments (2): 
+[ (self, shade, size), 
+	dependency(prop_pos, size, shade),
+	dependency(q_correspondence, size, shade), 
+	dependency(q_correspondence, shade, size)] 
+[ (self, growth_rate, size),
+	dependency(inf_pos, growth_rate, size),
+	dependency(prop_pos, size, growth_rate)]
+
+Unfragments: []
+\end{verbatim}
+
 \subsubsection{Stacked bath tubs}
+
+\begin{verbatim}
+Input: 
+[dependency(inf_pos, flow12, level12), 
+dependency(inf_pos, flow11, level11), 
+dependency(inf_neg, flow12, level11), 
+dependency(prop_pos, level11, flow12), 
+dependency(q_correspondence, level11, flow12)]
+
+Set of struct rels: 
+[ (self, flow, flow), (self, level, level), (in, flow, level), 
+(out, flow, level)]
+
+Fragments (2): 
+[ (in, flow, level), dependency(inf_pos, flow, level)]
+[ (out, flow, level), 
+	dependency(inf_neg, flow, level), 
+	dependency(prop_pos, level, flow), 
+	dependency(q_correspondence, level, flow)]
+
+Unfragments: []
+\end{verbatim}
+
 \subsubsection{Communicating vessels} 
 %both two and three? maybe also the truly compositional one?
+\begin{verbatim}
+Fragments (6):
+[ (self, amount, height), 
+	dependency(prop_pos, height, amount), 
+	dependency(q_correspondence, height, amount)]
+[ (self, height, pressure), 
+	dependency(prop_pos, pressure, height), 
+	dependency(q_correspondence, pressure, height), 
+	dependency(equals, height, pressure)]
+[ (from, amount, flow), dependency(inf_neg, flow, amount)]
+[ (from, pressure, flow), dependency(prop_pos, flow, pressure)]
+[ (to, flow, amount), dependency(inf_pos, flow, amount)]
+[ (to, flow, pressure), dependency(prop_neg, flow, pressure)]
+
+Unfragments: [dependency(equals, flow3, min(pressure4, pressure5))]
+\end{verbatim}
+
 
 \subsubsection{Population dynamics}
 %single population? split into birth, migration etc.
