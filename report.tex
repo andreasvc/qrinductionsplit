@@ -84,43 +84,52 @@ the topic of model induction.
 
 \subsection{Automated Modeling}
 
-To introduce the recent developments in the field of automated modelling we
+To introduce the recent developments in the field of automated modeling we
 will now review a few papers on this topic.
 
 \subsubsection{Automated modeling in process-based qualitative reasoning
 (Buisman)}
-The concept of automated modeling was introduced by Buisman \cite{buisman} in
-2007. He motivates the research with the goal to relieve the strain placed on
-experts and to speed up the modelling process. The approach he took however,
-does not provide in these goals yet, but is more of an exploration of the
-possibilities of using Artificial Intelligence to induce models based on
-behavior graphs. We will give a short overview of the algorithm he developed.
+The concept of automated modeling for qualitative process theory was introduced
+by Buisman \cite{buisman} in 2007. He motivates the research with the goal to
+relieve the strain placed on experts and beginners, and to speed up the
+modelling process. The approach he took however, does not attain these
+goals yet, but is more of an exploration of the possibilities of using
+Artificial Intelligence to induce models based on behavior graphs. We will give
+a short overview of the algorithm he developed.
 
 The input for the algorithm consists of:
+
 \begin{itemize}
-\item State-graph (states and state transitions)
-\item Scenario (partial information about structural relations between entities)
-\item ISA-hierarchy (full description of entity type hierarchy)
+
+\item Behavior graph (states and state transitions) of a full envisionment
+
+\item Scenario (partial information about structural relations between entities and their quantities)
+
+\item ISA-hierarchy (full description of entity type hierarchy and quantities)
+
 \end{itemize}
-With this input, the algorithm produces models which are ready for simulation as
-output.
+
+With this input, the algorithm produces models which are ready for simulation.
+For each scenario they should give the same output as the original model.
 
 There are certain constraints on the input. The \emph{full envisionment}
 requirement means that the behavior is known for all possible initial values for
 all quantities in the system. Also, the derivatives and amounts have to be
-defined for every state. Finally, the input data can not contain any noise.
+defined for every state. Finally, the input data cannot contain any noise, 
+ie., it should be perfect.
 
-The algorithm start with searching for so called \emph{naive dependencies},
+The algorithm starts with searching for so called \emph{naive dependencies},
 which are dependencies that are consistent with the entire state-graph. They are
 found by applying consistency rules on all pairs of quantities. These
 consistency rules consider the amount and derivative values of the quantities
-for all states and therewith induce possible dependencies. For example, a
- positive influence between $Q_1$ and $Q_2$ could exist if for every state 
- $A_s(Q_1) = D_s(Q_2)$.
-There will be redundancy in the set of naive dependencies which has to be pruned
-by filtering out substitutionary groups. %HAVE TO REWRITE THIS!!
+for all states, so as to induce possible dependencies. For example, a positive
+influence between $Q_1$ and $Q_2$ could exist if for every state $A_s(Q_1) =
+D_s(Q_2)$.  There will be redundancy in the set of naive dependencies which has
+to be pruned by filtering out substitutionary groups, which are defined as
+mutually exclusive possible disambiguations. 
 
-testing.. 
+%HAVE TO REWRITE THIS!!
+%testing.. 
 
 \subsubsection{Jochem}
 %less brute force, instead attempt to find the conceptually correct model immediately
