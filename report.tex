@@ -511,7 +511,8 @@ dependency(equals, flow4, min(pressure5, pressure6))]
 We will now discuss several possible extensions both to model induction in
 general and to model minimization in particular.
 
-\subsection{Modular fragments as input}
+\subsection{Model minimization}
+\subsubsection{Modular fragments as input}
 
 Currently the algorithm expects a single monolithic model as input, since that
 is the output as given by the automated modeling algorithm. However, this
@@ -524,18 +525,45 @@ monolithic fragment, while avoiding undergeneration by exploding all dependencie
 to specific dependencies between instances. Such an extension is fairly trivial
 but has not been implemented yet.
 
-\subsection{Inheritance: hierarchy of fragments in output}
+\subsubsection{Inheritance: hierarchy of fragments in output}
 
 Currently the output consists of a flat list of model fragments, but a more
 advanced method would turn this into an inheritance hierarchy, to avoid duplication
 
-\subsection{Conditions}
+\subsection{Model induction}
 
-\subsection{Interactivity}
+\subsubsection{Conditions}
 
-\subsection{Negative exemplars}
+The induction algorithm currently has no support for conditions, except for
+copying structural relations between entities as found in the scenario. This
+severly limits the scope of models that can be induced. However, adding the
+induction of conditions increases the complexity greatly. On top of that, it
+only makes sense to add conditions to fragments, which implies that splitting
+into fragments (but not minimizing) should become part of the model induction
+algorithm.
 
-\subsection{Lift full envisionment requirement}
+\subsubsection{Interactivity}
+
+The current requirement for the induction to have access to a perfect behavior
+graph makes the algorithm virtually useless for practical purposes, because
+such a behavior graph is very difficult to specify without already having a
+qualitative model, which makes for a vicious circle. An alternative would be
+to make the induction interactive. The algorithm would formulate a series of
+maximally informative questions (comparable to automatic diagnosis
+\cite{dekleerdiag}), employing the user as an informant. A series of iterations
+can be performed, presenting the resulting behavior graph to the user who can
+then highlight errors.
+
+\subsubsection{Negative exemplars}
+
+This brings us to the related problem of negative exemplars. Humans probably
+have an idea not only of what a system does, but also what it does not do
+(constraints). Negative exemplars are of course the very reason for the problem
+of induction in philosophy. %cite?
+However, since qualitative models are a formalization of human knowledge, not
+induced from naturalistic data, negative exemplars are a resource that should
+be exploited. Negative exemplars could be presented by the user in the form of
+(in)equalities and as a list of impossible combinations of values.
 
 % World domination etc.
 
@@ -576,28 +604,34 @@ after. Artificial Intelligence, 59:115-123.
 %andreas
 \bibitem{kleer} Kleer, J. de and Brown J.S. (1984) deKleerBrown1984.pdf (4.005
 Mb) A qualitative Physics based on confluences, Artificial Intelligence,
-24:7-83 (for the course you may ignore section 6)
+24:7-83 %(for the course you may ignore section 6)
 
 %andreas
 \bibitem{cioaca} Cioaca, Linnebank, Bredeweg, Salles 2009 Cioaca EtAlECOINF
 2009.pdf (1,001.442 Kb) A qualitative reasoning model of algal bloom in the
-Danube Delta Biosphere Resere (DDBR) in: ecological informatics 4 (2009)
+Danube Delta Biosphere Resere (DDBR) in: \emph{ecological informatics 4} (2009)
 p282-298
 
 %hanne
-\bibitem{buisman} Buisman, H., \emph{Automated modeling in process-based
-qualitative reasoning}
+\bibitem{buisman} Buisman, H., ``Automated modeling in process-based
+qualitative reasoning''
 \url{http://staff.science.uva.nl/~bredeweg/pdf/BSc/20062007/Buisman.pdf}
 
 % (samenvatting van Buisman plus verbeteringen)
 %hanne 
-\bibitem{liem} Liem, J., Buisman, H. and Bredeweg, B., \emph{Supporting
-Conceptual Knowledge Capture Through Automatic Modelling}
+\bibitem{liem} Liem, J., Buisman, H. and Bredeweg, B., ``Supporting
+Conceptual Knowledge Capture Through Automatic Modelling''
 
 %hanne
-\bibitem{vanweelden} van Weelden, C., \emph{Automated modeling of conceptual
-knowledge}
-\url{http://staff.science.uva.nl/~bredeweg/pdf/BSc/20082009/vanWeelden.pdf}
+\bibitem{vanweelden} van Weelden, C., ``Automated modeling of conceptual
+knowledge'' \url{http://staff.science.uva.nl/~bredeweg/pdf/BSc/20082009/vanWeelden.pdf}
+
+\bibitem{kleerdiag}
+	De Kleer, J. and Williams, B. C. 1989. Diagnosis with behavioral modes.
+	In \emph{Proceedings of the 11th international Joint Conference on Artificial
+	intelligence - Volume 2} (Detroit, Michigan, August 20 - 25, 1989).
+	International Joint Conference On Artificial Intelligence. Morgan
+	Kaufmann Publishers, San Francisco, CA, 1324-1330. 
 
 \end{thebibliography}
 
