@@ -216,7 +216,7 @@ Overview:
 % function that takes a dependency between instances of quantities and returns
 % a dependency between the classes of those entities.
 
-Definition:
+Sketch of the algorithm:
 
 \begin{enumerate}
 
@@ -237,6 +237,49 @@ Definition:
 \item Output: minimized model $ = MFs \cup \{ UF \} $
 
 \end{enumerate}
+
+This sketch can be formalized into a definition with set builder notation.
+First two helper definitions. The first definition defines a predicate for
+instances:
+
+\begin{align*}
+instance(R, Q_1, Q_2, q_1, q_2) :=
+	\; &struct\_rel(R, e_1, e_2) & \\
+	\land \; &isa(e_1, E_1) \land isa(e_2, E_2) \\
+	\land \; &has(e_1, q_1) \land has(e_2, q_2)  \\
+	\land \; &isa(q_1, Q_1) \land isa(q_2, Q_2) \\
+\end{align*}
+
+The next definition defines an equivalence relation on these instances, stating that
+their dependencies hold universally given their condition (which is currently
+restricted to a single structural relation):
+
+\begin{align*}
+samedeps(R, Q_1, Q_2) := \; \forall d \; [ \; &dependency(d, q_1, q_2) \in M \\
+	& 	\rightarrow \forall e^\prime_1, e^\prime_2 \; [ \; ( isa(e^\prime_1, E_1) \land isa(e^\prime_2, E_2)  \\
+	&	\quad 	\land struct\_rel(r, e^\prime_1, e^\prime_2)  \\
+	&	\quad 	\land has(e^\prime_1, q^\prime_1) \land has(e^\prime_2, q^\prime_2) ) \\
+	& \qquad \rightarrow dependency(d, q^\prime_1, q^\prime_2) \in M \; ] \; ]
+\end{align*}
+
+These two conditions combined gives us the set of pivots for a given monolithic model:
+
+\begin{align*}
+pivots := \{ \; \langle R, Q_1, Q_2 \rangle \; | instance(R, Q_1, Q_2, q_1, q_2) \land samedeps(R, Q_1, Q_2) \} 
+\end{align*}
+
+After defining the pivots we simply map them to dependencies to obtain generalized fragments:
+
+\begin{align*}
+fragments := \{ \; \{ \; dependency&(d, Q_1, Q_2) \; | \; \\
+		& dependency(d, q_1, q_2)  \in M \\
+		\land \; & isa(q_1, Q_1)  \land isa(q_2, Q_2) \; \} \\
+	\; | \; \langle R, Q_1, Q_2 \rangle &\in pivots \; \}
+\end{align*}
+
+Note that while in this definiton pivots are restricted to single triples of a
+relation and two quantities, the definition should be generalized so that
+pivots can consist of multiple triples.
 
 \section{Experiments \& Results}
 
@@ -444,9 +487,10 @@ dependency(equals, flow4, min(pressure5, pressure6))]
 %single population? split into birth, migration etc.
 %interacting populations? but ants garden is too much
 
-\section{Future work}
+\section{Discussion}
 
-\subsection{Accepting partially modular fragments as input}
+\subsection{Modular fragments as input}
+
 
 \subsection{Inheritance}
 
@@ -454,7 +498,9 @@ dependency(equals, flow4, min(pressure5, pressure6))]
 
 \subsection{Interactivity}
 
-\subsection{Negative exemplars, lift full envisionment requirement}
+\subsection{Negative exemplars}
+
+\subsection{Lift full envisionment requirement}
 
 % World domination etc.
 
