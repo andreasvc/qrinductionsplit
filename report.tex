@@ -508,11 +508,26 @@ dependency(equals, flow4, min(pressure5, pressure6))]
 %interacting populations? but ants garden is too much
 
 \section{Discussion}
+We will now discuss several possible extensions both to model induction in
+general and to model minimization in particular.
 
 \subsection{Modular fragments as input}
 
+Currently the algorithm expects a single monolithic model as input, since that
+is the output as given by the automated modeling algorithm. However, this
+requirement could be lifted to allow partially modular fragments as input,
+which is especially useful when the minimization algorithm is applied as part
+of an interactive modeling assistant.
 
-\subsection{Inheritance}
+This could be implemented by finding a way to merge these fragments into a
+monolithic fragment, while avoiding undergeneration by exploding all dependencies
+to specific dependencies between instances. Such an extension is fairly trivial
+but has not been implemented yet.
+
+\subsection{Inheritance: hierarchy of fragments in output}
+
+Currently the output consists of a flat list of model fragments, but a more
+advanced method would turn this into an inheritance hierarchy, to avoid duplication
 
 \subsection{Conditions}
 
@@ -534,7 +549,10 @@ models made by beginners.
 \begin{thebibliography}{99}
 
 % 1,5 - 2 pp. per artikel
-\bibitem{newell} Allen Newell and Herbert A. Simon, “Computer Science as Empirical Inquiry: Symbols and Search,” Communications of the ACM. vol. 19, No. 3, pp. 113-126, March, 1976. \url{http://www.rci.rutgers.edu/∼cfs/472 html/AI SEARCH/PSS/PSSH1.html}
+\bibitem{newell} Allen Newell and Herbert A. Simon, ``Computer Science as
+Empirical Inquiry: Symbols and Search,'' Communications of the ACM. vol. 19,
+No. 3, pp. 113-126, March, 1976. \url{http://www.rci.rutgers.edu/~cfs/472
+html/AI SEARCH/PSS/PSSH1.html}
 
 %allebei
 \bibitem{bredeweg-eco} Bredeweg, B. and Salles, P. (2009), Handbook of
@@ -606,7 +624,7 @@ Todos
     * done: try other models listed in van Weelden & Buisman. notably, communicating vessels
     * distinguish between static (no influences) & process; filter current list of fragments and split them in a static and a process list.
     * integrate code with model induction (input) & garp (output)
-	* input directly from AM database instead of coded by hand
+	* input directly from AM database instead of coded by hand: hgp file is an XPCE object, look in /tmp (.pl source) 
 	* output of minimized (split) models to garp.
 
     * report: 
@@ -702,3 +720,5 @@ NB This deadline is solid as a rock, no exceptions, so evade Murphy's law and
 plan in some reserve time.
 
 Last but not least: Good Luck, Start in Time, & Have Fun!
+
+
