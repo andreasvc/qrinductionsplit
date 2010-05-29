@@ -336,10 +336,9 @@ predicate for instances of structural relations and related quantities:
 
 \begin{align*}
 instance(R, Q_1, Q_2, q_1, q_2) :=
-	\; &struct\_rel(R, e_1, e_2) & \\
-	\land \; &isa(e_1, E_1) \land isa(e_2, E_2) \\
+	\exists e_1, e_2, q_1, q_2 \; [ &struct\_rel(R, e_1, e_2) & \\
 	\land \; &has(e_1, q_1) \land has(e_2, q_2)  \\
-	\land \; &isa(q_1, Q_1) \land isa(q_2, Q_2) \\
+	\land \; &isa(q_1, Q_1) \land isa(q_2, Q_2) ]
 \end{align*}
 
 In this definition $q_n$ refers to an instance of a quantity $Q_n$, similarly
@@ -360,7 +359,11 @@ stating that their dependencies hold universally given their condition (which
 is here restricted to a single structural relation):
 
 \begin{align*}
-samedeps(R, Q_1, Q_2) := \; \forall d \; [ \; &dependency(d, q_1, q_2) \in M \\
+samedeps(R, Q_1, Q_2) := \; \forall d, q_1, q_2 \; [ \; 
+	(&dependency(d, q_1, q_2) \in M \\
+	\land \; &isa(q_1, Q_2) \land isa(q_2, Q_2) \\ 
+	\land \; &has(q_1, e_1) \land has(q_2, e_2) \\
+	\land \; &isa(e_1, E_1) \land isa(e_2, E_2) ) \\
 	& 	\rightarrow \forall e^\prime_1, e^\prime_2 \; [ \; ( isa(e^\prime_1, E_1) \land isa(e^\prime_2, E_2)  \\
 	&	\quad 	\land struct\_rel(r, e^\prime_1, e^\prime_2)  \\
 	&	\quad 	\land has(e^\prime_1, q^\prime_1) \land has(e^\prime_2, q^\prime_2) ) \\
@@ -388,7 +391,7 @@ minimized, modular fragments:
 fragments := \{ \; \{ \; dependency&(d, Q_1, Q_2) \; | \; \\
 		& dependency(d, q_1, q_2)  \in M \\
 		\land \; & isa(q_1, Q_1)  \land isa(q_2, Q_2) \; \} \\
-	\; | \; \langle R, Q_1, Q_2 \rangle &\in pivots \; \}
+	\; | \; \langle R, Q_1, Q_2 \rangle &\in pivots \lor \langle R, Q_2, Q_1 \rangle \in pivots \; \}
 \end{align*}
 
 Note that while in this definiton pivots are restricted to single triples of a
@@ -731,7 +734,7 @@ Conceptual Knowledge Capture Through Automatic Modelling''
 \bibitem{vanweelden} van Weelden, C., ``Automated modeling of conceptual
 knowledge'' \url{http://staff.science.uva.nl/~bredeweg/pdf/BSc/20082009/vanWeelden.pdf}
 
-\bibitem{kleerdiag}
+\bibitem{dekleerdiag}
 	De Kleer, J. and Williams, B. C. 1989. Diagnosis with behavioral modes.
 	In \emph{Proceedings of the 11th international Joint Conference on Artificial
 	intelligence - Volume 2} (Detroit, Michigan, August 20 - 25, 1989).
