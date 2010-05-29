@@ -316,10 +316,12 @@ Sketch of the algorithm:
 \item Minimize each equivalence class by substituting 
 	$Q_1 \overset{I+}{\rightarrow} Q_2 $ for a set such as 
 	$ \{ Q_1^a \overset{I+}{\rightarrow} Q_2^b, Q_1^c \overset{I+}{\rightarrow} Q_2^d,  . . . \} $, 
-	yielding elements of $MFs$
+	yielding elements of the set $MFs$
 
 \item Dump the remaining dependencies in a single fragment, $UF$. 
-	This set should be empty if the model is properly designed.
+	This set should be empty if the model is properly designed, ie., it
+	should contain no dependencies that apply to some instances but not to
+	others.
 
 \item Output: minimized model $ = MFs \cup \{ UF \} $
 
@@ -344,8 +346,14 @@ In this definition $q_n$ refers to an instance of a quantity $Q_n$, similarly
 $e_n$ refers to an instance of an entity $E_n$; such pairs are related by the
 $isa(a, b)$ predicate denoting that $a$ is an instance of $b$. Quantities and
 entities are related by $has(e_n, q_m)$ denoting that $e_n$ has the quantity
-$q_m$. Finally $struct_rel(R, e_n, e_m)$ denotes the configuration that $e_n$
-is structurally related to $e_m$ with relation $R$.
+$q_m$. Finally $struct\_rel(R, e_n, e_m)$ denotes the configuration that $e_n$
+is structurally related to $e_m$ with relation $R$; for practical purposes
+we assume that each entity has a reflexive relation called ``self,'' which
+allows the isolation of dependencies between the quantities of a single
+entity.\footnote{see the communicating vessels for an example with amount,
+height and pressure of a container} %idea, besides implicit self relation,
+%perhaps add unconditional relation holding between any two entities so that
+%com.ves. can be splitted without an unfragment.
 
 The next definition defines an equivalence relation on these instances,
 stating that their dependencies hold universally given their condition (which
@@ -627,10 +635,17 @@ duplication
 The induction algorithm currently has no support for conditions, except for
 copying structural relations between entities as found in the scenario. This
 severly limits the scope of models that can be induced. However, adding the
-induction of conditions increases the complexity greatly. On top of that, it
-only makes sense to add conditions to fragments, which implies that splitting
-into fragments (but not minimizing) should become part of the model induction
-algorithm.
+induction of conditions increases the complexity greatly. This is demonstrated
+by an analogy to the Chomsky Hierarchy: with every addition of
+context-sensitivity, the complexity increases, until it reaches Turing
+equivalence in the unrestricted case. The Garp models that can currently be
+induced are the subset of possible models such that only structural relations
+can serve as conditions. 
+
+On top of that, it only makes sense to add conditions to fragments, which
+implies that splitting into fragments (but not minimizing) would need to be
+integrated into the model induction algorithm itself instead of as a
+transformation as has been presented in the current project.
 
 \subsubsection{Interactivity}
 
