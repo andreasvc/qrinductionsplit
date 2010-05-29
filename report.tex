@@ -240,7 +240,10 @@ splitting single model fragments into modular and compositional fragments.
 \subsection{Problem statement}
 
 We take a monolithic model and divide it into several smaller fragments. To do
-so, we need to comply to the following ranked list of constraints:
+so, we need to comply to the following ranked list of
+constraints:\footnote{Note that the terminology in this section of ranked
+constraints, candidates and optimality is of course a nod to Optimality
+Theory, FIXME cite smolensky.}
 
 \begin{enumerate}
 \item The model should be equivalent, that is, the resulting behavior should
@@ -254,14 +257,16 @@ so, we need to comply to the following ranked list of constraints:
 
 \end{enumerate}
 
-We make no claim as to the didactic suitability of these constraints, but it
-is not hard to imagine that these constraints will provide an improvement when
-applied to any model lacking in modularity. It is well known that modularity
-is a sound engineering approach, and there is no reason to assume Qualitative
-Reasoning to be an exception. However, there are subtle choices to be made
-as to the exact granularity of fragments, because these constraints
-underdetermine the space of candidates. We will gloss over these issues and
-apply the aforementioned constraints without further claims of optimality.
+We make no claim as to the didactic and cognitive suitability of these
+constraints, but it is not hard to imagine that these constraints will provide
+an improvement when applied to any model lacking in modularity. It is well
+known that modularity is a sound engineering approach, and there is no reason
+to assume Qualitative Reasoning to be an exception. However, there are subtle
+choices to be made as to the exact granularity of fragments, because these
+constraints underdetermine the space of candidates, and because cognitive
+optimality would demand empirical studies about chunking and comprehension
+etc. We will gloss over these issues and apply the aforementioned constraints
+without further claims of optimality.
 
 \subsection{Algorithm}
 
