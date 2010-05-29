@@ -388,7 +388,7 @@ relation and two quantities, the definition should be generalized so that
 pivots can be merged into multiple triples when they are applicable under the
 same conditions.
 
-\section{Experiments \& Results}
+\section{Results}
 
 The evaluation is based on a few well known example Garp models. The output of
 the automatic modelling implementations of \cite{buisman} and
@@ -423,13 +423,13 @@ However, this seems to be largely an implemantion aspect. The implementation
 provides a proof of concept of the algorithm, more sophisticated
 implementations can easily achieve more results.
 
-\subsection{Evaluated Models}
+%\subsection{Evaluated Models}
 
 % paste some output here, take screenshots or save EPS files from Garp3
 % todo: visual representation of results; either in Garp or Dia diagrams
 % 	(whichever is least work).
 
-\subsubsection{Tree and shade growth} 
+\subsection{Tree and shade growth} 
 % maybe show scenario with three trees, number of model fragments should stay the same! proof of concept.
 
 \begin{verbatim}
@@ -457,7 +457,7 @@ Fragments (2):
 Unfragment: []
 \end{verbatim}
 
-\subsubsection{Stacked bath tubs}
+\subsection{Stacked bath tubs}
 
 For the stacked bath tub model we changed the quantity space of flow to ZPM
 (instead of ZP) because then we could replace the value-correspondences by a
@@ -485,7 +485,7 @@ Fragments (2):
 Unfragment: []
 \end{verbatim}
 
-\subsubsection{Communicating vessels} 
+\subsection{Communicating vessels} 
 %both two and three? maybe also the truly compositional one?
 Inducing the communicating vessels model almost works, but the last two
 equalities are not found, so they have been added manually. Also, the order of
@@ -590,9 +590,11 @@ dependency(equals, flow4, min(pressure5, pressure6))]
 \end{verbatim}
 
 
-\subsubsection{Population dynamics}
+\subsection{Population dynamics}
 %single population? split into birth, migration etc.
 %interacting populations? but ants garden is too much
+
+TBD.
 
 \section{Discussion}
 We will now discuss several possible extensions both to model induction in
