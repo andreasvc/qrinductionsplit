@@ -1,4 +1,5 @@
-\documentclass{article}
+\documentclass{article} %report?
+%\usepackage{natbib} apa style etc.
 \usepackage{amsmath}
 \usepackage{verbatim}
 \usepackage[pdftex]{graphicx}
@@ -15,37 +16,45 @@
 \maketitle
 
 \abstract{Qualitative Process theory provides a way of modeling causality in a
-system. Previous work has attempted to automatically induce qualitative models
-from behavior. We extend this work by turning monolithic models into minimized,
-modular models. The resulting minimization algorithm is general enough to apply
-to user generated models as well.}
+system on a qualitative level. Previous work has attempted to automatically
+induce such qualitative models from behavior. We extend this work by turning
+the resulting monolithic models into minimized, modular models, which makes
+the induced models re-usable. The resulting minimization algorithm is general
+enough to apply to user created models as well. We also sketch other possible
+improvements for model induction, based on the exploitation of human
+intuitions about systems rather than the current reliance on complete and
+error-free data.}
 
 \newpage
 
 \tableofcontents
+
 \newpage
 
 \section{Introduction}
 
 \section{Literature Review}
+
 In this section we will review a few of the papers that have contributed
 greatly to the definition of Qualitative Reasoning. We will give a short
 summary of the papers and will conclude with an overview of the current field
 of research and possible future work.
 
 \subsection{Qualitative Reasoning}
+
 The following papers describe the foundations of qualitative reasoning.
 
 \subsubsection{A qualitative Physics based on confluences (de Kleer \& Brown)}
 
 \cite{kleer} present a framework for formalizing physics in a qualitative
-rather than quantitative manner. Whereas physicists describe the world in terms
-of continuous differential equations, the rest of the world uses an implicit
-psychological model of naive physics. The framework of \cite{kleer} falls between
-these two extremes of precision and informality. Although their framework is completely
-qualitative, as opposed to standard physics, on the other hand their framework
-is formal in the sense of explicitly defining causal and structural relations, as opposed
-to the psychological models of humans (presumably).
+rather than quantitative manner. Whereas physicists describe the world in
+terms of continuous differential equations, the rest of the world uses an
+implicit psychological model of naive physics. The framework of \cite{kleer}
+falls between these two extremes of precision and informality. Although their
+framework is completely qualitative, as opposed to standard physics, on the
+other hand their framework is formal in the sense of explicitly defining
+causal and structural relations, as opposed to the psychological models of
+humans (presumably).
 
 This approach is presented as being useful for physics education, expert
 systems and even physics, in that it explicitly deals with causality. The
@@ -55,35 +64,40 @@ correlations without exceptions.
 % more to come.
 
 \subsubsection{Qualitative Process Theory (Forbus)}
+
 Around the same time as de Kleer \& Brown, another approach was introduced by
-Forbus \cite{forbus}. The important points that set his work appart were, among
-others, the \emph{quantity-spaces} and the \emph{sole mechanism assumption}.
+Forbus \cite{forbus}. The important points that set his work appart were,
+among others, the \emph{quantity-spaces} and the \emph{sole mechanism
+assumption}.
 
 The principle of quantity spaces represents values by a set of ordinal
 relationships. This enables the system to easily compare the different
-quantities in terms of smaller, equal or larger. If such comparisons would only
-occur between two values, then sign values would suffice (-,0,+), but for many
-cases, the ordinal representation is more natural.
+quantities in terms of smaller, equal or larger. If such comparisons would
+only occur between two values, then sign values would suffice (-,0,+), but for
+many cases, the ordinal representation is more natural.
 
 \vspace{0.8em}
 
-Physical processes are viewed as the mechanisms by which changes occur. Therefor
-Forbus introduced the \emph{sole mechanism assumption} which states that any
-behavior must be explainable by the direct or indirect effects of some
-collection of physical processes.
+Physical processes are viewed as the mechanisms by which changes occur.
+Therefor Forbus introduced the \emph{sole mechanism assumption} which states
+that any behavior must be explainable by the direct or indirect effects of
+some collection of physical processes.
 
 \vspace{0.8em}
 
-Forbus has reviewed his own work and the impact of his work in \cite{forbus12}.
+Forbus has reviewed his own work and the impact of his work in
+\cite{forbus12}.
 
-\subsubsection{Garp3 - Workbench for Qualitative Modelling and Simulation (Bredeweg et al.)}
+\subsubsection{Garp3 - Workbench for Qualitative Modelling and Simulation
+(Bredeweg et al.)}
 
 \subsubsection{Discussion}
 
 The idea that Qualitative Reasoning can formalize common sense knowledge and
 understanding of physics is by now outdated. It is an instance of the ``Good
-Old Fashioned Artificial Intelligence'' (GOFAI) approach, and in line with the	% cite GOFAI? Russell & Norvig
-Symbol System hypothesis of Newell and Simon \cite{newell}.
+Old Fashioned Artificial Intelligence'' (GOFAI) approach, and in line with the
+% cite GOFAI? Russell & Norvig
+Symbol System hypothesis of Newell and Simon \cite{newell}. %quote?
 Both of these have either failed spectucularly or faded silently, having been
 replaced by stochastic and data-driven approaches.  Claiming that Qualitative
 Reasoning can provide a way to model actual common sense knowledge or mental
@@ -95,27 +109,28 @@ common sense; while QR models are certainly artificial, they are not in the
 least intelligent, nor are they common or do they make sense to non-experts.
 They are simply an explicit formalization of a certain set of behaviors of
 interest. This does not mean that Qualitative Reasoning itself is a fruitless
-enterprise -- it can be used as an educational tool, where there is no need for
-bold philosophical claims.
+enterprise -- it can be used as an educational tool, where there is no need
+for bold philosophical claims.
 
 With this educational focus in mind it makes sense to try to facilitate the
-modeling process for non-experts for which QR is useful. To this end we turn to
-the topic of model induction.
+modeling process for non-experts for which QR is useful. To this end we turn
+to the topic of model induction.
 
-\subsection{Automated Modeling}
+\subsection{Automated Modeling} %Automated or automatic?
 
 To introduce the recent developments in the field of automated modeling we
 will now review a few papers on this topic.
 
 \subsubsection{Automated modeling in process-based qualitative reasoning
 (Buisman)}
-The concept of automated modeling for qualitative process theory was introduced
-by Buisman \cite{buisman} in 2007. He motivates the research with the goal to
-relieve the strain placed on experts and beginners, and to speed up the
-modelling process. The approach he took however, does not attain these
+
+The concept of automated modeling for qualitative process theory was
+introduced by Buisman \cite{buisman} in 2007. He motivates the research with
+the goal to relieve the strain placed on experts and beginners, and to speed
+up the modelling process. The approach he took however, does not attain these
 goals yet, but is more of an exploration of the possibilities of using
-Artificial Intelligence to induce models based on behavior graphs. We will give
-a short overview of the algorithm he developed.
+Artificial Intelligence to induce models based on behavior graphs. We will
+give a short overview of the algorithm he developed.
 
 The input for the algorithm consists of:
 
@@ -133,51 +148,58 @@ With this input, the algorithm produces models which are ready for simulation.
 For each scenario they should give the same output as the original model.
 
 There are certain constraints on the input. The \emph{full envisionment}
-requirement means that the behavior is known for all possible initial values for
-all quantities in the system. Also, the derivatives and amounts have to be
-defined for every state. Finally, the input data cannot contain any noise, 
+requirement means that the behavior is known for all possible initial values
+for all quantities in the system. Also, the derivatives and amounts have to be
+defined for every state. Finally, the input data cannot contain any noise,
 ie., it should be perfect.
 
 The algorithm starts with searching for so called \emph{naive dependencies},
-which are dependencies that are consistent with the entire state-graph. They are
-found by applying consistency rules on all pairs of quantities. These
+which are dependencies that are consistent with the entire state-graph. They
+are found by applying consistency rules on all pairs of quantities. These
 consistency rules consider the amount and derivative values of the quantities
 for all states, so as to induce possible dependencies. For example, a positive
 influence between $Q_1$ and $Q_2$ could exist if for every state $A_s(Q_1) =
-D_s(Q_2)$.  There will be redundancy in the set of naive dependencies which has
-to be pruned by filtering out substitutionary groups, which are defined as
+D_s(Q_2)$.  There will be redundancy in the set of naive dependencies which
+has to be pruned by filtering out substitutionary groups, which are defined as
 mutually exclusive possible disambiguations. 
 
 %HAVE TO REWRITE THIS!!
 %testing.. 
 
 \subsubsection{Jochem}
-%less brute force, instead attempt to find the conceptually correct model immediately
+
+Actuators
+
+%less brute force, instead attempt to find the conceptually correct model
+%immediately; added a knowledge base of actuators: common patters etc.
 
 \subsubsection{Carsten}
+
 Causal groups % feedback loops, interacting processes
 
 \subsection{Overview}
+
 %overview of what?
 
 \section{Theory}
 
 In the field of QR, models %( / scenario's / systems ?) 
-consist of
-several smaller fragments which can be roughly divided in three categories:
-static, process and agent. This categorization is not strict, but gives
-a certain view on how things work. Static fragments are used to describe the
-structure of a model, as well as proportionalities between quantities. A static
-fragment cannot have any agents or influences in it. A \emph{process} fragment
-should have at least one direct influence and is not restricted in terms of dependencies. %(relations?)
+consist of several smaller fragments which can be roughly divided in three
+categories: static, process and agent. This categorization is not strict, but
+gives a certain view on how things work. Static fragments are used to describe
+the structure of a model, as well as proportionalities between quantities. A
+static fragment cannot have any agents or influences in it. A \emph{process}
+fragment should have at least one direct influence and is not restricted in
+terms of dependencies. %(relations?)
 Finally, \emph{agent} fragments should be used to describe any influences on a
 system that are external, hence not part of the system itself.
 
-Fragments can be useful to make the complete system more comprehensible -- ie., they are a form of chunking. 
-Also, while building these complex models, fragments allow the user to focus on
-what happens in a small part of the model, without having to worry about the
-other 'components'. For example in a model describing a population, seperate
-fragments could describe processes like birth, death, emigration, etc.
+Fragments can be useful to make the complete system more comprehensible --
+ie., they are a form of chunking.  Also, while building these complex models,
+fragments allow the user to focus on what happens in a small part of the
+model, without having to worry about the other 'components'. For example in a
+model describing a population, seperate fragments could describe processes
+like birth, death, emigration, etc.
 
 Recent work on automated modeling \cite{buisman, liem, vanweelden} has focused
 on generating a correct model based on a full-envisionment behavior graph. The
@@ -187,19 +209,20 @@ comprehending the output could become quite difficult with large models. We
 therefore introduce a way of splitting such a single monolithic model into
 smaller fragments while preserving the exact same behavior.
 
-\subsection{Interdisciplinary relations}
+\subsection{Interdisciplinary parallels}
 
 \begin{itemize}
+
+\item Parsimony, Occam's razor (philosophy of science)
 
 \item Minimum Description Length principle %cite eg. Mitchell?
 
 \item Economy of Representation (Generative Linguistics)
 
-\item Parsimony, Occam's razor (philosophy of science)
-
 \end{itemize}
 
 \section{Approach}
+
 In this section we describe our approach on minimizing, generalizing and
 splitting single model fragments into modular and compositional fragments.
 
@@ -209,8 +232,8 @@ We take a monolithic model and divide it into several smaller fragments. To do
 so, we need to comply to the following ranked list of constraints:
 
 \begin{enumerate}
-\item The model should be equivalent, that is, the resulting behavior should be
-	exactly the same as the original
+\item The model should be equivalent, that is, the resulting behavior should
+	be exactly the same as the original
 
 \item The output should be as parsimonious as possible, that is, fragments
 	should be modular
@@ -226,11 +249,11 @@ Overview:
 
 \begin{itemize}
 
-\item Find a list of pivots, conditions on which the model fragments are based.
-	Currently these are single structural relations.
+\item Find a list of pivots, conditions on which the model fragments are
+	based. Currently these are single structural relations.
 
-\item For each pivot, find a set of dependencies which apply whenever the pivot
-	is present, without exception
+\item For each pivot, find a set of dependencies which apply whenever the
+	pivot is present, without exception
 
 \item Generalize these dependencies into a single model fragment, several
 	dependencies among instances may be collapsed into one
@@ -256,7 +279,8 @@ Sketch of the algorithm:
 	induction or from a monolithic model fragment created by a user).  
 
 \item Partition this set into equivalence classes according to the
-	equivalence relation of the conditions under which each dependency holds.
+	equivalence relation of the conditions under which each dependency
+	holds.
 
 \item Minimize each equivalence class by substituting 
 	$Q_1 \overset{I+}{\rightarrow} Q_2 $ for a set such as 
@@ -282,9 +306,9 @@ instance(R, Q_1, Q_2, q_1, q_2) :=
 	\land \; &isa(q_1, Q_1) \land isa(q_2, Q_2) \\
 \end{align*}
 
-The next definition defines an equivalence relation on these instances, stating that
-their dependencies hold universally given their condition (which is currently
-restricted to a single structural relation):
+The next definition defines an equivalence relation on these instances,
+stating that their dependencies hold universally given their condition (which
+is currently restricted to a single structural relation):
 
 \begin{align*}
 samedeps(R, Q_1, Q_2) := \; \forall d \; [ \; &dependency(d, q_1, q_2) \in M \\
@@ -294,13 +318,15 @@ samedeps(R, Q_1, Q_2) := \; \forall d \; [ \; &dependency(d, q_1, q_2) \in M \\
 	& \qquad \rightarrow dependency(d, q^\prime_1, q^\prime_2) \in M \; ] \; ]
 \end{align*}
 
-These two conditions combined gives us the set of pivots for a given monolithic model:
+These two conditions combined gives us the set of pivots for a given
+monolithic model:
 
 \begin{align*}
 pivots := \{ \; \langle R, Q_1, Q_2 \rangle \; | instance(R, Q_1, Q_2, q_1, q_2) \land samedeps(R, Q_1, Q_2) \} 
 \end{align*}
 
-After defining the pivots we simply map them to dependencies to obtain generalized fragments:
+After defining the pivots we simply map them to dependencies to obtain
+generalized fragments:
 
 \begin{align*}
 fragments := \{ \; \{ \; dependency&(d, Q_1, Q_2) \; | \; \\
@@ -316,18 +342,18 @@ pivots can consist of multiple triples.
 \section{Experiments \& Results}
 
 The evaluation is based on a few well known example Garp models. The output of
-the automatic modelling implementations of \cite{buisman} and \cite{vanweelden}
-is not easily accessible in a single prolog list, but rather through a poorly
-documented Prolog database; the current implementation of \cite{vanweelden}
-does not return equalities and arithmetic relations among its output. The
-scenario and entity hierarchy is accessible through the Garp API, but this is
-also less straightforward than it should be. 
+the automatic modelling implementations of \cite{buisman} and
+\cite{vanweelden} is not easily accessible in a single prolog list, but rather
+through a poorly documented Prolog database; the current implementation of
+\cite{vanweelden} does not return equalities and arithmetic relations among
+its output. The scenario and entity hierarchy is accessible through the Garp
+API, but this is also less straightforward than it should be. 
 
 To avoid having to deal with these implementation matters we have based our
 current implementation on our own Prolog representation. Our implementation
-expects as its input a simple list of dependencies, and as background knowledge
-the scenario and entity hierarchy. Because of this evaluation had to be done
-manually.
+expects as its input a simple list of dependencies, and as background
+knowledge the scenario and entity hierarchy. Because of this evaluation had to
+be done manually.
 
 The implementation of the algorithm previously described has certain
 limitations which mean that the number of fragments is not as minimal as it
@@ -339,8 +365,8 @@ could be. This boils down to:
 
 \item not considering multiple conditions for a single fragment
 
-\item not considering merging the dependencies of multiple quantities belonging
-	to the same entity in a single fragment
+\item not considering merging the dependencies of multiple quantities
+	belonging to the same entity in a single fragment
 
 \end{itemize}
 
@@ -533,14 +559,15 @@ which is especially useful when the minimization algorithm is applied as part
 of an interactive modeling assistant.
 
 This could be implemented by finding a way to merge these fragments into a
-monolithic fragment, while avoiding undergeneration by exploding all dependencies
-to specific dependencies between instances. Such an extension is fairly trivial
-but has not been implemented yet.
+monolithic fragment, while avoiding undergeneration by exploding all
+dependencies to specific dependencies between instances. Such an extension is
+fairly trivial but has not been implemented yet.
 
 \subsubsection{Inheritance: hierarchy of fragments in output}
 
 Currently the output consists of a flat list of model fragments, but a more
-advanced method would turn this into an inheritance hierarchy, to avoid duplication
+advanced method would turn this into an inheritance hierarchy, to avoid
+duplication
 
 \subsection{Model induction}
 
@@ -562,16 +589,16 @@ such a behavior graph is very difficult to specify without already having a
 qualitative model, which makes for a vicious circle. An alternative would be
 to make the induction interactive. The algorithm would formulate a series of
 maximally informative questions (comparable to automatic diagnosis
-\cite{dekleerdiag}), employing the user as an informant. A series of iterations
-can be performed, presenting the resulting behavior graph to the user who can
-then highlight errors.
+\cite{dekleerdiag}), employing the user as an informant. A series of
+iterations can be performed, presenting the resulting behavior graph to the
+user who can then highlight errors.
 
 \subsubsection{Negative exemplars}
 
 This brings us to the related problem of negative exemplars. Humans probably
 have an idea not only of what a system does, but also what it does not do
-(constraints). Negative exemplars are of course the very reason for the problem
-of induction in philosophy. %cite?
+(constraints). Negative exemplars are of course the very reason for the
+problem of induction in philosophy. %cite?
 However, since qualitative models are a formalization of human knowledge, not
 induced from naturalistic data, negative exemplars are a resource that should
 be exploited. Negative exemplars could be presented by the user in the form of
