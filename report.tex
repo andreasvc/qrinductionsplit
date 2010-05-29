@@ -54,12 +54,14 @@ falls between these two extremes of precision and informality. Although their
 framework is completely qualitative, as opposed to standard physics, on the
 other hand their framework is formal in the sense of explicitly defining
 causal and structural relations, as opposed to the psychological models of
-humans (presumably).
+humans (presumably). Moreover, their approach is based on deriving qualitative
+physics from first principles, like normal physics, as opposed to the
+contextual and tacit knowledge of mere mortals.
 
 This approach is presented as being useful for physics education, expert
 systems and even physics, in that it explicitly deals with causality. The
 latter is in contrast with standard physics, in which laws are merely
-correlations without exceptions.
+exceptionless correlations with predictive value.
 
 % more to come.
 
@@ -78,10 +80,10 @@ many cases, the ordinal representation is more natural.
 
 \vspace{0.8em}
 
-Physical processes are viewed as the mechanisms by which changes occur.
-Therefor Forbus introduced the \emph{sole mechanism assumption} which states
-that any behavior must be explainable by the direct or indirect effects of
-some collection of physical processes.
+Physical processes are viewed as the mechanisms through which change occurs.
+To this end Forbus introduced the \emph{sole mechanism assumption} which
+states that any behavior must be explainable by the direct or indirect effects
+of some collection of physical processes.
 
 \vspace{0.8em}
 
@@ -90,6 +92,15 @@ Forbus has reviewed his own work and the impact of his work in
 
 \subsubsection{Garp3 - Workbench for Qualitative Modelling and Simulation
 (Bredeweg et al.)}
+
+Garp is an implementation of Qualitative Process Theory with a focus on
+educational uses.
+
+\subsubsection{The Danuba river (Cioca et al.)}
+
+A Garp model of a system in the ecological domain, demonstrating its
+applicability to the formalization of real-world problems.
+
 
 \subsubsection{Discussion}
 
@@ -204,10 +215,10 @@ like birth, death, emigration, etc.
 Recent work on automated modeling \cite{buisman, liem, vanweelden} has focused
 on generating a correct model based on a full-envisionment behavior graph. The
 current algorithms always produce a single model fragment which describes the
-complete system. The useful fragmentation of a system is hereby lost and
+complete system. The implicit compositionality of a system is not revealed and
 comprehending the output could become quite difficult with large models. We
-therefore introduce a way of splitting such a single monolithic model into
-smaller fragments while preserving the exact same behavior.
+therefore introduce a way of splitting and minimizing such monolithic models
+into smaller fragments while preserving the exact same behavior.
 
 \subsection{Interdisciplinary parallels}
 
@@ -233,15 +244,24 @@ so, we need to comply to the following ranked list of constraints:
 
 \begin{enumerate}
 \item The model should be equivalent, that is, the resulting behavior should
-	be exactly the same as the original
+	be exactly the same as the original given the same input (a scenario).
 
 \item The output should be as parsimonious as possible, that is, fragments
-	should be modular
+	should be minimal.
 
 \item General fragments are preferred over specific fragments; this entails a
-	preference for smaller fragments
+	bias for smaller fragments and modularity.
 
 \end{enumerate}
+
+We make no claim as to the didactic suitability of these constraints, but it
+is not hard to imagine that these constraints will provide an improvement when
+applied to any model lacking in modularity. It is well known that modularity
+is a sound engineering approach, and there is no reason to assume Qualitative
+Reasoning to be an exception. However, there are subtle choices to be made
+as to the exact granularity of fragments, because these constraints
+underdetermine the space of candidates. We will gloss over these issues and
+apply the aforementioned constraints without further claims of optimality.
 
 \subsection{Algorithm}
 
@@ -294,9 +314,12 @@ Sketch of the algorithm:
 
 \end{enumerate}
 
-This sketch can be formalized into a definition with set builder notation.
-First two helper definitions. The first definition defines a predicate for
-instances:
+This sketch can be formalized and instantiated into a definition with set
+builder notation.\footnote{Note that the following definitions closely follow
+our Prolog implementation, as such they include certain choices and
+simplifications limiting the generality of the approach as previously
+sketched.}  First two helper definitions. The first definition defines a
+predicate for instances of structural relations and related quantities:
 
 \begin{align*}
 instance(R, Q_1, Q_2, q_1, q_2) :=
@@ -306,9 +329,16 @@ instance(R, Q_1, Q_2, q_1, q_2) :=
 	\land \; &isa(q_1, Q_1) \land isa(q_2, Q_2) \\
 \end{align*}
 
+In this definition $q_n$ refers to an instance of a quantity $Q_n$, similarly
+$e_n$ refers to an instance of an entity $E_n$; such pairs are related by the
+$isa(a, b)$ predicate denoting that $a$ is an instance of $b$. Quantities and
+entities are related by $has(e_n, q_m)$ denoting that $e_n$ has the quantity
+$q_m$. Finally $struct_rel(R, e_n, e_m)$ denotes the configuration that $e_n$
+is structurally related to $e_m$ with relation $R$.
+
 The next definition defines an equivalence relation on these instances,
 stating that their dependencies hold universally given their condition (which
-is currently restricted to a single structural relation):
+is here restricted to a single structural relation):
 
 \begin{align*}
 samedeps(R, Q_1, Q_2) := \; \forall d \; [ \; &dependency(d, q_1, q_2) \in M \\
@@ -318,15 +348,22 @@ samedeps(R, Q_1, Q_2) := \; \forall d \; [ \; &dependency(d, q_1, q_2) \in M \\
 	& \qquad \rightarrow dependency(d, q^\prime_1, q^\prime_2) \in M \; ] \; ]
 \end{align*}
 
-These two conditions combined gives us the set of pivots for a given
+Here $dependency(d, a, b)$ denotes a directed relation $d$ between $a$
+and $b$ (undirected relations can be expressed using two directed relations).
+Possible values for $d$ correspond to influences, proportionalities,
+correspondences and equalities. While $a$ and $b$ usually denote quantities,
+note that they can also refer to an arithmetic operation between two
+quantities, eg. $min(q_n, q_m)$.
+
+These two predicates combined give us the set of pivots for a given
 monolithic model:
 
 \begin{align*}
 pivots := \{ \; \langle R, Q_1, Q_2 \rangle \; | instance(R, Q_1, Q_2, q_1, q_2) \land samedeps(R, Q_1, Q_2) \} 
 \end{align*}
 
-After defining the pivots we simply map them to dependencies to obtain
-generalized fragments:
+After defining the pivots we simply map them to their dependencies to obtain
+minimized, modular fragments:
 
 \begin{align*}
 fragments := \{ \; \{ \; dependency&(d, Q_1, Q_2) \; | \; \\
@@ -337,7 +374,8 @@ fragments := \{ \; \{ \; dependency&(d, Q_1, Q_2) \; | \; \\
 
 Note that while in this definiton pivots are restricted to single triples of a
 relation and two quantities, the definition should be generalized so that
-pivots can consist of multiple triples.
+pivots can be merged into multiple triples when they are applicable under the
+same conditions.
 
 \section{Experiments \& Results}
 
