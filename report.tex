@@ -230,11 +230,42 @@ into smaller fragments while preserving the exact same behavior.
 
 \begin{itemize}
 
-\item Parsimony, Occam's razor (philosophy of science)
+%\item Parsimony, Occam's razor (philosophy of science)
+%wrong, parsimony refers to most simple explanation, not representation
 
-\item Minimum Description Length principle %cite eg. Mitchell?
+\item Finite-State automaton miniminization
+
+	In automata theory there are well-known results regarding the
+	minimization of grammars. For example there exists an algorithm to
+	obtain a minimized version of a Finite-State automaton (FSA) which
+	generates the exact same language with a minimum amount of states.
+	This is analogous to our goals.
+
+\item Minimum Description Length principle %cite eg. Mitchell? p. 171, section 6.6
+
+	In Machine Learning there is the Minimum Description Length (MDL)
+	principle, which provides an inductive bias to choose among possible
+	hypotheses for data, given a certain representation (the latter is
+	crucial to success).  This provides a powerful heuristic because
+	whenever a hypothesis is found that fits the data, all larger
+	hypotheses can be discarded.
+	
+	If we apply this principle to qualitative model induction, then
+	minimizing a model that fits the data will yield a better hypothesis
+	according to the MDL principle.
 
 \item Economy of Representation (Generative Linguistics)
+
+	This principle states that representations are non-redundant. The
+	abstract representation of a surface form like ``the boys walk'' will
+	only contain the feature \textsc{plural} once, because agreement in
+	number between the subject and verb is mandatory, and hence there is
+	no point in storing the feature twice. 
+
+	Similarly when a scenario in a qualitative model contains two trees,
+	both should rely on one and the same dependency stating the relation
+	between size and shade, not on two dependencies specific to their
+	instances. 
 
 \end{itemize}
 
@@ -336,7 +367,7 @@ predicate for instances of structural relations and related quantities:
 
 \begin{align*}
 instance(R, Q_1, Q_2, q_1, q_2) :=
-	\exists e_1, e_2, q_1, q_2 \; [ &struct\_rel(R, e_1, e_2) & \\
+	\exists e_1, e_2 \; [ &struct\_rel(R, e_1, e_2) & \\
 	\land \; &has(e_1, q_1) \land has(e_2, q_2)  \\
 	\land \; &isa(q_1, Q_1) \land isa(q_2, Q_2) ]
 \end{align*}
@@ -402,18 +433,18 @@ same conditions.
 \section{Results}
 
 The evaluation is based on a few well known example Garp models. The output of
-the automatic modelling implementations of \cite{buisman} and
+the automatic modeling implementations of \cite{buisman} and
 \cite{vanweelden} is not easily accessible in a single prolog list, but rather
-through a poorly documented Prolog database; the current implementation of
+through a poorly documented Prolog database; the current implementation 
 \cite{vanweelden} does not return equalities and arithmetic relations among
 its output. The scenario and entity hierarchy is accessible through the Garp
-API, but this is also less straightforward than it should be. 
+API, but this is also less straightforward than it should be. %FIXME remove this whining.
 
 To avoid having to deal with these implementation matters we have based our
-current implementation on our own Prolog representation. Our implementation
-expects as its input a simple list of dependencies, and as background
-knowledge the scenario and entity hierarchy. Because of this evaluation had to
-be done manually.
+current proof of concept implementation on our own Prolog representation. Our
+implementation expects as its input a flat list of dependencies, and as
+background knowledge the scenario and entity hierarchy. Because of this the
+evaluation had to be done manually.
 
 The implementation of the algorithm previously described has certain
 limitations which mean that the number of fragments is not as minimal as it
@@ -430,7 +461,7 @@ could be. This boils down to:
 
 \end{itemize}
 
-However, this seems to be largely an implemantion aspect. The implementation
+However, this seems to be largely an implemantion matter. The implementation
 provides a proof of concept of the algorithm, more sophisticated
 implementations can easily achieve more results.
 
