@@ -15,6 +15,8 @@
 \begin{document}
 \maketitle
 
+%perhaps picture here (something to do with minimization)
+
 \vspace{4em}
 
 \abstract{Qualitative Process theory provides a way of modeling causality in a
@@ -233,13 +235,28 @@ into smaller fragments while preserving the exact same behavior.
 %\item Parsimony, Occam's razor (philosophy of science)
 %wrong, parsimony refers to most simple explanation, not representation
 
-\item Finite-State automaton miniminization
+\item Finite-State automaton miniminization, compression
 
 	In automata theory there are well-known results regarding the
 	minimization of grammars. For example there exists an algorithm to
 	obtain a minimized version of a Finite-State automaton (FSA) which
 	generates the exact same language with a minimum amount of states.
-	This is analogous to our goals.
+	%cite DFA minimization (see wikipedia)
+
+	Naturally this problem gets more difficult (no general purpose
+	algorithms exist) higher up in the Chomsky hierarchy, so it would be
+	an important result if it turned out that (a subset of) qualitative
+	model simulation can be encoded as a Finite-State automaton that
+	generates a regular language containing state-strings corresponding to
+	behavior paths.
+
+	A related but less hopeful result is that of Kolmogorov complexity,
+	which states that given an arbitrary string, it is undecidable to
+	verify whether a given program generating that string is the shortest
+	one to do so (ie., highest compression), let alone to produce such a
+	program given data.
+
+	%This is analogous to our goals.
 
 \item Minimum Description Length principle %cite eg. Mitchell? p. 171, section 6.6
 
@@ -383,7 +400,7 @@ allows the isolation of dependencies between the quantities of a single
 entity.\footnote{see the communicating vessels for an example with amount,
 height and pressure of a container} %idea, besides implicit self relation,
 %perhaps add unconditional relation holding between any two entities so that
-%com.ves. can be splitted without an unfragment.
+%com.ves. can be splitted without an unfragment. but: relation is not unconditional, but a combination of two relations: vessel 1 and 2 are both connected to the same pipe, with from and to respectively.
 
 The next definition defines an equivalence relation on these instances,
 stating that their dependencies hold universally given their condition (which
@@ -438,7 +455,8 @@ the automatic modeling implementations of \cite{buisman} and
 through a poorly documented Prolog database; the current implementation 
 \cite{vanweelden} does not return equalities and arithmetic relations among
 its output. The scenario and entity hierarchy is accessible through the Garp
-API, but this is also less straightforward than it should be. %FIXME remove this whining.
+API, but this is also less straightforward than it should be. 
+%FIXME remove this whining and hack a garp interface together.
 
 To avoid having to deal with these implementation matters we have based our
 current proof of concept implementation on our own Prolog representation. Our
@@ -698,7 +716,7 @@ user who can then highlight errors.
 This brings us to the related problem of negative exemplars. Humans probably
 have an idea not only of what a system does, but also what it does not do
 (constraints). Negative exemplars are of course the very reason for the
-problem of induction in philosophy. %cite?
+problem of induction in philosophy (Hume, Popper, etc.). %cite?
 However, since qualitative models are a formalization of human knowledge, not
 induced from naturalistic data, negative exemplars are a resource that should
 be exploited. Negative exemplars could be presented by the user in the form of
@@ -708,9 +726,13 @@ be exploited. Negative exemplars could be presented by the user in the form of
 
 \section{Conclusion}
 
-Model minimization has been fruitfully applied to Qualitative Models. Our
+Model minimization has been fruitfully applied to qualitative models. Our
 approach is general enough that it applies both to Automatic Modeling and to
-models made by beginners.
+models made by beginners. From now on, minimizing qualitative models in Garp
+can be done automatically, at least for the subset of models supported by the
+proof of concept implementation. Further work on inducing models lies ahead
+and given the results on inducing constraint models this work would seem to
+have ample room for success.
 
 
 \begin{thebibliography}{99}
