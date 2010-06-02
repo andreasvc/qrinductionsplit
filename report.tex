@@ -2,6 +2,7 @@
 %\usepackage{natbib} apa style etc.
 \usepackage{amsmath}
 \usepackage{verbatim}
+\usepackage{subfigure}
 \usepackage[pdftex]{graphicx}
 \usepackage[english]{babel}
 \usepackage[colorlinks=true, linkcolor=black, urlcolor=blue, pdfborder={0 0 0}]{hyperref}
@@ -492,6 +493,16 @@ implementations can easily achieve more results.
 \subsection{Tree and shade growth} 
 % maybe show scenario with three trees, number of model fragments should stay the same! proof of concept.
 
+Input in figure \ref{ts_mono} and output in figure \ref{ts_frags}.
+
+\begin{figure}[ht]
+\centering
+\includegraphics{ts_mono-crop.pdf}
+\caption{Monolithic model as input}
+\label{ts_mono}
+\end{figure}
+
+\begin{comment}
 \begin{verbatim}
 Input: 
 [dependency(inf_pos, growth_rate1, size1), 
@@ -504,7 +515,23 @@ Set of struct rels:
 [ (self, size, size), (self, shade, size), (self, shade, shade), 
 (self, growth_rate, size), (self, growth_rate, shade), 
 (self, growth_rate, growth_rate)]
+\end{verbatim}
+\end{comment}
 
+\begin{figure}[ht]
+\centering
+\subfigure{
+    \includegraphics[width=0.4\textwidth]{ts_growth-crop.pdf}
+}
+\subfigure{
+    \includegraphics[width=0.4\textwidth]{ts_sizeshade-crop.pdf}
+}
+\caption{2 modelfragments for growth and size-shade}
+\label{ts_frags}
+\end{figure}
+
+\begin{comment}
+\begin{verbatim}
 Fragments (2): 
 [ (self, shade, size), 
 	dependency(prop_pos, size, shade),
@@ -516,6 +543,7 @@ Fragments (2):
 
 Unfragment: []
 \end{verbatim}
+\end{comment}
 
 \subsection{Stacked bath tubs}
 
