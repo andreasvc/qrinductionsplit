@@ -43,32 +43,39 @@ error-free data.}
 In this section we will review a few of the papers that have contributed
 greatly to the definition of Qualitative Reasoning. We will give a short
 summary of the papers and will conclude with an overview of the current field
-of research and possible future work.
+of research and possible future work. 
+%more text?
 
 \subsection{Qualitative Reasoning}
 
 The following papers describe the foundations of qualitative reasoning.
+%more text
 
 \subsubsection{A qualitative Physics based on confluences (de Kleer \& Brown)}
 
-\cite{kleer} present a framework for formalizing physics in a qualitative
-rather than quantitative manner. Whereas physicists describe the world in
-terms of continuous differential equations, the rest of the world uses an
-implicit psychological model of naive physics. The framework of \cite{kleer}
-falls between these two extremes of precision and informality. Although their
-framework is completely qualitative, as opposed to standard physics, on the
-other hand their framework is formal in the sense of explicitly defining
-causal and structural relations, as opposed to the psychological models of
-humans (presumably). Moreover, their approach is based on deriving qualitative
-physics from first principles, like normal physics, as opposed to the
-contextual and tacit knowledge of mere mortals.
+De Kleer et al. \cite{kleer} present a framework for formalizing physics in a
+manner that is {\em qualitative} rather than {\em quantitative}. Whereas
+physicists describe the world in terms of continuous differential equations,
+the rest of the world uses an implicit psychological model of naive physics.
+The framework of \cite{kleer} falls between these two extremes of precision and
+informality. They employ confluences, which are qualitative differential
+equations.  Although their framework is completely qualitative, as opposed to
+standard physics, on the other hand their framework is formal in the sense of
+explicitly defining causal and structural relations, as opposed to the
+psychological models of humans (presumably). Moreover, their approach is based
+on deriving qualitative physics from first principles, like normal physics, as
+opposed to the contextual and tacit knowledge of mere mortals.
 
 This approach is presented as being useful for physics education, expert
 systems and even physics, in that it explicitly deals with causality. The
 latter is in contrast with standard physics, in which laws are merely
 exceptionless correlations with predictive value.
 
-% more to come.
+Advantages of this approach are that it works from first principles, so it is
+grounded in science. Other advantages are that the models can be induced from
+data, even when it contains noise. Disadvantages are that these constraint
+models are less explanatory than process models (\cite{forbus}, p. 110), 
+which we will review promptly.
 
 \subsubsection{Qualitative Process Theory (Forbus)}
 
@@ -94,39 +101,48 @@ of some collection of physical processes.
 
 Forbus has reviewed his own work and the impact of his work in
 \cite{forbus12}.
+%more text
 
 \subsubsection{Garp3 - Workbench for Qualitative Modelling and Simulation
 (Bredeweg et al.)}
 
 Garp is an implementation of Qualitative Process Theory with a focus on
 educational uses.
+%more text
 
-\subsubsection{The Danuba river (Cioca et al.)}
+\subsubsection{Algal bloom in the Danube Delta (Cioca et al.)}
 
 A Garp model of a system in the ecological domain, demonstrating its
 applicability to the formalization of real-world problems.
 
+%more to come
 
 \subsubsection{Discussion}
 
-The idea that Qualitative Reasoning can formalize common sense knowledge and
-understanding of physics is by now outdated. It is an instance of the ``Good
-Old Fashioned Artificial Intelligence'' (GOFAI) approach, and in line with the
-% cite GOFAI? Russell & Norvig
-Symbol System hypothesis of Newell and Simon \cite{newell}. %quote?
-Both of these have either failed spectucularly or faded silently, having been
-replaced by stochastic and data-driven approaches.  Claiming that Qualitative
-Reasoning can provide a way to model actual common sense knowledge or mental
-models is ostensively wrong -- the list of mismatches with human intuitions is
-endless, and among these mismatches are the parts where Folk Physics is
-ostensively {\em wrong}. Therefore we submit that it is no longer useful to
-present it as a part of Artificial Intelligence or having anything to do with
-common sense; while QR models are certainly artificial, they are not in the
-least intelligent, nor are they common or do they make sense to non-experts.
-They are simply an explicit formalization of a certain set of behaviors of
-interest. This does not mean that Qualitative Reasoning itself is a fruitless
-enterprise -- it can be used as an educational tool, where there is no need
-for bold philosophical claims.
+The idea that Qualitative Reasoning can formalize actual common sense knowledge
+and human understanding of physics is by now outdated. It is an instance of the
+``Good Old Fashioned Artificial Intelligence'' (GOFAI) approach,
+\cite{haugeland} and in line with the Symbol System hypothesis of Newell and
+Simon \cite{newell}\footnote{``A physical symbol system has the necessary and
+sufficient means of general intelligent action.''}.  Both of these have either
+failed spectucularly or faded silently, often having been replaced by
+stochastic and data-driven approaches \cite{russellnorvig}.  Claiming that
+Qualitative Reasoning can provide a way to model actual common sense knowledge
+or mental models is ostensively wrong -- the list of mismatches with human
+intuitions is unmanageble, and among these mismatches are the parts where Folk
+% cite examples from class/literature?
+Physics is ostensively {\em wrong}. Specifically philosophers contend that
+common sense is holistic at its core \cite{smith}, whereas explicit,
+knowledge-based approaches are reductionistic in nature, because their aim is
+to isolate context-free fragments. 
+
+Therefore we submit that it is no longer useful to present it as a part of
+Artificial Intelligence or having anything to do with common sense; while QR
+models are certainly artificial, they are not in the least intelligent, nor are
+they common or do they make sense to non-experts.  They are simply an explicit
+formalization of a certain set of behaviors of interest. This does not mean
+that Qualitative Reasoning is itself a fruitless enterprise -- it can be used
+as an educational tool, where there is no need for bold philosophical claims.
 
 With this educational focus in mind it makes sense to try to facilitate the
 modeling process for non-experts for which QR is useful. To this end we turn
@@ -186,10 +202,14 @@ mutually exclusive possible disambiguations.
 
 Actuators
 
+%more text
+
 %less brute force, instead attempt to find the conceptually correct model
 %immediately; added a knowledge base of actuators: common patters etc.
 
 \subsubsection{Carsten}
+
+%more text
 
 Causal groups % feedback loops, interacting processes
 
@@ -241,8 +261,8 @@ into smaller fragments while preserving the exact same behavior.
 	In automata theory there are well-known results regarding the
 	minimization of grammars. For example there exists an algorithm to
 	obtain a minimized version of a Finite-State automaton (FSA) which
-	generates the exact same language with a minimum amount of states.
-	%cite DFA minimization (see wikipedia)
+	generates the exact same language with a minimum amount of states
+	\cite{hopcroft}.
 
 	Naturally this problem gets more difficult (no general purpose
 	algorithms exist) higher up in the Chomsky hierarchy, so it would be
@@ -257,11 +277,15 @@ into smaller fragments while preserving the exact same behavior.
 	one to do so (ie., highest compression), let alone to produce such a
 	program given data.
 
+	Determining the exact status of qualitative reasoning with respect to
+	established results in automata theory or formal logic would shed light
+	on the precise complexity and feasibility of model induction.
 	%This is analogous to our goals.
 
-\item Minimum Description Length principle %cite eg. Mitchell? p. 171, section 6.6
+\item Minimum Description Length principle 
 
-	In Machine Learning there is the Minimum Description Length (MDL)
+	In Machine Learning there is the Minimum Description Length (MDL;
+	\cite{mitchell}, p. 171, section 6.6)
 	principle, which provides an inductive bias to choose among possible
 	hypotheses for data, given a certain representation (the latter is
 	crucial to success).  This provides a powerful heuristic because
@@ -291,6 +315,8 @@ into smaller fragments while preserving the exact same behavior.
 
 In this section we describe our approach on minimizing, generalizing and
 splitting single model fragments into modular and compositional fragments.
+
+%more text
 
 \subsection{Problem statement}
 
@@ -450,8 +476,9 @@ same conditions.
 
 \section{Results}
 
-The evaluation is based on a few well known example Garp models. The output of
-the automatic modeling implementations of \cite{buisman} and
+The evaluation is based on a few well known example Garp models. 
+We experienced some problems with the implementations of the AM algorithm.
+The output of the automatic modeling implementations of \cite{buisman} and
 \cite{vanweelden} is not easily accessible in a single prolog list, but rather
 through a poorly documented Prolog database; the current implementation 
 \cite{vanweelden} does not return equalities and arithmetic relations among
@@ -494,6 +521,7 @@ implementations can easily achieve more results.
 % maybe show scenario with three trees, number of model fragments should stay the same! proof of concept.
 
 Input in figure \ref{ts_mono} and output in figure \ref{ts_frags}.
+%more text
 
 \begin{figure}[ht]
 \centering
@@ -550,6 +578,8 @@ Unfragment: []
 For the stacked bath tub model we changed the quantity space of flow to ZPM
 (instead of ZP) because then we could replace the value-correspondences by a
 single Q-correspondence.
+For the input, see figure\ref{sb_mono}; for the output, see figure \ref{sb_frags}.
+%more text
 
 
 \begin{comment}
@@ -600,11 +630,16 @@ Unfragment: []
 
 \subsection{Communicating vessels} 
 %both two and three? maybe also the truly compositional one?
+
 Inducing the communicating vessels model almost works, but the last two
 equalities are not found, so they have been added manually. Also, the order of
-arguments for proportionalities has been tweaked. 
+arguments for proportionalities has been tweaked.  For the input, see
+figure\ref{cv_mono}; for the output, see figure \ref{cv_frags}.
 
-Two communicating vessels:
+%FIXME: is this really true? or is it only because Carsten's equalities are
+%asserted god knows where?
+%more text
+
 
 \begin{figure}[ht]
 \centering
@@ -643,6 +678,8 @@ Two communicating vessels:
 \end{figure}
 
 \begin{comment}
+Two communicating vessels:
+
 \begin{verbatim}
 Input: 
 [dependency(inf_pos, flow3, amount5), 
@@ -686,6 +723,7 @@ Unfragment: [dependency(equals, flow3, min(pressure4, pressure5))]
 \end{comment}
 
 Three communicating vessels.
+%more text
 
 \begin{verbatim}
 Input:
@@ -745,17 +783,22 @@ dependency(equals, flow4, min(pressure5, pressure6))]
 %single population? split into birth, migration etc.
 %interacting populations? but ants garden is too much
 
+%more text
 TBD.
 
 \section{Discussion}
 We will now discuss several possible extensions both to model induction in
 general and to model minimization in particular.
+%more text
 
 \subsection{Model minimization}
+
+%more text
+
 \subsubsection{Modular fragments as input}
 
-Currently the algorithm expects a single monolithic model as input, since that
-is the output as given by the automated modeling algorithm. However, this
+Currently the implementation expects a single monolithic model as input, since
+that is the output as given by the automated modeling algorithm. However, this
 requirement could be lifted to allow partially modular fragments as input,
 which is especially useful when the minimization algorithm is applied as part
 of an interactive modeling assistant.
@@ -767,15 +810,15 @@ fairly trivial but has not been implemented yet.
 
 \subsubsection{Inheritance: hierarchy of fragments in output}
 
-Currently the output consists of a flat list of model fragments, but a more
-advanced method would turn this into an inheritance hierarchy, to avoid
-duplication
+The output of our algorithm consists of a flat list of model fragments, but a
+more advanced method would turn this into an inheritance hierarchy, to avoid
+duplication and to increase re-use and clarity.
 
 \subsection{Model induction}
 
 \subsubsection{Conditions}
 
-The induction algorithm currently has no support for conditions, except for
+The induction algorithm has no support for conditions, except for
 copying structural relations between entities as found in the scenario. This
 severly limits the scope of models that can be induced. However, adding the
 induction of conditions increases the complexity greatly. This is demonstrated
@@ -807,11 +850,25 @@ user who can then highlight errors.
 This brings us to the related problem of negative exemplars. Humans probably
 have an idea not only of what a system does, but also what it does not do
 (constraints). Negative exemplars are of course the very reason for the
-problem of induction in philosophy (Hume, Popper, etc.). %cite?
+problem of induction in philosophy \cite{hume, popper}.
 However, since qualitative models are a formalization of human knowledge, not
 induced from naturalistic data, negative exemplars are a resource that should
 be exploited. Negative exemplars could be presented by the user in the form of
 (in)equalities and as a list of impossible combinations of values.
+
+\subsubsection{Inductive Logic Programming}
+
+An alternative approach to model induction would be to use the general
+framework of Inductive Logic Programming (ILP) \cite{mitchell}. This framework
+provides a way to learn arbitrary Prolog programs based on background knowledge
+and exemplars of predicates. In the case of inducing a Garp model this would
+mean having the Garp engine as background, the behavior graph as the set of
+exemplars, and model fragments represented as Prolog predicates (an encoding
+would need to be defined) as output. In \cite{kuipers} (pp. 356 and on) a
+method of axiomatizing qualitative models is discussed, in which state
+transitions are first-order derivable theorems; this work could provide a good
+starting point for an exploration of applying ILP to automated modeling.
+
 
 % World domination etc.
 
@@ -878,12 +935,51 @@ Conceptual Knowledge Capture Through Automatic Modelling''
 \bibitem{vanweelden} van Weelden, C., ``Automated modeling of conceptual
 knowledge'' \url{http://staff.science.uva.nl/~bredeweg/pdf/BSc/20082009/vanWeelden.pdf}
 
+\bibitem{mitchell}
+	Mitchell, Tom (1997), ``Machine Learning,'' McGraw Hill.
+
+\bibitem{hopcroft}
+	John Hopcroft and Jeffrey Ullman (1979). 
+	``Introduction to Automata Theory, Languages, and Computation.'' Addison Wesley.
+
+%\bibitem{russellnorvig}
+%	Russell S, Norvig P (1995). 
+%	``Artificial Intelligence: A Modern Approach,'' 
+%	Prentice Hall Series in Artificial Intelligence. Englewood Cliffs, New Jersey
+
+\bibitem{haugeland}
+	Haugeland, John (1985), 
+	``Artificial Intelligence: The Very Idea,''
+	Cambridge, Mass.: MIT Press, ISBN 0-262-08153-9 .
+
+\bibitem{smith}
+	Barry Smith and Roberto Casati (1994)
+	``Naive Physics: An Essay in Ontology.''
+	{\em Philosophical Psychology}, 7/2, pp.\ 225-244.
+
 \bibitem{dekleerdiag}
 	De Kleer, J. and Williams, B. C. 1989. Diagnosis with behavioral modes.
 	In \emph{Proceedings of the 11th international Joint Conference on Artificial
 	intelligence - Volume 2} (Detroit, Michigan, August 20 - 25, 1989).
 	International Joint Conference On Artificial Intelligence. Morgan
 	Kaufmann Publishers, San Francisco, CA, 1324-1330. 
+
+\bibitem{hume} 
+	Hume, David (1910) [1748]. 
+	``An Enquiry concerning Human Understanding.''
+	P.F. Collier \& Son. 
+	\url{http://18th.eserver.org/hume-enquiry.html#4}. 
+	Retrieved 27 December 2007.
+
+\bibitem{popper}
+	Popper, Karl (1959). 
+	``The Logic of Scientific Discovery.'' pp. Ch. 1. 
+%	"...the theory to be developed in the following pages stands directly
+%	opposed to all attempts to operate with the ideas of inductive logic."
+
+\bibitem{kuipers}
+	Kuipers, Benjamin (1994). ``Qualitative reasoning: modeling and simulation with incomplete knowledge,''
+	MIT Press, ISBN	026211190X, 9780262111904
 
 \end{thebibliography}
 
