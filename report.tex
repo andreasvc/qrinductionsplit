@@ -497,7 +497,7 @@ Input in figure \ref{ts_mono} and output in figure \ref{ts_frags}.
 
 \begin{figure}[ht]
 \centering
-\includegraphics{ts_mono-crop.pdf}
+\includegraphics[scale=0.5]{ts_mono-crop.pdf}
 \caption{Monolithic model as input}
 \label{ts_mono}
 \end{figure}
@@ -521,12 +521,12 @@ Set of struct rels:
 \begin{figure}[ht]
 \centering
 \subfigure{
-    \includegraphics[width=0.4\textwidth]{ts_growth-crop.pdf}
+    \includegraphics[scale=0.5]{ts_growth-crop.pdf}
 }
 \subfigure{
-    \includegraphics[width=0.4\textwidth]{ts_sizeshade-crop.pdf}
+    \includegraphics[scale=0.5]{ts_sizeshade-crop.pdf}
 }
-\caption{2 modelfragments for growth and size-shade}
+\caption{After minimization: two model fragments for growth and size of shade}
 \label{ts_frags}
 \end{figure}
 
@@ -551,6 +551,8 @@ For the stacked bath tub model we changed the quantity space of flow to ZPM
 (instead of ZP) because then we could replace the value-correspondences by a
 single Q-correspondence.
 
+
+\begin{comment}
 \begin{verbatim}
 Input: 
 [dependency(inf_pos, flow12, level12), 
@@ -572,6 +574,29 @@ Fragments (2):
 
 Unfragment: []
 \end{verbatim}
+\end{comment}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.5]{sb_mono-crop.pdf}
+\caption{Monolithic bath tub model as input}
+\label{bt_mono}
+\end{figure}
+
+% -----
+
+
+\begin{figure}[ht]
+\centering
+\subfigure{
+    \includegraphics[scale=0.5]{sb_in-crop.pdf}
+}
+\subfigure{
+    \includegraphics[scale=0.5]{sb_out-crop.pdf}
+}
+\caption{After minimization: two model fragments for flows going in and out respectively.}
+\label{bt_frags}
+\end{figure}
 
 \subsection{Communicating vessels} 
 %both two and three? maybe also the truly compositional one?
@@ -581,6 +606,43 @@ arguments for proportionalities has been tweaked.
 
 Two communicating vessels:
 
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.5]{cv2_mono-crop.pdf}
+\caption{Monolithic model for two communicating vessels as input}
+\label{cv_mono}
+\end{figure}
+
+
+\begin{figure}[ht]
+\centering
+\subfigure{
+    \includegraphics[scale=0.5]{cv_amountflow-crop.pdf}
+}
+\subfigure{
+    \includegraphics[scale=0.5]{cv_amountheight-crop.pdf}
+}
+\subfigure{
+    \includegraphics[scale=0.5]{cv_flowamount-crop.pdf}
+}
+\subfigure{
+    \includegraphics[scale=0.5]{cv_flowpressure-crop.pdf}
+}
+\subfigure{
+    \includegraphics[scale=0.5]{cv_heightpressure-crop.pdf}
+}
+\subfigure{
+    \includegraphics[scale=0.5]{cv_pressureflow-crop.pdf}
+}
+\subfigure{
+    \includegraphics[scale=0.5]{cv_unfragment-crop.pdf}
+}
+
+\caption{After minimization: seven model fragments for two communicating vessels.}
+\label{cv_frags}
+\end{figure}
+
+\begin{comment}
 \begin{verbatim}
 Input: 
 [dependency(inf_pos, flow3, amount5), 
@@ -621,6 +683,7 @@ Fragments (6):
 
 Unfragment: [dependency(equals, flow3, min(pressure4, pressure5))]
 \end{verbatim}
+\end{comment}
 
 Three communicating vessels.
 
