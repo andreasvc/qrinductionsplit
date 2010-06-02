@@ -4,14 +4,10 @@
 % background: entity hierarchy, quantities of each entity
 % output: a minimized model containing multiple model fragments
 
-go :-
-	do(treeshade).
-
-go1 :-
-	do(bathtub).
-
-go2 :-
-	do(comves).
+go  :- do(treeshade).
+go1 :- do(bathtub).
+go2 :- do(comves).
+go3 :- do(comves3).
 
 do(File) :-
 	consult(File),
@@ -45,17 +41,22 @@ struct_rel(R, A, B) :-
 % given a flat list of dependencies, make a partition corresponding to
 % dependencies related by the same condition.  then generalize the parts of
 % these partitions, returning a minimized model.  this output can be converted
-% into multiple Garp model fragments
+% into Garp model fragments
 split(M, MF) :-
-	fragments(M, F),
+	fragments(M, SF),
+	combined_pivots(M, SF, CF),
+	append(SF, CF, F), 
 	unfragment(M, F, UF),
-	length(F, N),
-	write('Fragments ('), write(N), write('): '), nl,
-	forall(member(Fr, F), (write(Fr), nl)), nl,
+	length(SF, N), length(CF, N1),
+	write('Single Fragments ('), write(N), write('): '), nl,
+	forall(member(Fr, SF), (write(Fr), nl)), nl,
+	write('Poly Fragments ('), write(N1), write('): '), nl,
+	forall(member(Frr, CF), (write(Frr), nl)), nl,
 	write('Unfragments: '), write(UF), nl, nl,
 	append(F, UF, MF).
 
-% find an instance of a structural relation and two entity classes
+% find an instance of a structural relation and two entity classes using
+% a relation between instances
 instance(R, E1, E2) :-
 	struct_rel(R, EI1, EI2),
 	isa(E1, EI1), isa(E2, EI2).
@@ -86,6 +87,22 @@ same_deps(R, E1, E2, M) :-
 		)
 	).
 
+pivots(M, P) :-
+	findall( (R, E1, E2),
+		(	instance(R, E1, E2),
+			same_deps(R, E1, E2, M)
+		),
+		Rels1
+	), 
+	findall( (R, E1, E2),
+		(	member( (R, E1, E2), Rels1),
+			(R = self ->
+				E1 @=< E2
+			; 	true)
+		),
+		Rels),
+	list_to_set(Rels, P).
+
 % fragments that can be generalized (ie., relations between quantity classes)
 % collapes M into a set of sets containing generalized dependencies.
 %
@@ -97,35 +114,14 @@ same_deps(R, E1, E2, M) :-
 % function that takes a dependency between instances of quantities and returns
 % a dependency between the classes of those entities.
 fragments(M, F) :-
-	%find pivots
-	findall((R, E1, E2),
-		(	instance(R, E1, E2),
-			same_deps(R, E1, E2, M)
-		),
-		Rels1
-	), 
-	findall((R, E1, E2),
-		(	member((R, E1, E2), Rels1),
-			(R = self ->
-				Q1 @=< Q2
-			; 	true)
-		),
-		Rels2),
-	list_to_set(Rels2, Rels),
+	pivots(M, Rels),
 	write('Set of struct rels: '), write(Rels), nl,
 	%generalize arguments of dependencies from instances to generic quantities
 	findall([ (R, E1, E2) | Deps ],
-		(	member((R, E1, E2), Rels), 
+		(	member( (R, E1, E2), Rels), 
 			findall(Dep,
-				(	qinstance(R, E1, E2, QI1, QI2, Q1, Q2),
-					member(DepI, M), 
-					(	(	DepI = dependency(D, QI1, QI2),
-							Dep = dependency(D, Q1, Q2)
-						)
-					;	(	DepI = dependency(D, QI2, QI1),
-							Dep = dependency(D, Q2, Q1)
-						)
-					)	
+				(	member(DepI, M),
+					generalize(DepI, Dep, [(R, E1, E2)])
 				),
 				Deps1
 			),
@@ -134,6 +130,82 @@ fragments(M, F) :-
 		),
 		F
 	).
+
+first([H], H).
+first([H|_], H).
+	
+%take a dependency between instances and return a generic dependency
+generalize(DepI, Dep, Pivot) :-
+	first(Pivot, (R1, E1, _)),
+	last(Pivot, (R2, _, E2)),
+	qinstance(R1, E1, _, QI1, _, Q1, _Q3),
+	qinstance(R2, _, E2, _, QI2, _, Q2),
+	(	(	DepI = dependency(D, QI1, QI2),
+			Dep = dependency(D, Q1, Q2)
+		)
+	;	(	DepI = dependency(D, QI2, QI1),
+			Dep = dependency(D, Q2, Q1)
+		)
+	).
+
+%try to formulate fragments for dependencies by looking
+%for pivots using a bottom-up strategy
+combined_pivots(M, F, CF) :-
+	% fetch not yet generalized dependencies
+	findall(dependency(D, QI1, QI2), 
+		(	member(dependency(D, QI1, QI2), M), 
+			\+ (	member(Fr, F), 
+				isa(Q1, QI1), isa(Q2, QI2), 
+				memberchk(dependency(D, Q1, Q2), Fr))),
+		Rest),
+	write(rest), write(Rest),
+	% find all pivot paths in a bottom up fashion
+	findall( [Pivot, DepI],
+		(	member(DepI, Rest),
+			deprels(DepI, Pivot)
+		),
+		Deps),
+	write(deps), write(Deps),
+	% group pivot-dep pairs into [pivot|deps] lists
+	groupby(Deps, GDeps),
+	write(gdeps), write(Deps),
+	% samedeps check for n-pivots
+	% TBD.
+	% generalize deps
+	findall([ Pivot | DepsSet ],
+		(	member( [ Pivot | DepsI ], GDeps),
+			findall(Dep,
+				(	member(DepII, DepsI),
+					generalize(DepII, Dep)),
+				Deps),
+			list_to_set(Deps, DepsSet)
+		),
+		CF).
+
+%given a list of dependencies, yield a path of relations leading
+%from one to the other entity
+deprels(dependency(_, QI1, QI2), Pivot) :-
+	has_quantity(EI1, QI1), 
+	has_quantity(EI2, QI2),
+	rels(EI1, EI2, Pivot).
+
+rels(EI1, EI2, [ (R, E1, E2) ]) :-
+	struct_rel(R, EI1, EI2), !,
+	isa(EI1, E1), isa(EI2, E2).
+
+rels(EI1, EI3, [ (R, E1, E2) | PivotRest ]) :-
+	struct_rel(R, EI1, EI2),
+	isa(EI1, E1), isa(EI2, E2), 
+	rels(EI2, EI3, PivotRest).
+	
+% turn list of key-value pairs into list of lists where the head is the key.
+% ie., [ [a, b], [a, c], [b, d] ] -> [ [a, b, c], [b, d] ]
+groupby(In, Out) :-
+	findall([P | Deps],
+		aggregate(bag(X), 
+			member([P, X], In), 
+			Deps),
+		Out).
 
 % unfragment: all dependencies that cannot be generalized; ie., relations
 % between specific quantities, would need further conditions to generalize, 
