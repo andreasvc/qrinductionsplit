@@ -1,5 +1,5 @@
 struct_rel(self, X, X) :-
-	has_quantity(X, _X).
+	has_quantity(_X, X).
 
 model([
 	dependency(inf_pos, growth_rate1, size1),

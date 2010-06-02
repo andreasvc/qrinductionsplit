@@ -1,7 +1,7 @@
 % Garp interface, TBD
 
 struct_rel(self, X, X) :-
-	has_quantity(X, _X).
+	has_quantity(_X, X).
 
 model(M) :-
 	M = [].
