@@ -394,9 +394,9 @@ Sketch of the algorithm:
 	yielding elements of the set $MFs$
 
 \item Dump the remaining dependencies in a single fragment, $UF$. 
-	This set should be empty if the model is properly designed, ie., it
-	should contain no dependencies that apply to some instances but not to
-	others.
+	This set should be empty if the model is properly designed, ie., the
+	model should not contain dependencies that apply to some instances but
+	not to others.
 
 \item Output: minimized model $ = MFs \cup \{ UF \} $
 
@@ -410,7 +410,13 @@ sketched.}  First two helper definitions. The first definition defines a
 predicate for instances of structural relations and related quantities:
 
 \begin{align*}
-instance(R, Q_1, Q_2, q_1, q_2) :=
+instance(R, E_1, E_2) :=
+	\exists e_1, e_2 \; [ &struct\_rel(R, e_1, e_2) & \\
+	\land \; &isa(e_1, E_1) \land isa(e_2, E_2) ]
+\end{align*}
+	
+\begin{align*}
+qinstance(R, Q_1, Q_2, q_1, q_2) :=
 	\exists e_1, e_2 \; [ &struct\_rel(R, e_1, e_2) & \\
 	\land \; &has(e_1, q_1) \land has(e_2, q_2)  \\
 	\land \; &isa(q_1, Q_1) \land isa(q_2, Q_2) ]
@@ -434,14 +440,18 @@ stating that their dependencies hold universally given their condition (which
 is here restricted to a single structural relation):
 
 \begin{align*}
-samedeps(R, Q_1, Q_2) := \; \forall d, q_1, q_2 \; [ \; 
+samedeps(R, E_1, E_2, M) := \\
+	\; \forall d, q_1, q_2 \; [ \; 
 	(&dependency(d, q_1, q_2) \in M \\
-	\land \; &isa(q_1, Q_2) \land isa(q_2, Q_2) \\ 
-	\land \; &has(q_1, e_1) \land has(q_2, e_2) \\
-	\land \; &isa(e_1, E_1) \land isa(e_2, E_2) ) \\
-	& 	\rightarrow \forall e^\prime_1, e^\prime_2 \; [ \; ( isa(e^\prime_1, E_1) \land isa(e^\prime_2, E_2)  \\
-	&	\quad 	\land struct\_rel(r, e^\prime_1, e^\prime_2)  \\
-	&	\quad 	\land has(e^\prime_1, q^\prime_1) \land has(e^\prime_2, q^\prime_2) ) \\
+	\land \; &qinstance(R, E_1, E_2, q_1, q_2, Q_1, Q_2)) \\
+	%\land \; &isa(q_1, Q_2) \land isa(q_2, Q_2) \\ 
+	%\land \; &has(q_1, e_1) \land has(q_2, e_2) \\
+	%\land \; &isa(e_1, E_1) \land isa(e_2, E_2) ) \\
+	& 	\rightarrow \forall e^\prime_1, e^\prime_2 \; [ \;
+	 qinstance(R, E_1, E_2, q^\prime_1, q^\prime_2, Q_1, Q_2) \\
+	%( isa(e^\prime_1, E_1) \land isa(e^\prime_2, E_2)  \\
+	%&	\quad 	\land struct\_rel(r, e^\prime_1, e^\prime_2)  \\
+	%&	\quad 	\land has(e^\prime_1, q^\prime_1) \land has(e^\prime_2, q^\prime_2) ) \\
 	& \qquad \rightarrow dependency(d, q^\prime_1, q^\prime_2) \in M \; ] \; ]
 \end{align*}
 
@@ -456,7 +466,9 @@ These two predicates combined give us the set of pivots for a given
 monolithic model:
 
 \begin{align*}
-pivots := \{ \; \langle R, Q_1, Q_2 \rangle \; | instance(R, Q_1, Q_2, q_1, q_2) \land samedeps(R, Q_1, Q_2) \} 
+pivots := \{ \; \langle R, Q_1, Q_2 \rangle \; | 
+	\; instance(R, E_1, E_2) 
+	\land samedeps(R, E_1, E_2, M) \} 
 \end{align*}
 
 After defining the pivots we simply map them to their dependencies to obtain
@@ -464,9 +476,10 @@ minimized, modular fragments:
 
 \begin{align*}
 fragments := \{ \; \{ \; dependency&(d, Q_1, Q_2) \; | \; \\
-		& dependency(d, q_1, q_2)  \in M \\
-		\land \; & isa(q_1, Q_1)  \land isa(q_2, Q_2) \; \} \\
-	\; | \; \langle R, Q_1, Q_2 \rangle &\in pivots \lor \langle R, Q_2, Q_1 \rangle \in pivots \; \}
+		& qinstance(R, E_1, E_2, q_1, q_2, Q_1, Q_2) \\
+		\land \; & dependency(d, q_1, q_2)  \in M \\
+	\; | \; \langle R, E_1, E_2 \rangle &\in pivots \lor 
+	\langle R, E_2, E_1 \rangle \in pivots \; \}
 \end{align*}
 
 Note that while in this definiton pivots are restricted to single triples of a
@@ -577,8 +590,8 @@ Unfragment: []
 
 For the stacked bath tub model we changed the quantity space of flow to ZPM
 (instead of ZP) because then we could replace the value-correspondences by a
-single Q-correspondence.
-For the input, see figure\ref{sb_mono}; for the output, see figure \ref{sb_frags}.
+single Q-correspondence.  For the input, see figure \ref{sb_mono}; for the
+output, see figure \ref{sb_frags}.
 %more text
 
 
@@ -610,7 +623,7 @@ Unfragment: []
 \centering
 \includegraphics[scale=0.5]{sb_mono-crop.pdf}
 \caption{Monolithic bath tub model as input}
-\label{bt_mono}
+\label{sb_mono}
 \end{figure}
 
 % -----
@@ -625,7 +638,7 @@ Unfragment: []
     \includegraphics[scale=0.5]{sb_out-crop.pdf}
 }
 \caption{After minimization: two model fragments for flows going in and out respectively.}
-\label{bt_frags}
+\label{sb_frags}
 \end{figure}
 
 \subsection{Communicating vessels} 
@@ -634,7 +647,7 @@ Unfragment: []
 Inducing the communicating vessels model almost works, but the last two
 equalities are not found, so they have been added manually. Also, the order of
 arguments for proportionalities has been tweaked.  For the input, see
-figure\ref{cv_mono}; for the output, see figure \ref{cv_frags}.
+figure \ref{cv_mono}; for the output, see figure \ref{cv_frags}.
 
 %FIXME: is this really true? or is it only because Carsten's equalities are
 %asserted god knows where?
@@ -661,13 +674,13 @@ figure\ref{cv_mono}; for the output, see figure \ref{cv_frags}.
     \includegraphics[scale=0.5]{cv_flowamount-crop.pdf}
 }
 \subfigure{
-    \includegraphics[scale=0.5]{cv_flowpressure-crop.pdf}
+    \includegraphics[scale=0.5]{cv_pressureflow-crop.pdf}
 }
 \subfigure{
     \includegraphics[scale=0.5]{cv_heightpressure-crop.pdf}
 }
 \subfigure{
-    \includegraphics[scale=0.5]{cv_pressureflow-crop.pdf}
+    \includegraphics[scale=0.5]{cv_flowpressure-crop.pdf}
 }
 \subfigure{
     \includegraphics[scale=0.5]{cv_unfragment-crop.pdf}
@@ -881,7 +894,7 @@ can be done automatically, at least for the subset of models supported by the
 proof of concept implementation. Further work on inducing models lies ahead
 and given the results on inducing constraint models this work would seem to
 have ample room for success.
-
+%more text
 
 \begin{thebibliography}{99}
 
