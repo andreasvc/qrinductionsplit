@@ -48,43 +48,43 @@ struct_rel(R, A, B) :-
 % into multiple Garp model fragments
 split(M, MF) :-
 	fragments(M, F),
+	unfragment(M, F, UF),
 	length(F, N),
 	write('Fragments ('), write(N), write('): '), nl,
 	forall(member(Fr, F), (write(Fr), nl)), nl,
-	unfragment(M, F, UF),
 	write('Unfragments: '), write(UF), nl, nl,
 	append(F, UF, MF).
 
 % find an instance of a structural relation and two entity classes
-instance(R, Q1, Q2, QI1, QI2) :-
+instance(R, E1, E2) :-
+	struct_rel(R, EI1, EI2),
+	isa(E1, EI1), isa(E2, EI2).
+
+% find an instance of a structural relation and two quantities belonging to
+% their entities
+qinstance(R, E1, E2, QI1, QI2, Q1, Q2) :-
+	isa(E1, EI1), isa(E2, EI2),
 	struct_rel(R, EI1, EI2),
 	has_quantity(EI1,QI1),
 	has_quantity(EI2,QI2),
-	isa(Q1, QI1),
-	isa(Q2, QI2).
+	isa(Q1, QI1), isa(Q2, QI2).
 
-% check whether all instances of a triple of a structural relation and two entity classes share the same dependencies
-same_deps(R, QI1, QI2, M) :-
-	%same_deps1(QI1, QI2
-	forall(	instance(R, QI1, QI2, QJ1, QJ2),
-		(	forall(	member(dependency(D, QI1, QI2), M),
+% check whether all instances of a triple of a structural relation and 
+% two entity classes share the same dependencies
+same_deps(R, E1, E2, M) :-
+	qinstance(R, E1, E2, QI1, QI2, Q1, Q2),
+	forall(	
+		qinstance(R, E1, E2, QJ1, QJ2, Q1, Q2),
+		(	forall(
+				member(dependency(D, QI1, QI2), M),
 				member(dependency(D, QJ1, QJ2), M)
 			),
-			forall(	member(dependency(D, QI2, QI1), M),
+			forall(
+				member(dependency(D, QI2, QI1), M),
 				member(dependency(D, QJ2, QJ1), M)
 			)
 		)
 	).
-
-% delete this? or is it more efficient than same_deps?
-get_deps(_QI1, _QI2, []).
-get_deps(QI1, QI2, [dependency(D, QI1, QI2) | M ], [dependency(D, Q1, Q2) | Result]) :-
-	!,	
-	isa(Q1, QI1), isa(Q2, QI2),
-	get_deps(QI1, QI2, M, Result).
-
-get_deps(QI1, QI2, [dependency(_, _, _) | M ], Result) :-
-	get_deps(QI1, QI2, M, Result).
 
 % fragments that can be generalized (ie., relations between quantity classes)
 % collapes M into a set of sets containing generalized dependencies.
@@ -97,14 +97,15 @@ get_deps(QI1, QI2, [dependency(_, _, _) | M ], Result) :-
 % function that takes a dependency between instances of quantities and returns
 % a dependency between the classes of those entities.
 fragments(M, F) :-
-	findall((R, Q1, Q2),
-		(	instance(R, Q1, Q2, QI1, QI2),
-			same_deps(R, QI1, QI2, M)
+	%find pivots
+	findall((R, E1, E2),
+		(	instance(R, E1, E2),
+			same_deps(R, E1, E2, M)
 		),
 		Rels1
 	), 
-	findall((R, Q1, Q2),
-		(	member((R, Q1, Q2), Rels1),
+	findall((R, E1, E2),
+		(	member((R, E1, E2), Rels1),
 			(R = self ->
 				Q1 @=< Q2
 			; 	true)
@@ -112,10 +113,11 @@ fragments(M, F) :-
 		Rels2),
 	list_to_set(Rels2, Rels),
 	write('Set of struct rels: '), write(Rels), nl,
-	findall([ (R, Q1, Q2) | Deps ],
-		(	member((R, Q1, Q2), Rels), 
+	%generalize arguments of dependencies from instances to generic quantities
+	findall([ (R, E1, E2) | Deps ],
+		(	member((R, E1, E2), Rels), 
 			findall(Dep,
-				(	instance(R, Q1, Q2, QI1, QI2),
+				(	qinstance(R, E1, E2, QI1, QI2, Q1, Q2),
 					member(DepI, M), 
 					(	(	DepI = dependency(D, QI1, QI2),
 							Dep = dependency(D, Q1, Q2)
