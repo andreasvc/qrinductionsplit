@@ -85,8 +85,8 @@ De Kleer et al. \cite{kleer} present a framework for formalizing physics in a
 manner that is {\em qualitative} rather than {\em quantitative}. Whereas
 physicists describe the world in terms of continuous differential equations,
 the rest of the world uses an implicit psychological model of naive physics.
-The framework of \cite{kleer} falls between these two extremes of precision and
-informality. They employ confluences, which are qualitative differential
+The framework of de Kleer et al.\ falls between these two extremes of precision
+and informality. They employ confluences, which are qualitative differential
 equations.  Although their framework is completely qualitative, as opposed to
 standard physics, on the other hand their framework is formal in the sense of
 explicitly defining causal and structural relations, as opposed to the
@@ -130,7 +130,7 @@ A few assumptions of their approach characterize their methodology:
 		not just for certain models, but for any model which aims for
 		the same predictive power as human folk physics. The modeling
 		granularity also includes time and spatial resolution; for
-		example oscillation phenomena is ignored as long as the system
+		example oscillation phenomena are ignored as long as the system
 		needs only a certain negligible amount of time to settle.
 	
 	\item[Locality]
@@ -142,14 +142,14 @@ A few assumptions of their approach characterize their methodology:
 		modelled).
 
 	\item[The importance of principles]
-		Violating the first principle has no result on the success
-		of accurately modeling certain behavior, but it does result in
-		ad-hoc models with little value for understanding actual
-		physics. This is comparable to the situation of observing a
-		mere correlation without positing a plausible causal mechanism;
-		this provides no information whatsoever about possible
-		causality and does not further understanding -- it is a
-		pointless exercise in data collection.
+		Violating the no-function-in-structure principle has no result
+		on the success of accurately modeling certain behavior, but it
+		does result in ad-hoc models with little value for
+		understanding actual physics. This is comparable to the
+		situation of observing a mere correlation without positing a
+		plausible causal mechanism; this provides no information
+		whatsoever about possible causality and does not further
+		understanding -- it is a pointless exercise in data collection.
 
 		This fine point is easily glossed over when the goal of
 		deriving first principles fades out of sight; without
@@ -159,11 +159,11 @@ A few assumptions of their approach characterize their methodology:
 		for a model to add any value.
 \end{description}
 
-Advantages of this approach are that it works from first principles, so it is
-grounded in science. Other advantages are that the models can be induced from
-data, even when it contains noise. Disadvantages are that these constraint
-models are less explanatory than process models (\cite{forbus}, p. 110), 
-which we will review promptly.
+Advantages of this approach are that it works from first principles, as such it
+is grounded in science. Other advantages are that the models can be induced
+from data, even when the latter contains noise. Disadvantages are that these
+constraint models are less explanatory than process models (\cite{forbus}, p.
+110), which we will review promptly.
 
 \subsubsection{Qualitative Process Theory (Forbus)}
 \label{sec:litrev_qr_forbus}
@@ -173,7 +173,7 @@ among others, the \emph{quantity-spaces} and the \emph{sole mechanism
 assumption}.
 
 The principle of quantity spaces represents values by a set of ordinal
-relationships. This enables the system to easily compare the different
+relationships. This enables the system to easily compare different
 quantities in terms of smaller, equal or larger. If such comparisons would
 only occur between two values, then sign values would suffice (-,0,+), but for
 many cases, the ordinal representation is more natural.
@@ -183,7 +183,7 @@ many cases, the ordinal representation is more natural.
 Physical processes are viewed as the mechanisms through which change occurs.
 To this end Forbus introduced the \emph{sole mechanism assumption} which
 states that any behavior must be explainable by the direct or indirect effects
-of some collection of physical processes.
+of some collection of physical processes. %FIXME: more explanation
 
 \vspace{0.8em}
 
@@ -236,7 +236,7 @@ system typically hold qualitative information concerning the current magnitude
 and direction of change, using an interval scale, consisting of an ordered set 
 of labels, e.g. {zero, low, medium, high}. such a set of labels
 is called a quantity space. Landmarks are specific labels within this set
-(acutally points) that refer to situations in which the behaviour of the system
+(acutally points) that refer to situations in which the behavior of the system
 changes significantly. For instance, a susbstance reaching its boiling
 tempurature will stop getting hotter and start boiling. In qualitative
 simulations, the behavior of the system is represented as a graph of states
@@ -248,9 +248,9 @@ they are grounded in mathematical formalisms. Two typical dependencies are
 direct influences and proportionalities.
 
 A QR engine has inference mechanisms to assemble the appropriate set of
-dependencies that describes a system in a certain state of behaviour. Two
-aspects are important for this approach: behaviour can be inferred from the
-physical structure of the system, and knowledge about system behaviour is
+dependencies that describes a system in a certain state of behavior. Two
+aspects are important for this approach: behavior can be inferred from the
+physical structure of the system, and knowledge about system behavior is
 stored in small fragments with conditional information detailing when such a
 fragment is applicable.
 
@@ -270,10 +270,21 @@ space are called landmarks and the intervals between are defined by these
 landmarks. The core inequality reasoning only considers these landmarks and not
 the intervals. Inequalities can specify the relation between several types of
 model ingredients. The following five types of inequality relations are used in
-Garp3: \emph{Quantity} $\leftrightarrow$ \emph{Quantity}, \emph{Quantity} 
-$\leftrightarrow$ \emph{Landmark}, \emph{Landmark} $\leftrightarrow$ 
-\emph{Landmark}, \emph{Derivative} $\leftrightarrow$ \emph{Derivative}, 
-\emph{Derivative} $\leftrightarrow$ \emph{Zero}.  
+Garp3:
+
+\begin{itemize}
+
+\item \emph{Quantity} $\leftrightarrow$ \emph{Quantity}
+
+\item \emph{Quantity} $\leftrightarrow$ \emph{Landmark}
+
+\item \emph{Landmark} $\leftrightarrow$ \emph{Landmark}
+
+\item \emph{Derivative} $\leftrightarrow$ \emph{Derivative}
+
+\item \emph{Derivative} $\leftrightarrow$ \emph{Zero}
+
+\end{itemize}
 
 At the user-level representation, quantity values, landmarks and derivatives are
 used, while at mathematical level, only landmarks exist and are used to
@@ -282,7 +293,7 @@ describe the others (for both magnitudes and derivative quantity spaces).
 %include image from paper
 
 All the relations in the internal mathematical model of Garp3 have the
-following form: $Sum_1$ $rel$ $Sum_2$ with $rel \rightarrow \{>,\ge,=\}$. The following
+following form: $rel(Sum_1, Sum_2)$ with $rel \in \{>,\ge,=\}$. The following
 three basic principles are used to make inferences in the Garp3 inequality
 reasoning engine:
 
@@ -291,15 +302,17 @@ reasoning engine:
 \item Anti-symmetry
 \item Transitivity
 \end{itemize}
+
 For example:
+
 \begin{itemize}
 \item $A>B$, $B>C$ (given)
-\item $(A>B)\&(B>C) \rightarrow A+B>B+C$ (transitivity)
+\item $(A>B) \; \& \; (B>C) \rightarrow A+B>B+C$ (transitivity)
 \item $A+B>B+C \rightarrow A>C$ (simplification)
 \end{itemize}
 
 Garp3 does not discriminate explicitly between inequality statements that
-should be treated as always true (e.g. \emph{inflow} - \emph{outflow} = 
+always hold (e.g., \emph{inflow} - \emph{outflow} = 
 \emph{net-flow}), and those that may change during simulation 
 (eg. $T_x < T_xboil \rightarrow T_x = T_xboil$).
 
@@ -330,8 +343,8 @@ qualitative reasoning aspects that were encountered.
 
 The model is a formalization of algal bloom in the Dabube Delta Biosphere
 Reserve (DDBR). In this world heritage site, the biodiversity is threatened by
-polution from two different sources. Heavy nutrient loads from the agricultural 
-fertilizers and heavy metals from the industry. These forms of polution
+polution from two different sources. Heavy nutrient loads from agricultural 
+fertilizers and heavy metals from industry. These forms of polution
 influence several conditions of several layers in the water, which in term
 influence the increase and decrease in size of populations of several species.
 
@@ -339,7 +352,7 @@ The main species concerned in the model are the Diatoms (which compose the
 phytoplankton algae), the blue green algae (bacterial species called
 Cyanobacteria), Zooplankton and fish. There are also two agents, \emph{land} and
 \emph{farming}, which should be considdered as influences on the system from the
-outer world. The quantities that are used are: \emph{Biomass}, \emph{Average
+outside world. The quantities used are: \emph{Biomass}, \emph{Average
 temperature}, \emph{Cover}, \emph{Cyanotoxins}, \emph{Water temperature},
 \emph{Light}, \emph{Mortality rate}, \emph{Nutrients}, \emph{Nutrient runoff},
 \emph{Dissolved oxygen}, \emph{Production rate} and \emph{Carrying capacity}.
@@ -356,15 +369,15 @@ choices.
 
 \vspace{0.8 em}
 
-The complexity of the system becomes clear when a full simulation (containing all
-entities and using the most detailed mechanisms and views) is run. This results
-in a valid (stable single end state), but very large stategraph, consisting of
-3126 states. This is however not a very useful simulation since so many states
-make is difficult to comprehend what is happening in the system. Therefor, the
-authors have chosen 5 scenarios in which they focus on particular concepts. In
-these 5 scenarios they were able to thoroughly investigate their model and
-actually draw conclusions on how to respond to certain situations in the real 
-world scenario of the DDBR.
+The complexity of the system becomes clear when a full simulation (containing
+all entities and using the most detailed mechanisms and views) is run. This
+results in a valid (stable single end state), but very large stategraph,
+consisting of 3126 states. This is however not a very useful simulation since
+such a large number of states makes it difficult to comprehend what is
+happening in the system. Because of this the authors have chosen five scenarios
+in which they focus on particular concepts. In these five scenarios they were
+able to thoroughly investigate their model and actually draw conclusions on how
+to respond to certain situations in the real world scenario of the DDBR.
 
 \vspace{0.8em}
 
@@ -375,10 +388,8 @@ state-graphs. And since the two poluttants seem to have independent effects,
 they chose not to include them both.
 This last point obviously brings to mind a more general discussion about the
 usefulness of qualitative reasoning with respect to complex systems like these.
-This discussion will be mentioned in more detail in section
-\ref{sec:litrev_qr_discussion}.
-
-%more to come
+This discussion will be mentioned in more detail in the next section.
+%\ref{sec:litrev_qr_discussion}.
 
 \subsubsection{Discussion}
 \label{sec:litrev_qr_discussion}
@@ -399,7 +410,7 @@ common sense is holistic at its core \cite{smith}, whereas explicit,
 knowledge-based approaches are reductionistic in nature, because their aim is
 to isolate context-free fragments. 
 
-Therefore we submit that it is no longer useful to present it as a part of
+Therefore we submit that it is no longer useful to present QR as a part of
 Artificial Intelligence or having anything to do with common sense; while QR
 models are certainly artificial, they are not in the least intelligent, nor are
 they common or do they make sense to non-experts.  They are simply an explicit
@@ -458,26 +469,19 @@ D_s(Q_2)$.  There will be redundancy in the set of naive dependencies which
 has to be pruned by filtering out substitutionary groups, which are defined as
 mutually exclusive possible disambiguations. 
 
-%HAVE TO REWRITE THIS!!
-%testing.. 
-
-\subsubsection{Jochem}
-
-Actuators
+%\subsubsection{Jochem}
+%
+%Actuators
 
 %more text
 
 %less brute force, instead attempt to find the conceptually correct model
 %immediately; added a knowledge base of actuators: common patters etc.
 
-\subsubsection{Carsten}
-
+%\subsubsection{Carsten}
 %more text
-
-Causal groups % feedback loops, interacting processes
-
-\subsection{Overview}
-
+%Causal groups % feedback loops, interacting processes
+%\subsection{Overview}
 %overview of what?
 
 
@@ -500,7 +504,7 @@ system that are external, hence not part of the system itself.
 Fragments can be useful to make the complete system more comprehensible --
 ie., they are a form of chunking.  Also, while building these complex models,
 fragments allow the user to focus on what happens in a small part of the
-model, without having to worry about the other 'components'. For example in a
+model, without having to worry about the other `components'. For example in a
 model describing a population, seperate fragments could describe processes
 like birth, death, emigration, etc.
 %maybe reference to paper BredewegEtAl, they say fragments are important in QR
@@ -555,13 +559,12 @@ See figure \ref{pipeline} for an overview. %more text.
 
 \subsubsection{Minimum Description Length principle}
 
-	In Machine Learning there is the Minimum Description Length (MDL;
-	\cite{mitchell}, p. 171, section 6.6)
-	principle, which provides an inductive bias to choose among possible
-	hypotheses for data, given a certain representation (the latter is
-	crucial to success).  This provides a powerful heuristic because
-	whenever a hypothesis is found that fits the data, all larger
-	hypotheses can be discarded.
+	In Machine Learning there is the Minimum Description Length principle
+	(MDL; \cite{mitchell}, p. 171, section 6.6), which provides an
+	inductive bias to choose among possible hypotheses for data, given a
+	certain representation (the latter is crucial to success).  This
+	provides a powerful heuristic because whenever a hypothesis is found
+	that fits the data, all larger hypotheses can be discarded.
 	
 	If we apply this principle to qualitative model induction, then
 	minimizing a model that fits the data will yield a better hypothesis
@@ -601,7 +604,7 @@ Theory \cite{princesmolensky}}
 	be exactly the same as the original given the same input (a scenario).
 
 \item The output should be as parsimonious as possible, that is, fragments
-	should be minimal.
+	should be minimal, both in size and number.
 
 \item General fragments are preferred over specific fragments; this entails a
 	bias for smaller fragments and modularity.
@@ -730,7 +733,8 @@ and $b$ (undirected relations can be expressed using two directed relations).
 Possible values for $d$ correspond to influences, proportionalities,
 correspondences and equalities. While $a$ and $b$ usually denote quantities,
 note that they can also refer to an arithmetic operation between two
-quantities, eg. $min(q_n, q_m)$.
+quantities, eg. $min(q_n, q_m)$. We gloss over this detail in these
+definitions.
 
 These two predicates combined give us the set of pivots for a given
 monolithic model:
@@ -1136,11 +1140,11 @@ general and to model minimization in particular.
 
 \subsubsection{Modular fragments as input}
 
-Currently the implementation expects a single monolithic model as input, since
-that is the output as given by the automated modeling algorithm. However, this
-requirement could be lifted to allow partially modular fragments as input,
-which is especially useful when the minimization algorithm is applied as part
-of an interactive modeling assistant.
+Currently the implementation expects a single monolithic model fragment as
+input, since that is the output as given by the automated modeling algorithm.
+However, this requirement could be lifted to allow partially modular fragments
+as input, which is especially useful when the minimization algorithm is applied
+as part of an interactive modeling assistant.
 
 This could be implemented by finding a way to merge these fragments into a
 monolithic fragment, while avoiding undergeneration by exploding all
