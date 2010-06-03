@@ -1,5 +1,5 @@
 struct_rel(self, X, X) :-
-	has_quantity(_X, X).
+	has_quantity(X, _X).
 
 model([
 	dependency(inf_pos, growth_rate1, size1),
@@ -9,11 +9,11 @@ model([
 	dependency(q_correspondence, shade1, size1)
 ]).
 
-isa(tree, tree1).
+isa(tree1, tree).
 
-isa(size, size1).
-isa(shade, shade1).
-isa(growth_rate, growth_rate1).
+isa(size1, size).
+isa(shade1, shade).
+isa(growth_rate1, growth_rate).
 
 % quantity(Entity, Quantity). one to many
 has_quantity(tree1, size1).

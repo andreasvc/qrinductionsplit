@@ -1,6 +1,6 @@
 % two communicating vessels; induced by Hylke's code
 struct_rel(self, X, X) :-
-	has_quantity(_X, X).
+	has_quantity(X, _X).
 
 model([
 	dependency(inf_pos, flow3, amount5),
@@ -35,23 +35,23 @@ model([
 
 %TODO: rename entity to "isa"
 % entity(generic, instance)
-isa(pipe, pipe1).
-isa(pipe, pipe2).
-isa(container, container_left).
-isa(container, container_center).
-isa(container, container_right).
+isa(pipe1, pipe).
+isa(pipe2, pipe).
+isa(container_left, container).
+isa(container_center, container).
+isa(container_right, container).
 
-isa(flow, flow3).
-isa(flow, flow4).
-isa(amount, amount4).
-isa(amount, amount5).
-isa(amount, amount6).
-isa(height, height4).
-isa(height, height5).
-isa(height, height6).
-isa(pressure, pressure4).
-isa(pressure, pressure5).
-isa(pressure, pressure6).
+isa(flow3, flow).
+isa(flow4, flow).
+isa(amount4, amount).
+isa(amount5, amount).
+isa(amount6, amount).
+isa(height4, height).
+isa(height5, height).
+isa(height6, height).
+isa(pressure4, pressure).
+isa(pressure5, pressure).
+isa(pressure6, pressure).
 
 struct_rel(from, container_left, pipe1).
 struct_rel(to, pipe1, container_center).

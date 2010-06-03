@@ -1,5 +1,5 @@
 struct_rel(self, X, X) :-
-	has_quantity(_X, X).
+	has_quantity(X, _X).
 
 model([
 	dependency(inf_pos,flow12, level12),
@@ -9,16 +9,16 @@ model([
 	dependency(q_correspondence,level11, flow12)
 ]).
 
-isa(pipe, pipe11).
-isa(pipe, pipe12).
-isa(container, container11).
-isa(container, container12).
+isa(pipe11, pipe).
+isa(pipe12, pipe).
+isa(container11, container).
+isa(container12, container).
 
 % quantities.
-isa(flow, flow11).
-isa(flow, flow12).
-isa(level, level11).
-isa(level, level12).
+isa(flow11, flow).
+isa(flow12, flow).
+isa(level11, level).
+isa(level12, level).
 
 %struct_rel(in, flow11, level11).
 %struct_rel(out, flow12, level11).
