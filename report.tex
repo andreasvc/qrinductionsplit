@@ -622,6 +622,36 @@ optimality would demand empirical studies about chunking and comprehension
 etc. We will gloss over these issues and apply the aforementioned constraints
 without further claims of optimality.
 
+\subsection{Terminology}
+
+\begin{description}
+
+\item[instance] Both quantities and entities come in classes and instances.
+	An instance is unique, whereas a class is a generic identifier.
+	The AM algorithm adds numeric identifiers to class names, e.g.,
+	$isa(height11, height)$ means that $height11$ is an instance of
+	$height$.
+
+
+\item[dependency] A relation between two quantities. Possible relations
+	include influences, proportionalities, correspondences; we also
+	include (in)equalities in this list for the sake of generality.
+	For example: $dependency(inf\_pos, flow, container\_right)$.
+
+\item[structural relation]
+	A structural relation is a named relation between entities. They denote
+	the physical configuration of a system. For example a container that is
+	connected to a pipe can be denoted as $struct\_rel(from, container,
+	pipe)$.
+
+\item[pivot]
+	With a pivot we intend the conditions under which dependencies hold.
+	Whereas dependencies are the main ingredients of model fragments,
+	the pivot provides a way to cluster these dependencies around common
+	conditions.
+
+\end{description}
+
 \subsection{Algorithm}
 
 Overview:
@@ -751,9 +781,9 @@ Instead of defining pivots on pairs of quantities, we can also use pairs
 of entities:
 
 \begin{align*}
-epivots := \{ \; \langle R, E_1, E_2 \rangle \; | 
-	\; instance(R, E_1, E_2) 
-	\land samedeps(R, E_1, E_2, M) \} 
+epivots := \{ \; \langle R, E_1, E_2 \rangle \; | \\ 
+	\; &instance(R, E_1, E_2)  \\
+	\land &samedeps(R, E_1, E_2, M) \} 
 \end{align*}
 
 After defining the pivots we simply map them to their dependencies to obtain
