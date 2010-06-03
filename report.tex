@@ -71,6 +71,7 @@ of research and possible future work.
 %more text?
 
 \subsection{Qualitative Reasoning}
+\label{sec:litrev_qr}
 Qualitative Reasoning is an approach from Artificial Intelligence that provides
 means to express conceptual knowledge such as the physical structure,
 causality, processes, etc.  This enables reasoning about phenomena for which
@@ -79,7 +80,7 @@ complex to grasp.  The following papers describe the foundations of qualitative
 reasoning.
 
 \subsubsection{A qualitative Physics based on confluences (de Kleer \& Brown)}
-
+\label{sec:litrev_qr_dekleer}
 De Kleer et al. \cite{kleer} present a framework for formalizing physics in a
 manner that is {\em qualitative} rather than {\em quantitative}. Whereas
 physicists describe the world in terms of continuous differential equations,
@@ -165,7 +166,7 @@ models are less explanatory than process models (\cite{forbus}, p. 110),
 which we will review promptly.
 
 \subsubsection{Qualitative Process Theory (Forbus)}
-
+\label{sec:litrev_qr_forbus}
 Around the same time as de Kleer \& Brown, another approach was introduced by
 Forbus \cite{forbus}. The important points that set his work appart were,
 among others, the \emph{quantity-spaces} and the \emph{sole mechanism
@@ -220,7 +221,7 @@ from the truth.
 
 \subsubsection{Garp3 - Workbench for Qualitative Modeling and Simulation
 (Bredeweg et al.)}
-
+\label{sec:litrev_qr_garp}
 Garp3 is an implementation of Qualitative Process Theory with a focus on
 educational uses.
 
@@ -317,7 +318,7 @@ domain experts are using the workbench to capture qualitative knowledge of
 system dynamics.  
 
 \subsubsection{Algal bloom in the Danube Delta (Cioca et al.)}
-
+\label{sec:litrev_qr_cioca}
 Cioaca et al. describe a complex case of modelling a real world system in Garp3.
 The paper mainly describes the model and the real-world specifics in detail, but 
 for the literature review, after a short introduction, we will focus on the 
@@ -373,12 +374,12 @@ they chose not to include them both.
 This last point obviously brings to mind a more general discussion about the
 usefulness of qualitative reasoning with respect to complex systems like these.
 This discussion will be mentioned in more detail in section
-\ref{sec:lit_discussion}.
+\ref{sec:litrev_qr_discussion}.
 
 %more to come
 
 \subsubsection{Discussion}
-\label{sec:lit_discussion}
+\label{sec:litrev_qr_discussion}
 The idea that Qualitative Reasoning can formalize actual common sense knowledge
 and human understanding of physics is by now outdated. It is an instance of the
 ``Good Old Fashioned Artificial Intelligence'' (GOFAI) approach,
@@ -409,13 +410,13 @@ modeling process for non-experts for which QR is useful. To this end we turn
 to the topic of model induction.
 
 \subsection{Automated Modeling} %Automated or automatic?
-
+\label{sec:litrev_am}
 To introduce the recent developments in the field of automated modeling we
 will now review a few papers on this topic.
 
 \subsubsection{Automated modeling in process-based qualitative reasoning
 (Buisman)}
-
+\label{sec:litrev_am_buisman}
 The concept of automated modeling for qualitative process theory was
 introduced by Buisman \cite{buisman} in 2007. He motivates the research with
 the goal to relieve the strain placed on experts and beginners, and to speed
@@ -482,7 +483,7 @@ Causal groups % feedback loops, interacting processes
 %\chapter{Project} needs report document class
 
 \section{Theory}
-
+\label{sec:theory}
 In the field of QR, models %( / scenario's / systems ?) 
 consist of several smaller fragments which can be roughly divided in three
 categories: static, process and agent. This categorization is not strict, but
@@ -578,7 +579,7 @@ See figure \ref{pipeline} for an overview. %more text.
 	instances. 
 
 \section{Approach}
-
+\label{sec:approach}
 In this section we describe our approach on minimizing, generalizing and
 splitting single model fragments into modular and compositional fragments.
 First the problem will be stated, then an algorithm, and finally some promising
@@ -787,7 +788,7 @@ because direction plays no role, and because cycles should be detected. The
 shortest path is always used as the pivot.
 
 \section{Results}
-
+\label{sec:results}
 The evaluation is based on a few well known example Garp models. Initially
 we wanted to use the output of the AM algorithm directly, but we experienced
 some problems with the implementations of the AM algorithm.  The output of the
@@ -1122,6 +1123,7 @@ dependency(equals, flow4, min(pressure5, pressure6))]
 %TBD.
 
 \section{Discussion}
+\label{sec:discussion}
 We will now discuss several possible extensions both to model induction in
 general and to model minimization in particular.
 %more text
@@ -1208,7 +1210,7 @@ starting point for an exploration of applying ILP to automated modeling.
 % World domination etc.
 
 \section{Conclusion}
-
+\label{sec:conclusion}
 Model minimization has been fruitfully applied to qualitative models. Our
 approach is general enough that it applies both to Automatic Modeling and to
 models made by beginners. From now on, minimizing qualitative models in Garp
