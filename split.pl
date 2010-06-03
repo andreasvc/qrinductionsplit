@@ -43,8 +43,7 @@ struct_rel(R, A, B) :-
 % these partitions, returning a minimized model.  this output can be converted
 % into Garp model fragments
 split(M, MF) :-
-	%fragments(M, SF),
-	SF = [],
+	fragments(M, SF),
 	combined_pivots(M, SF, CF),
 	append(SF, CF, F), 
 	unfragment(M, F, UF),
@@ -119,13 +118,8 @@ fragments(M, F) :-
 	write('Set of struct rels: '), write(Rels), nl,
 	%generalize arguments of dependencies from instances to generic quantities
 	findall([ (R, E1, E2) | Deps ],
-		(	member( (R, E1, E2), Rels), 
-			findall(Dep,
-				(	member(DepI, M),
-					generalize(DepI, Dep, [(R, E1, E2)])
-				),
-				Deps1
-			),
+		(	member( (R, E1, E2), Rels),
+			genall(M, (R, E1, E2), Deps1), 
 			list_to_set(Deps1, Deps),
 			\+ Deps = []
 		),
@@ -136,23 +130,12 @@ first([H], H).
 first([H|_], H).
 	
 %take a dependency between instances and return a generic dependency
-generalize(DepI, Dep, Pivot) :-
-	%first(Pivot, (R1, E1, _)),
-	%last(Pivot, (R2, _, E2)),
-	%qinstance(R1, E1, _, QI1, _, Q1, _Q3),
-	%qinstance(R2, _, E2, _, QI2, _, Q2),
+generalize(DepI, Dep, _Pivot) :-
 	% min(QI2A, QI2B) ...
-	(	(	DepI = dependency(D, QI1, QI2),
-			generalize_quantity(QI1, Q1),
-			generalize_quantity(QI2, Q2),
-			Dep = dependency(D, Q1, Q2)
-		)
-	;	(	DepI = dependency(D, QI2, QI1),
-			generalize_quantity(QI1, Q1),
-			generalize_quantity(QI2, Q2),
-			Dep = dependency(D, Q2, Q1)
-		)
-	), !.
+	DepI = dependency(D, QI1, QI2),
+	generalize_quantity(QI1, Q1),
+	generalize_quantity(QI2, Q2),
+	Dep = dependency(D, Q1, Q2).
 
 generalize_quantity(QI, Q) :-
 	isa(QI, Q).
@@ -160,6 +143,14 @@ generalize_quantity(QI, Q) :-
 generalize_quantity(min(QI1, QI2), min(Q1, Q2)) :-
 	generalize_quantity(QI1, Q1),
 	generalize_quantity(QI2, Q2).
+
+genall(DepsI, Pivot, Deps) :-
+	findall(Dep,
+		(	member(DepI, DepsI),
+			%fixme: qinstance(R1, E1, E2, QI1, QI2, Q1, Q2),
+			generalize(DepI, Dep, Pivot)
+		),
+		Deps).
 
 %try to formulate fragments for dependencies by looking
 %for pivots using a bottom-up strategy
@@ -171,31 +162,20 @@ combined_pivots(M, F, CF) :-
 				isa(QI1, Q1), isa(QI2, Q2), 
 				memberchk(dependency(D, Q1, Q2), Fr))),
 		Rest),
-	write(rest), write(Rest), nl,
 	% find all pivot paths in a bottom up fashion
 	findall( [Pivot, DepI],
 		(	member(DepI, Rest),
 			deprels(DepI, Pivot)
 		),
 		Deps),
-	write(deps), write(Deps), nl,
 	% group pivot-dep pairs into [pivot|deps] lists
 	groupby(Deps, GDeps),
-	write(gdeps), write(GDeps), nl, nl,
 	% samedeps check for n-pivots:	TBD.
 	% generalize deps
 	findall([ Pivot | DepsSet ],
 		(	member( [ Pivot | DepsI ], GDeps),
-			findall(Dep,
-				(	member(DepI, DepsI),
-					write(DepI), nl,
-					generalize(DepI, Dep, Pivot)
-					, write(Dep), nl
-				),
-				Deps),
-			write(deps), write(Deps), nl,
-			list_to_set(Deps, DepsSet)
-			, write(DepsSet), nl
+			genall(DepsI, Pivot, GenDeps),
+			list_to_set(GenDeps, DepsSet)
 		),
 		CF).
 
@@ -249,8 +229,8 @@ groupby(In, Out) :-
 % definition: unfragments = { d | dependency(d) & not exists f in Fragments s.t. generalized(d) in f }
 unfragment(M, F, UF) :-
 	findall(dependency(D, QI1, QI2), 
-		(	member(dependency(D, QI1, QI2), M), 
+		(	member(DepI, M), 
 			\+ (	member(Fr, F), 
-				isa(QI1, Q1), isa(QI2, Q2), 
-				memberchk(dependency(D, Q1, Q2), Fr))),
+				generalize(DepI, Dep, _),
+				memberchk(Dep, Fr))),
 		UF).
