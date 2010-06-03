@@ -659,6 +659,9 @@ qpivots := \{ \; \langle R, Q_1, Q_2 \rangle \; | \\
 	\land \; &samedeps(R, E_1, E_2, M) \} 
 \end{align*}
 
+Instead of defining pivots on pairs of quantities, we can also use pairs
+of entities:
+
 \begin{align*}
 epivots := \{ \; \langle R, E_1, E_2 \rangle \; | 
 	\; instance(R, E_1, E_2) 
@@ -669,17 +672,38 @@ After defining the pivots we simply map them to their dependencies to obtain
 minimized, modular fragments:
 
 \begin{align*}
-fragments := \{ \; \{ \; dependency&(d, Q_1, Q_2) \; | \; \\
+qfragments := \{ \; \{ \; dependency&(d, Q_1, Q_2) \; | \; \\
+		& dependency(d, q_1, q_2)  \in M \\
+		& isa(q_1, Q_1) \land isa(q_2, Q_2) \} \\
+	\; | \; \langle R, Q_1, Q_2 \rangle &\in qpivots \lor 
+	\langle R, Q_2, Q_1 \rangle \in qpivots \; \}
+\end{align*}
+
+Similarly for pivots of pairs of entities:
+
+\begin{align*}
+efragments := \{ \; \{ \; dependency&(d, Q_1, Q_2) \; | \; \\
 		& qinstance(R, E_1, E_2, q_1, q_2, Q_1, Q_2) \\
-		\land \; & dependency(d, q_1, q_2)  \in M \\
-	\; | \; \langle R, E_1, E_2 \rangle &\in pivots \lor 
-	\langle R, E_2, E_1 \rangle \in pivots \; \}
+		\land \; & dependency(d, q_1, q_2)  \in M \} \\
+	\; | \; \langle R, E_1, E_2 \rangle &\in epivots \lor 
+	\langle R, E_2, E_1 \rangle \in epivots \; \}
 \end{align*}
 
 Note that while in this definiton pivots are restricted to single triples of a
 relation and two quantities, the definition should be generalized so that
 pivots can be merged into multiple triples when they are applicable under the
-same conditions.
+same conditions. This is in fact what we have done in our implementation,
+where we derive pivots in a bottom-up fashion for the dependencies that remain
+after the first pass of finding single condition pivots.
+
+The communicating vessels model provides an example (see figure \ref{cv_mono}),
+here there is a dependency between two containers, even though they are not
+directly connected by a single structural relationship, but instead through
+a mutual connection to the same pipe. Our algorithm tries to find a path of
+structural relations between the two entities connected by the dependency in
+question. This is not as simple as allowing for transitive connectivity,
+because direction plays no role, and because cycles should be detected. The
+shortest path is always used as the pivot.
 
 \section{Results}
 
