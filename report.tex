@@ -291,13 +291,67 @@ system dynamics.
 
 \subsubsection{Algal bloom in the Danube Delta (Cioca et al.)}
 
-A Garp model of a system in the ecological domain, demonstrating its
-applicability to the formalization of real-world problems.
+Cioaca et al. describe a complex case of modelling a real world system in Garp3.
+The paper mainly describes the model and the real-world specifics in detail, but 
+for the literature review, after a short introduction, we will focus on the 
+qualitative reasoning aspects that were encountered.
+
+\vspace{0.8em}
+
+The model is a formalization of algal bloom in the Dabube Delta Biosphere
+Reserve (DDBR). In this world heritage site, the biodiversity is threatened by
+polution from two different sources. Heavy nutrient loads from the agricultural 
+fertilizers and heavy metals from the industry. These forms of polution
+influence several conditions of several layers in the water, which in term
+influence the increase and decrease in size of populations of several species.
+
+The main species concerned in the model are the Diatoms (which compose the
+phytoplankton algae), the blue green algae (bacterial species called
+Cyanobacteria), Zooplankton and fish. There are also two agents, \emph{land} and
+\emph{farming}, which should be considdered as influences on the system from the
+outer world. The quantities that are used are: \emph{Biomass}, \emph{Average
+temperature}, \emph{Cover}, \emph{Cyanotoxins}, \emph{Water temperature},
+\emph{Light}, \emph{Mortality rate}, \emph{Nutrients}, \emph{Nutrient runoff},
+\emph{Dissolved oxygen}, \emph{Production rate} and \emph{Carrying capacity}.
+
+An interesting detail is the way they chose to implement the quantity space for
+temperature. Since every species has a different optimal temperature range, and
+they specified one quantity for the water temperature, they have to combine all
+these optimal ranges and their overlaps in one quantity space. This resulted in
+a quantity space with 6 landmarks (and 5 corresponding intervals). It is not
+always obvious how to define these quantity spaces however, because the
+temperature ranges for these species are not strictly defined by exact
+boundaries. This is something that often leaves the modeler with ambigous
+choices.
+
+\vspace{0.8 em}
+
+The complexity of the system becomes clear when a full simulation (containing all
+entities and using the most detailed mechanisms and views) is run. This results
+in a valid (stable single end state), but very large stategraph, consisting of
+3126 states. This is however not a very useful simulation since so many states
+make is difficult to comprehend what is happening in the system. Therefor, the
+authors have chosen 5 scenarios in which they focus on particular concepts. In
+these 5 scenarios they were able to thoroughly investigate their model and
+actually draw conclusions on how to respond to certain situations in the real 
+world scenario of the DDBR.
+
+\vspace{0.8em}
+
+The discussion in this paper is elaborate and covers a lot of the problems and
+ambiguity in the choices that were made. Part of their concern is about modeling
+the two polutants in one model. This is possible but results in very large
+state-graphs. And since the two poluttants seem to have independent effects,
+they chose not to include them both.
+This last point obviously brings to mind a more general discussion about the
+usefulness of qualitative reasoning with respect to complex systems like these.
+This discussion will be mentioned in more detail in section
+\ref{sec:lit_discussion}.
 
 %more to come
 
 \subsubsection{Discussion}
-
+\label{sec:lit_discussion}
 The idea that Qualitative Reasoning can formalize actual common sense knowledge
 and human understanding of physics is by now outdated. It is an instance of the
 ``Good Old Fashioned Artificial Intelligence'' (GOFAI) approach,
