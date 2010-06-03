@@ -445,7 +445,7 @@ See figure \ref{pipeline} for an overview. %more text.
 %\item Parsimony, Occam's razor (philosophy of science)
 %wrong, parsimony refers to most simple explanation, not representation
 
-\item Finite-State automaton miniminization, compression
+\subsection{Finite-State automaton miniminization, compression}
 
 	In automata theory there are well-known results regarding the
 	minimization of grammars. For example there exists an algorithm to
@@ -471,7 +471,7 @@ See figure \ref{pipeline} for an overview. %more text.
 	on the precise complexity and feasibility of model induction.
 	%This is analogous to our goals.
 
-\item Minimum Description Length principle 
+\subsection{Minimum Description Length principle}
 
 	In Machine Learning there is the Minimum Description Length (MDL;
 	\cite{mitchell}, p. 171, section 6.6)
@@ -484,8 +484,8 @@ See figure \ref{pipeline} for an overview. %more text.
 	If we apply this principle to qualitative model induction, then
 	minimizing a model that fits the data will yield a better hypothesis
 	according to the MDL principle.
-
-\item Economy of Representation (Generative Linguistics)
+  
+\subsection{Economy of Representation (Generative Linguistics)}
 
 	This principle states that representations are non-redundant. The
 	abstract representation of a surface form like ``the boys walk'' will
@@ -504,7 +504,8 @@ See figure \ref{pipeline} for an overview. %more text.
 
 In this section we describe our approach on minimizing, generalizing and
 splitting single model fragments into modular and compositional fragments.
-
+First the problem will be stated, then an algorithm, and finally some promising
+results.
 %more text
 
 \subsection{Problem statement}
@@ -513,7 +514,7 @@ We take a monolithic model and divide it into several smaller fragments. To do
 so, we need to comply to the following ranked list of
 constraints:\footnote{Note that the terminology in this section of ranked
 constraints, candidates and optimality is of course a nod to Optimality
-Theory, FIXME cite smolensky.}
+Theory \cite{princesmolensky}}
 
 \begin{enumerate}
 \item The model should be equivalent, that is, the resulting behavior should
@@ -655,7 +656,14 @@ These two predicates combined give us the set of pivots for a given
 monolithic model:
 
 \begin{align*}
-pivots := \{ \; \langle R, Q_1, Q_2 \rangle \; | 
+qpivots := \{ \; \langle R, Q_1, Q_2 \rangle \; | 
+	\; instance(R, E_1, E_2) \\
+	\land \; has(E_1, Q_1) \land has(E_2, Q_2)
+	\land \; samedeps(R, E_1, E_2, M) \} 
+\end{align*}
+
+\begin{align*}
+epivots := \{ \; \langle R, E_1, E_2 \rangle \; | 
 	\; instance(R, E_1, E_2) 
 	\land samedeps(R, E_1, E_2, M) \} 
 \end{align*}
@@ -678,46 +686,29 @@ same conditions.
 
 \section{Results}
 
-The evaluation is based on a few well known example Garp models. 
-We experienced some problems with the implementations of the AM algorithm.
-The output of the automatic modeling implementations of \cite{buisman} and
-\cite{vanweelden} is not easily accessible in a single prolog list, but rather
-through a poorly documented Prolog database; the current implementation 
-\cite{vanweelden} does not return equalities and arithmetic relations among
+The evaluation is based on a few well known example Garp models. Initially
+we wanted to use the output of the AM algorithm directly, but we experienced
+some problems with the implementations of the AM algorithm.  The output of the
+automatic modeling implementations of \cite{buisman} and
+\cite{vanweelden} is not easily accessible in a simple prolog list. The output
+of \cite{buisman} is sent directly to a new Garp model, which makes testing
+easy, but the latest implementation \cite{vanweelden} which supports
+interacting processes does not return equalities and arithmetic relations among
 its output. The scenario and entity hierarchy is accessible through the Garp
-API, but this is also less straightforward than it should be. 
+API.
 %FIXME remove this whining and hack a garp interface together.
 
 To avoid having to deal with these implementation matters we have based our
 current proof of concept implementation on our own Prolog representation. Our
 implementation expects as its input a flat list of dependencies, and as
 background knowledge the scenario and entity hierarchy. Because of this the
-evaluation had to be done manually.
-
-The implementation of the algorithm previously described has certain
-limitations which mean that the number of fragments is not as minimal as it
-could be. This boils down to:
-
-\begin{itemize}
-
-\item not considering other conditions than structural relations as pivots
-
-\item not considering multiple conditions for a single fragment
-
-\item not considering merging the dependencies of multiple quantities
-	belonging to the same entity in a single fragment
-
-\end{itemize}
-
-However, this seems to be largely an implemantion matter. The implementation
-provides a proof of concept of the algorithm, more sophisticated
-implementations can easily achieve more results.
+evaluation had to be done manually. We induced the models using the
+implementation of \cite{buisman} so as to obtain monolothic models. An
+advantage to this is that we could choose the conceptually correct direction of
+proportionalities, which cannot be determined from the data using induction, as
+noted by \cite{vanweelden}.
 
 %\subsection{Evaluated Models}
-
-% paste some output here, take screenshots or save EPS files from Garp3
-% todo: visual representation of results; either in Garp or Dia diagrams
-% 	(whichever is least work).
 
 \subsection{Tree and shade growth} 
 % maybe show scenario with three trees, number of model fragments should stay the same! proof of concept.
@@ -727,6 +718,10 @@ fragment, because there is only one entity. If however one splits on the basis
 of pairs of related quantities instead of on pairs of related entities, one
 obtains the fragments as in figure \ref{ts_frags}, given the input as in figure
 \ref{ts_mono}.
+
+When a model of the full envisionment of a scenario with $n$ trees is induced,
+the minimization algorithm will generalize this to the exact same fragment as
+for a single tree.
 
 %Input in figure \ref{ts_mono} and output in figure \ref{ts_frags}.
 %more text
@@ -784,9 +779,13 @@ Unfragment: []
 \subsection{Stacked bath tubs}
 
 For the stacked bath tub model we changed the quantity space of flow to ZPM
-(instead of ZP) because then we could replace the value-correspondences by a
-single Q-correspondence.  For the input, see figure \ref{sb_mono}; for the
-output, see figure \ref{sb_frags}.
+(instead of ZP) because this makes it possible to replace the
+value-correspondences by a single Q-correspondence. Value correspondences are
+not yet supported by the AM algorithm \cite{vanweelden}.  
+
+The algorithm correctly splits the model into two fragments, equivalent to the
+original model. For the input, see figure \ref{sb_mono}; for the output, see
+figure \ref{sb_frags}.
 %more text
 
 
@@ -837,12 +836,17 @@ Unfragment: []
 \end{figure}
 
 \subsection{Communicating vessels} 
-%both two and three? maybe also the truly compositional one?
 
-Inducing the communicating vessels model almost works, but the last two
-equalities are not found, so they have been added manually. Also, the order of
-arguments for proportionalities has been tweaked.  For the input, see
-figure \ref{cv_mono}; for the output, see figure \ref{cv_frags}.
+The most complicated model we have tested is the fully compositional
+communicating vessels model. Inducing the communicating vessels model almost
+works, but for some reason one equality (between height and pressure) is not
+found by the AM algorithm, so it has been added manually.  The algorithm
+correctly minimizes the model into four fragments, no matter how many vessels
+are in the scenario. This implies that the output is truly compositional.
+
+For the input, see figure \ref{cv_mono}; for the output minimized using
+quantities, see figure \ref{cv_frags}, figure \ref{cv_frags2} shows the output
+minimized using entities.
 
 %FIXME: is this really true? or is it only because Carsten's equalities are
 %asserted god knows where?
@@ -946,7 +950,7 @@ Unfragment: [dependency(equals, flow3, min(pressure4, pressure5))]
 }
 
 \caption{After minimization on entities: four model compositional fragments for communicating vessels.}
-\label{cv_frags}
+\label{cv_frags2}
 \end{figure}
 
 Three communicating vessels.
@@ -1008,12 +1012,12 @@ dependency(equals, flow4, min(pressure5, pressure6))]
 \end{comment}
 
 
-\subsection{Population dynamics}
+%\subsection{Population dynamics}
 %single population? split into birth, migration etc.
 %interacting populations? but ants garden is too much
 
 %more text
-TBD.
+%TBD.
 
 \section{Discussion}
 We will now discuss several possible extensions both to model induction in
@@ -1175,6 +1179,13 @@ knowledge'' \url{http://staff.science.uva.nl/~bredeweg/pdf/BSc/20082009/vanWeeld
 	Russell S, Norvig P (1995). 
 	``Artificial Intelligence: A Modern Approach,'' 
 	Prentice Hall Series in Artificial Intelligence. Englewood Cliffs, New Jersey
+
+\bibitem[princesmolensky]
+	Prince, Alan and Paul Smolensky (1993/2004): 
+	``Optimality Theory: Constraint Interaction in Generative Grammar.''
+	Blackwell Publishers (2004). Technical Report, Rutgers
+	University Center for Cognitive Science and Computer Science
+	Department, University of Colorado at Boulder (1993).
 
 \bibitem{haugeland}
 	Haugeland, John (1985), 
