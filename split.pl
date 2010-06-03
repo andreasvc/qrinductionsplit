@@ -43,7 +43,8 @@ struct_rel(R, A, B) :-
 % these partitions, returning a minimized model.  this output can be converted
 % into Garp model fragments
 split(M, MF) :-
-	fragments(M, SF),
+	%fragments(M, SF),
+	SF = [],
 	combined_pivots(M, SF, CF),
 	append(SF, CF, F), 
 	unfragment(M, F, UF),
@@ -228,7 +229,7 @@ groupby(In, Out) :-
 %
 % definition: unfragments = { d | dependency(d) & not exists f in Fragments s.t. generalized(d) in f }
 unfragment(M, F, UF) :-
-	findall(dependency(D, QI1, QI2), 
+	findall(DepI,
 		(	member(DepI, M), 
 			\+ (	member(Fr, F), 
 				generalize(DepI, Dep, _),
