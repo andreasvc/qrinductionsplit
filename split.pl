@@ -43,8 +43,8 @@ struct_rel(R, A, B) :-
 % these partitions, returning a minimized model.  this output can be converted
 % into Garp model fragments
 split(M, MF) :-
-	%fragments(M, SF),
-	SF = [],
+	fragments(M, SF),
+	%SF = [],
 	combined_pivots(M, SF, CF),
 	append(SF, CF, F), 
 	unfragment(M, F, UF),
@@ -193,24 +193,34 @@ combined_pivots(M, F, CF) :-
 deprels(dependency(_, QI1, QI2), Pivot) :-
 	has_quantity(EI1, QI1), 
 	has_quantity(EI2, QI2),
-	(rels(EI1, EI2, Pivot)
-	;
-	rels(EI2, EI1, Pivot)).
+	rels(EI1, EI2, [], Pivot).
 
 % hack to support min: write more general code
 deprels(dependency(_, _QI1, min(QI2A, QI2B)), Pivot) :-
 	has_quantity(EI1, QI2A), 
 	has_quantity(EI2, QI2B),
-	rels(EI1, EI2, Pivot).
+	rels(EI1, EI2, [], Pivot).
 
-rels(EI1, EI2, [ (R, E1, E2) ]) :-
+rels(EI1, EI2, [], [ (R, E1, E2) ]) :-
 	struct_rel(R, EI1, EI2),
 	isa(E1, EI1), isa(E2, EI2), !.
 
-rels(EI1, EI3, [ (R, E1, E2) | PivotRest ]) :-
-	struct_rel(R, EI1, EI2), \+ R = self,
+rels(EI1, EI2, [], [ (R, E2, E1) ]) :-
+	struct_rel(R, EI2, EI1),
+	isa(E1, EI1), isa(E2, EI2), !.
+
+%transitive relations
+rels(EI1, EI3, Stack, [ (R, E1, E2) | PivotRest ]) :-
+	struct_rel(R, EI1, EI2),
+	\+ R = self, \+ member((R, E1, E2), Stack),
 	isa(E1, EI1), isa(E2, EI2), 
-	rels(EI2, EI3, PivotRest).
+	rels(EI2, EI3, [ (R, E1, E2) | Stack ], PivotRest).
+
+rels(EI1, EI3, Stack, [ (R, E2, E1) | PivotRest ]) :-
+	struct_rel(R, EI2, EI1), 
+	\+ R = self, \+ member((R, E2, E1), Stack),
+	isa(E1, EI1), isa(E2, EI2), 
+	rels(EI2, EI3, [ (R, E2, E1) | Stack ], PivotRest).
 	
 % turn list of key-value pairs into list of lists where the head is the key.
 % ie., [ [a, b], [a, c], [b, d] ] -> [ [a, b, c], [b, d] ]
