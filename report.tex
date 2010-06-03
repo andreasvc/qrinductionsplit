@@ -37,37 +37,41 @@ error-free data.}
 \newpage
 
 \section{Introduction}
+
 Qualitative Reasoning is the field of research that concerns modeling conceptual
 knowledge. Many approaches have been taken to formalize this knowledge and in
-recent years a lot of succesfull appliance has been shown. The modeling however
+recent years a lot of successful appliance has been shown. The modeling however
 is a complex and time consuming task, so an automated modeling algorithm is
-desirable. Although the basis for this algorithm has been succesfully defined
+desirable. Although the basis for this algorithm has been successfully defined
 by Buisman, and later extended by Liem and Van Weelden, there are still some
-things missing to making this algorithm useable in practice. The current
+things missing to making this algorithm usable in practice. The current
 approach makes strong assumptions about the input, which limits the
 applicability. Also, the output of this automated modeling is a monolithic
-(single, often large) model fragment. In qualitative reasoning, the reusability
+(single, often large) model fragment. In qualitative reasoning, the re-usability
 of fragments is an important feature, so in this paper we introduce a
 procedure which can divide the monolithic fragment into smaller, reusable
 fragments which are easier to comprehend.
 
-We will start with a literature review as an introduction to the field and to
-supply insight in approaches that have been attempted in section
-\ref{sec:litrev}. In this review we will cover papers on general Qualitative
-Reasoning (QR) topics and also on the Automated Modeling (AM) topics.
-Then in section \ref{sec:theory} we will introduce the theory on which our
+We start with a literature review in section \ref{sec:litrev},
+then in section \ref{sec:theory} we will introduce the theory on which our
 algorithm is based. The approach itself is explained in section
-\ref{sec:algorithm} and the results are shown in section \ref{sec:results}.
+\ref{sec:approach} and the results are shown in section \ref{sec:results}.
 Finally, section \ref{sec:discussion} and \ref{sec:conclusion} end with a
 discussion and conclusion.
 
 
 \section{Literature Review}
 \label{sec:litrev}
-In this section we will review a few of the papers that have contributed
-greatly to the definition of Qualitative Reasoning. We will give a short
-summary of the papers and will conclude with an overview of the current field
-of research and possible future work. 
+We will start with a literature review as an introduction to the field and to
+supply insight in approaches that have been attempted. In this review we will
+cover papers on general Qualitative Reasoning (QR) topics and also on the
+Automated Modeling (AM) topics.
+
+%In this section we will review a few of the papers that have contributed
+%greatly to the definition of Qualitative Reasoning. We will give a short
+%summary of the papers.
+%and will conclude with an overview of the current field
+%of research and possible future work. 
 %more text?
 
 \subsection{Qualitative Reasoning}
@@ -79,7 +83,7 @@ numerical information is sparse or missing, or when such information is too
 complex to grasp.  The following papers describe the foundations of qualitative
 reasoning.
 
-\subsubsection{A qualitative Physics based on confluences (de Kleer \& Brown)}
+\subsubsection{A qualitative Physics based on confluences}
 \label{sec:litrev_qr_dekleer}
 De Kleer et al. \cite{kleer} present a framework for formalizing physics in a
 manner that is {\em qualitative} rather than {\em quantitative}. Whereas
@@ -138,8 +142,8 @@ A few assumptions of their approach characterize their methodology:
 		influence other parts, except when they are structurally
 		connected. This is strongly related to the focus on causality,
 		and implies that without a locus of causality there can be no
-		model (eg., an emergent phenomenon like a tornado could not be
-		modelled).
+		model (e.g., an emergent phenomenon like a tornado could not be
+		modeled).
 
 	\item[The importance of principles]
 		Violating the no-function-in-structure principle has no result
@@ -165,12 +169,13 @@ from data, even when the latter contains noise. Disadvantages are that these
 constraint models are less explanatory than process models (\cite{forbus}, p.
 110), which we will review promptly.
 
-\subsubsection{Qualitative Process Theory (Forbus)}
+\subsubsection{Qualitative Process Theory}
 \label{sec:litrev_qr_forbus}
+
 Around the same time as de Kleer \& Brown, another approach was introduced by
-Forbus \cite{forbus}. The important points that set his work appart were,
-among others, the \emph{quantity-spaces} and the \emph{sole mechanism
-assumption}.
+Forbus \cite{forbus}. The important points of his work are, among others, 
+the \emph{quantity-spaces}, notion of processes and the related
+\emph{sole mechanism assumption}.
 
 The principle of quantity spaces represents values by a set of ordinal
 relationships. This enables the system to easily compare different
@@ -178,17 +183,14 @@ quantities in terms of smaller, equal or larger. If such comparisons would
 only occur between two values, then sign values would suffice (-,0,+), but for
 many cases, the ordinal representation is more natural.
 
-\vspace{0.8em}
+The most salient difference with earlier qualitative approaches is the
+centrality of processes. Examples of processes are flow, motion and phase
+changes.  Physical processes are viewed as the mechanisms through which change
+occurs. To this end Forbus introduced the \emph{sole mechanism assumption}
+which states that all behavior must be explained by processes: the direct or
+indirect effects of some collection of physical processes. 
 
-Physical processes are viewed as the mechanisms through which change occurs.
-To this end Forbus introduced the \emph{sole mechanism assumption} which
-states that any behavior must be explainable by the direct or indirect effects
-of some collection of physical processes. %FIXME: more explanation
-
-\vspace{0.8em}
-
-Forbus has reviewed his own work and the impact of his work in
-\cite{forbus12}.
+%Forbus has reviewed his own work and the impact of his work in \cite{forbus12}.
 %more text
 
 \subsubsection{Conceptual knowledge \& the Garp3 workbench}
@@ -215,13 +217,13 @@ system typically hold qualitative information concerning the current magnitude
 and direction of change, using an interval scale, consisting of an ordered set 
 of labels, e.g. {zero, low, medium, high}. such a set of labels
 is called a quantity space. Landmarks are specific labels within this set
-(acutally points) that refer to situations in which the behavior of the system
-changes significantly. For instance, a susbstance reaching its boiling
-tempurature will stop getting hotter and start boiling. In qualitative
+(actually points) that refer to situations in which the behavior of the system
+changes significantly. For instance, a substance reaching its boiling
+temperature will stop getting hotter and start boiling. In qualitative
 simulations, the behavior of the system is represented as a graph of states
 that reflect qualitatively distinct system behavior. There is a set of
 dependencies that capture cause-effect relationships between quantities,
-defined in such a way that they are both closely resembeling the conceptual
+defined in such a way that they are both closely resembling the conceptual
 notions of human reasoning, as well as allowing automated computation because
 they are grounded in mathematical formalisms. Two typical dependencies are
 direct influences and proportionalities.
@@ -240,16 +242,24 @@ strategy. The \emph{find-states} algorithm constructs initial nodes in the
 state-graph based on the scenario and model fragments. Then the 
 \emph{find-transitions} algorithm determines all possible changes which form 
 transition scenarios. These are inputted into the find-states procedure again.  
+See figure \ref{garp-overview} for an overview.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{garp-overview-crop}
+\caption{Overview of the Garp3 reasoning engine}
+\label{garp-overview}
+\end{figure}
 
 The reasoning process relies heavily on inequality reasoning.
-The mathematical engine inequality relations typically change during the 
-simulation, thereby representing the dynamic aspects of the modelled system. 
-Points in a quantity 
-space are called landmarks and the intervals between are defined by these
-landmarks. The core inequality reasoning only considers these landmarks and not
-the intervals. Inequalities can specify the relation between several types of
-model ingredients. The following five types of inequality relations are used in
-Garp3:
+%The mathematical engine  ..... ?
+Inequality relations typically change during the 
+simulation, thereby representing the dynamic aspects of the modeled system. 
+Points in a quantity space are called landmarks and the intervals between them
+are defined by these landmarks. The core inequality reasoning only considers
+these landmarks and not the intervals. Inequalities can specify the relation
+between several types of model ingredients. The following five types of
+inequality relations are used in Garp3:
 
 \begin{itemize}
 
@@ -268,8 +278,6 @@ Garp3:
 At the user-level representation, quantity values, landmarks and derivatives are
 used, while at mathematical level, only landmarks exist and are used to
 describe the others (for both magnitudes and derivative quantity spaces).
-
-%include image from paper
 
 All the relations in the internal mathematical model of Garp3 have the
 following form: $rel(Sum_1, Sum_2)$ with $rel \in \{>,\ge,=\}$. The following
@@ -293,7 +301,7 @@ For example:
 Garp3 does not discriminate explicitly between inequality statements that
 always hold (e.g., \emph{inflow} - \emph{outflow} = 
 \emph{net-flow}), and those that may change during simulation 
-(eg. $T_x < T_xboil \rightarrow T_x = T_xboil$).
+(e.g. $T_x < T_xboil \rightarrow T_x = T_xboil$).
 
 \vspace{0.8em}
 
@@ -306,31 +314,31 @@ of GUI and debugging options.
 
 Bredeweg et al. conclude that the Garp3 workbench offers easy access to 
 sophisticated qualitative simulation software, providing users the 
-possibility to use QR technology withou having to understand low-level 
+possibility to use QR technology without having to understand low-level 
 implementation details of such automated reasoners. An increasing number of 
 domain experts are using the workbench to capture qualitative knowledge of 
 system dynamics.  
 
-\subsubsection{Algal bloom in the Danube Delta (Cioca et al.)}
+\subsubsection{Algal bloom in the Danube Delta}
 \label{sec:litrev_qr_cioca}
-Cioaca et al. describe a complex case of modelling a real world system in Garp3.
+Cioaca et al. describe a complex case of modeling a real world system in Garp3.
 The paper mainly describes the model and the real-world specifics in detail, but 
 for the literature review, after a short introduction, we will focus on the 
 qualitative reasoning aspects that were encountered.
 
 \vspace{0.8em}
 
-The model is a formalization of algal bloom in the Dabube Delta Biosphere
+The model is a formalization of algal bloom in the Danube Delta Biosphere
 Reserve (DDBR). In this world heritage site, the biodiversity is threatened by
-polution from two different sources. Heavy nutrient loads from agricultural 
-fertilizers and heavy metals from industry. These forms of polution
+pollution from two different sources. Heavy nutrient loads from agricultural 
+fertilizers and heavy metals from industry. These forms of pollution
 influence several conditions of several layers in the water, which in term
 influence the increase and decrease in size of populations of several species.
 
 The main species concerned in the model are the Diatoms (which compose the
 phytoplankton algae), the blue green algae (bacterial species called
 Cyanobacteria), Zooplankton and fish. There are also two agents, \emph{land} and
-\emph{farming}, which should be considdered as influences on the system from the
+\emph{farming}, which should be considered as influences on the system from the
 outside world. The quantities used are: \emph{Biomass}, \emph{Average
 temperature}, \emph{Cover}, \emph{Cyanotoxins}, \emph{Water temperature},
 \emph{Light}, \emph{Mortality rate}, \emph{Nutrients}, \emph{Nutrient runoff},
@@ -343,14 +351,14 @@ these optimal ranges and their overlaps in one quantity space. This resulted in
 a quantity space with 6 landmarks (and 5 corresponding intervals). It is not
 always obvious how to define these quantity spaces however, because the
 temperature ranges for these species are not strictly defined by exact
-boundaries. This is something that often leaves the modeler with ambigous
+boundaries. This is something that often leaves the modeler with ambiguous
 choices.
 
 \vspace{0.8 em}
 
 The complexity of the system becomes clear when a full simulation (containing
 all entities and using the most detailed mechanisms and views) is run. This
-results in a valid (stable single end state), but very large stategraph,
+results in a valid (stable single end state), but very large state graph,
 consisting of 3126 states. This is however not a very useful simulation since
 such a large number of states makes it difficult to comprehend what is
 happening in the system. Because of this the authors have chosen five scenarios
@@ -362,8 +370,8 @@ to respond to certain situations in the real world scenario of the DDBR.
 
 The discussion in this paper is elaborate and covers a lot of the problems and
 ambiguity in the choices that were made. Part of their concern is about modeling
-the two polutants in one model. This is possible but results in very large
-state-graphs. And since the two poluttants seem to have independent effects,
+the two pollutants in one model. This is possible but results in very large
+state-graphs. And since the two pollutants seem to have independent effects,
 they chose not to include them both.
 This last point obviously brings to mind a more general discussion about the
 usefulness of qualitative reasoning with respect to complex systems like these.
@@ -378,7 +386,7 @@ and human understanding of physics is by now outdated. It is an instance of the
 \cite{haugeland} and in line with the Symbol System hypothesis of Newell and
 Simon \cite{newell}\footnote{``A physical symbol system has the necessary and
 sufficient means of general intelligent action.''}.  Both of these have either
-failed spectucularly or faded silently, often having been replaced by
+failed spectacularly or faded silently, often having been replaced by
 stochastic and data-driven approaches \cite{russellnorvig}.  Claiming that
 Qualitative Reasoning can provide a way to model actual common sense knowledge
 or mental models is ostensively wrong -- the list of mismatches with human
@@ -427,8 +435,7 @@ to the topic of model induction.
 To introduce the recent developments in the field of automated modeling we
 will now review a few papers on this topic.
 
-\subsubsection{Automated modeling in process-based qualitative reasoning
-(Buisman)}
+\subsubsection{Automated modeling in process-based qualitative reasoning}
 \label{sec:litrev_am_buisman}
 The concept of automated modeling for qualitative process theory was
 introduced by Buisman \cite{buisman} in 2007. He motivates the research with
@@ -457,7 +464,7 @@ There are certain constraints on the input. The \emph{full envisionment}
 requirement means that the behavior is known for all possible initial values
 for all quantities in the system. Also, the derivatives and amounts have to be
 defined for every state. Finally, the input data cannot contain any noise,
-ie., it should be perfect.
+i.e., it should be perfect.
 
 The algorithm starts with searching for so called \emph{naive dependencies},
 which are dependencies that are consistent with the entire state-graph. They
@@ -499,13 +506,24 @@ static fragment cannot have any agents or influences in it. A \emph{process}
 fragment should have at least one direct influence and is not restricted in
 terms of dependencies. %(relations?)
 Finally, \emph{agent} fragments should be used to describe any influences on a
-system that are external, hence not part of the system itself.
+system that are external, hence not part of the system itself. 
+
+The importance of fragments and compositionality is underscored by Forbus
+\cite{forbus12} (emphasis in the original):
+
+	\begin{quote}
+	A missing ingredient in early attempts to formalize physical reasoning
+	(cf. [...]) was the idea of {\em compositionality}. That is a major
+	factor in the flexibility of human reasoning about complex physical
+	systems comes from the ability to use of partial information and
+	combine it as available.
+	\end{quote} 
 
 Fragments can be useful to make the complete system more comprehensible --
-ie., they are a form of chunking.  Also, while building these complex models,
+i.e., they are a form of chunking.  Also, while building these complex models,
 fragments allow the user to focus on what happens in a small part of the
 model, without having to worry about the other `components'. For example in a
-model describing a population, seperate fragments could describe processes
+model describing a population, separate fragments could describe processes
 like birth, death, emigration, etc.
 %maybe reference to paper BredewegEtAl, they say fragments are important in QR
 
@@ -531,7 +549,7 @@ See figure \ref{pipeline} for an overview. %more text.
 %\item Parsimony, Occam's razor (philosophy of science)
 %wrong, parsimony refers to most simple explanation, not representation
 
-\subsubsection{Finite-State automaton miniminization, compression}
+\subsubsection{Finite-State automaton minimization, compression}
 
 	In automata theory there are well-known results regarding the
 	minimization of grammars. For example there exists an algorithm to
@@ -539,17 +557,17 @@ See figure \ref{pipeline} for an overview. %more text.
 	generates the exact same language with a minimum amount of states
 	\cite{hopcroft}.
 
-	Naturally this problem gets more difficult (no general purpose
-	algorithms exist) higher up in the Chomsky hierarchy, so it would be
-	an important result if it turned out that (a subset of) qualitative
-	model simulation can be encoded as a Finite-State automaton that
-	generates a regular language containing state-strings corresponding to
-	behavior paths.
+	Naturally this problem gets more difficult higher up in the Chomsky
+	hierarchy; no general purpose algorithms exist.  It would therefore be
+	an important result if it turned out that it is possible to encode (a
+	subset of) qualitative model simulation as a Finite-State automaton
+	that generates a regular language containing state-strings
+	corresponding to behavior paths.
 
 	A related but less hopeful result is that of Kolmogorov complexity,
 	which states that given an arbitrary string, it is undecidable to
 	verify whether a given program generating that string is the shortest
-	one to do so (ie., highest compression), let alone to produce such a
+	one to do so (i.e., highest compression), let alone to produce such a
 	program given data.
 
 	Determining the exact status of qualitative reasoning with respect to
@@ -636,13 +654,13 @@ without further claims of optimality.
 \item[dependency] A relation between two quantities. Possible relations
 	include influences, proportionalities, correspondences; we also
 	include (in)equalities in this list for the sake of generality.
-	For example: $dependency(inf\_pos, flow, container\_right)$.
+	For example: $dependency(inf\_pos, flow1, container\_right)$.
 
 \item[structural relation]
 	A structural relation is a named relation between entities. They denote
 	the physical configuration of a system. For example a container that is
-	connected to a pipe can be denoted as $struct\_rel(from, container,
-	pipe)$.
+	connected to a pipe can be denoted as $struct\_rel(from, container_left,
+	pipe1)$.
 
 \item[pivot]
 	With a pivot we intend the conditions under which dependencies hold.
@@ -653,6 +671,7 @@ without further claims of optimality.
 \end{description}
 
 \subsection{Algorithm}
+\label{sec:algorithm}
 
 Overview:
 
@@ -684,7 +703,7 @@ Sketch of the algorithm:
 
 \begin{enumerate}
 
-\item Input: take the set of dependencies, $M$, (as generated by eg. model
+\item Input: take the set of dependencies, $M$, (as generated by e.g. model
 	induction or from a monolithic model fragment created by a user).  
 
 \item Partition this set into equivalence classes according to the
@@ -697,7 +716,7 @@ Sketch of the algorithm:
 	yielding elements of the set $MFs$
 
 \item Dump the remaining dependencies in a single fragment, $UF$. 
-	This set should be empty if the model is properly designed, ie., the
+	This set should be empty if the model is properly designed, i.e., the
 	model should not contain dependencies that apply to some instances but
 	not to others.
 
@@ -709,15 +728,18 @@ This sketch can be formalized and instantiated into a definition with set
 builder notation.\footnote{Note that the following definitions closely follow
 our Prolog implementation, as such they include certain choices and
 simplifications limiting the generality of the approach as previously
-sketched.}  First two helper definitions. The first definition defines a
-predicate for instances of structural relations and related quantities:
+sketched.}  First two helper definitions. The first defines a structural
+relation between two entity classes:
 
 \begin{align*}
-instance(R, E_1, E_2) :=
+einstance(R, E_1, E_2) :=
 	\exists e_1, e_2 \; [ &struct\_rel(R, e_1, e_2) & \\
 	\land \; &isa(e_1, E_1) \land isa(e_2, E_2) ]
 \end{align*}
-	
+
+The second definition defines a predicate for instances of structural relations
+and related quantities:
+
 \begin{align*}
 qinstance(R, Q_1, Q_2, q_1, q_2) :=
 	\exists e_1, e_2 \; [ &struct\_rel(R, e_1, e_2) & \\
@@ -739,7 +761,7 @@ height and pressure of a container} %idea, besides implicit self relation,
 %com.ves. can be splitted without an unfragment. but: relation is not unconditional, but a combination of two relations: vessel 1 and 2 are both connected to the same pipe, with from and to respectively.
 
 The next definition defines an equivalence relation on these instances,
-stating that their dependencies hold universally given their condition (which
+stating that their dependencies hold universally, given their condition (which
 is here restricted to a single structural relation):
 
 \begin{align*}
@@ -763,7 +785,7 @@ and $b$ (undirected relations can be expressed using two directed relations).
 Possible values for $d$ correspond to influences, proportionalities,
 correspondences and equalities. While $a$ and $b$ usually denote quantities,
 note that they can also refer to an arithmetic operation between two
-quantities, eg. $min(q_n, q_m)$. We gloss over this detail in these
+quantities, e.g. $min(q_n, q_m)$. We gloss over this detail in these
 definitions.
 
 These two predicates combined give us the set of pivots for a given
@@ -807,7 +829,7 @@ efragments := \{ \; \{ \; dependency&(d, Q_1, Q_2) \; | \; \\
 	\langle R, E_2, E_1 \rangle \in epivots \; \}
 \end{align*}
 
-Note that while in this definiton pivots are restricted to single triples of a
+Note that while in this definition pivots are restricted to single triples of a
 relation and two quantities, the definition should be generalized so that
 pivots can be merged into multiple triples when they are applicable under the
 same conditions. This is in fact what we have done in our implementation,
@@ -815,7 +837,7 @@ where we derive pivots in a bottom-up fashion for the dependencies that remain
 after the first pass of finding single condition pivots.
 
 The communicating vessels model provides an example (see figure \ref{cv_mono}),
-here there is a dependency between two containers, even though they are not
+where there is a dependency between two containers, even though they are not
 directly connected by a single structural relationship, but instead through
 a mutual connection to the same pipe. Our algorithm tries to find a path of
 structural relations between the two entities connected by the dependency in
@@ -829,30 +851,34 @@ The evaluation is based on a few well known example Garp models. Initially
 we wanted to use the output of the AM algorithm directly, but we experienced
 some problems with the implementations of the AM algorithm.  The output of the
 automatic modeling implementations of \cite{buisman} and
-\cite{vanweelden} is not easily accessible in a simple prolog list. The output
+\cite{vanweelden} is not easily accessible in a simple Prolog list. The output
 of \cite{buisman} is sent directly to a new Garp model, which makes testing
-easy, but the latest implementation \cite{vanweelden} which supports
+easy, but the most recent implementation \cite{vanweelden} which supports
 interacting processes does not return equalities and arithmetic relations among
 its output. The scenario and entity hierarchy is accessible through the Garp
 API.
 %FIXME remove this whining and hack a garp interface together.
 
 To avoid having to deal with these implementation matters we have based our
-current proof of concept implementation on our own Prolog representation. Our
-implementation expects as its input a flat list of dependencies, and as
-background knowledge the scenario and entity hierarchy. Because of this the
-evaluation had to be done manually. We induced the models using the
-implementation of \cite{buisman} so as to obtain monolothic models. An
+current proof of concept implementation on our own representation (as Prolog
+facts). Our implementation expects as its input a flat list of dependencies,
+and as background knowledge the scenario and entity hierarchy. Because of this
+the evaluation had to be done manually. We induced the models using the
+implementation of \cite{buisman} so as to obtain monolithic models. An
 advantage to this is that we could choose the conceptually correct direction of
-proportionalities, which cannot be determined from the data using induction, as
-noted by \cite{vanweelden}.
+proportionalities, which cannot be determined from the data using induction
+\cite{vanweelden}.
+
+For all the models that we tested, the minimized fragments returns identical 
+state graphs compared to the original models. This demonstrates that the
+minimization transformation preserves the behavior of the system.
 
 %\subsection{Evaluated Models}
 
 \subsection{Tree and shade growth} 
 % maybe show scenario with three trees, number of model fragments should stay the same! proof of concept.
 
-When the tree \& shade model is splitted, the output remains a single model
+When the tree \& shade model is minimized, the output remains a single model
 fragment, because there is only one entity. If however one splits on the basis
 of pairs of related quantities instead of on pairs of related entities, one
 obtains the fragments as in figure \ref{ts_frags}, given the input as in figure
@@ -917,10 +943,10 @@ Unfragment: []
 
 \subsection{Stacked bath tubs}
 
-For the stacked bath tub model we changed the quantity space of flow to ZPM
-(instead of ZP) because this makes it possible to replace the
-value-correspondences by a single Q-correspondence. Value correspondences are
-not yet supported by the AM algorithm \cite{vanweelden}.  
+For the stacked bath tub model we changed the quantity space of flow to 
+zero-plus-max (instead of zero-plus) because this makes it possible to replace
+the value-correspondences by a single Q-correspondence. Value correspondences
+are not yet supported by the AM algorithm \cite{vanweelden}.  
 
 The algorithm correctly splits the model into two fragments, equivalent to the
 original model. For the input, see figure \ref{sb_mono}; for the output, see
@@ -977,8 +1003,8 @@ Unfragment: []
 \subsection{Communicating vessels} 
 
 The most complicated model we have tested is the fully compositional
-communicating vessels model. Inducing the communicating vessels model almost
-works, but for some reason one equality (between height and pressure) is not
+communicating vessels model. Inducing the communicating vessels model gives
+almost correct output, but for some reason one equality (between height and pressure) is not
 found by the AM algorithm, so it has been added manually.  The algorithm
 correctly minimizes the model into four fragments, no matter how many vessels
 are in the scenario. This implies that the output is truly compositional.
@@ -1158,7 +1184,8 @@ dependency(equals, flow4, min(pressure5, pressure6))]
 %more text
 %TBD.
 
-\section{Discussion}
+
+\section{Future work}
 \label{sec:discussion}
 We will now discuss several possible extensions both to model induction in
 general and to model minimization in particular.
@@ -1174,7 +1201,7 @@ Currently the implementation expects a single monolithic model fragment as
 input, since that is the output as given by the automated modeling algorithm.
 However, this requirement could be lifted to allow partially modular fragments
 as input, which is especially useful when the minimization algorithm is applied
-as part of an interactive modeling assistant.
+as part of an interactive modeling procedure (also suggested in \cite{liem}).
 
 This could be implemented by finding a way to merge these fragments into a
 monolithic fragment, while avoiding undergeneration by exploding all
@@ -1193,7 +1220,7 @@ duplication and to increase re-use and clarity.
 
 The induction algorithm has no support for conditions, except for
 copying structural relations between entities as found in the scenario. This
-severly limits the scope of models that can be induced. However, adding the
+severely limits the scope of models that can be induced. However, adding the
 induction of conditions increases the complexity greatly. This is demonstrated
 by an analogy to the Chomsky Hierarchy: with every addition of
 context-sensitivity, the complexity increases, until it reaches Turing
@@ -1247,13 +1274,17 @@ starting point for an exploration of applying ILP to automated modeling.
 
 \section{Conclusion}
 \label{sec:conclusion}
-Model minimization has been fruitfully applied to qualitative models. Our
-approach is general enough that it applies both to Automatic Modeling and to
+In this paper we have introduced an algorithm that can successfully divide
+complex monolithic model fragments into simple, re-usable fragments. The models
+on which we tested our approach were correctly splitted into fragments, which
+show identical behavior compared to the original models. Furthermore, the
+fragments correspond well with fragments made by experts.
+
+Our approach is general enough that it applies both to Automatic Modeling and to
 models made by beginners. From now on, minimizing qualitative models in Garp
 can be done automatically, at least for the subset of models supported by the
-proof of concept implementation. Further work on inducing models lies ahead
-and given the results on inducing constraint models this work would seem to
-have ample room for success.
+proof of concept implementation.
+
 %more text
 
 \begin{thebibliography}{99}
