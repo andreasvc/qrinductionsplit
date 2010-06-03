@@ -132,7 +132,6 @@ first([H|_], H).
 	
 %take a dependency between instances and return a generic dependency
 generalize(DepI, Dep, _Pivot) :-
-	% min(QI2A, QI2B) ...
 	DepI = dependency(D, QI1, QI2),
 	generalize_quantity(QI1, Q1),
 	generalize_quantity(QI2, Q2),
@@ -141,6 +140,7 @@ generalize(DepI, Dep, _Pivot) :-
 generalize_quantity(QI, Q) :-
 	isa(QI, Q).
 
+% hack to support min: write more general code
 generalize_quantity(min(QI1, QI2), min(Q1, Q2)) :-
 	generalize_quantity(QI1, Q1),
 	generalize_quantity(QI2, Q2).
