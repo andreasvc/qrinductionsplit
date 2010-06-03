@@ -47,13 +47,12 @@ of research and possible future work.
 %more text?
 
 \subsection{Qualitative Reasoning}
-Qualitative Reasoning is an approach from Artificial Intelligence that 
-provides means to express conceptual knowledge such as the physical system 
-structure, causality, etc.
-This enables us to reason about phenomena for which numerical information 
-is sparse or missing.
-The following papers describe the foundations of qualitative reasoning.
-%more text
+Qualitative Reasoning is an approach from Artificial Intelligence that provides
+means to express conceptual knowledge such as the physical structure,
+causality, processes, etc.  This enables reasoning about phenomena for which
+numerical information is sparse or missing, or when such information is too
+complex to grasp.  The following papers describe the foundations of qualitative
+reasoning.
 
 \subsubsection{A qualitative Physics based on confluences (de Kleer \& Brown)}
 
@@ -73,7 +72,67 @@ opposed to the contextual and tacit knowledge of mere mortals.
 This approach is presented as being useful for physics education, expert
 systems and even physics, in that it explicitly deals with causality. The
 latter is in contrast with standard physics, in which laws are merely
-exceptionless correlations with predictive value.
+exceptionless correlations with predictive value. Although the mathematics
+behind physics is relatively formal, doing physics depends on a pretheoretical
+understanding of the world, of which there is no successful account to date
+(neither in physics nor in psychology). Textbooks for physics and second
+language learners clearly contain enough information for humans to grasp
+such subjects (albeit only after intensive study), however, they are nowhere
+formal (explicit) enough to be useful for the current computational paradigms;
+they seem to rely on an extensive common ground.
+
+Naive physics attempts the herculean\footnote{or foolish, depending on your
+disposition} task of explicitly formalizing all the required knowledge to
+derive fragments of modern physics in a qualitative manner. The fundamental
+question at stake here is how deep the rabbit hole goes in terms of the
+required background knowledge which is so much taken for granted by mortals.
+
+A few assumptions of their approach characterize their methodology:
+
+\begin{description}
+	\item[No function in structure]
+		The functioning of the whole should not be encoded in its
+		parts. For example, a light switch should not state that it
+		directly determines whether there will be light, because other
+		things such as the state of the light bulb and the payment of
+		bills also influence such matters, let alone the need for a
+		closed circuit.
+
+	\item[Class-wide assumptions]
+		Modeling always happens at a certain resolution yielding a
+		level of description. Brownian motion, quantum entanglement
+		and other quaint microcosmic phenomena can be safely ignored
+		not just for certain models, but for any model which aims for
+		the same predictive power as human folk physics. The modeling
+		granularity also includes time and spatial resolution; for
+		example oscillation phenomena is ignored as long as the system
+		needs only a certain negligible amount of time to settle.
+	
+	\item[Locality]
+		This principle states that the behavior of parts cannot
+		influence other parts, except when they are structurally
+		connected. This is strongly related to the focus on causality,
+		and implies that without a locus of causality there can be no
+		model (eg., an emergent phenomenon like a tornado could not be
+		modelled).
+
+	\item[The importance of principles]
+		Violating the first principle has no result on the success
+		of accurately modelling certain behavior, but it does result in
+		ad-hoc models with little value for understanding actual
+		physics. This is comparable to the situation of observing a
+		mere correlation without positing a plausible causal mechanism;
+		this provides no information whatsoever about possible
+		causality and does not further understanding -- it is a
+		pointless exercise in data collection.
+
+		This fine point is easily glossed over when the goal of
+		deriving first principles fades out of sight; without
+		principles hacking together models is pointless, because one
+		will simply continue until the desired output is there, but if
+		the desired output was clear to begin with, it is impossible
+		for a model to add any value.
+\end{description}
 
 Advantages of this approach are that it works from first principles, so it is
 grounded in science. Other advantages are that the models can be induced from
@@ -1087,10 +1146,10 @@ knowledge'' \url{http://staff.science.uva.nl/~bredeweg/pdf/BSc/20082009/vanWeeld
 	John Hopcroft and Jeffrey Ullman (1979). 
 	``Introduction to Automata Theory, Languages, and Computation.'' Addison Wesley.
 
-%\bibitem{russellnorvig}
-%	Russell S, Norvig P (1995). 
-%	``Artificial Intelligence: A Modern Approach,'' 
-%	Prentice Hall Series in Artificial Intelligence. Englewood Cliffs, New Jersey
+\bibitem{russellnorvig}
+	Russell S, Norvig P (1995). 
+	``Artificial Intelligence: A Modern Approach,'' 
+	Prentice Hall Series in Artificial Intelligence. Englewood Cliffs, New Jersey
 
 \bibitem{haugeland}
 	Haugeland, John (1985), 
