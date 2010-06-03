@@ -440,8 +440,6 @@ See figure \ref{pipeline} for an overview. %more text.
 
 \subsection{Interdisciplinary parallels}
 
-\begin{itemize}
-
 %\item Parsimony, Occam's razor (philosophy of science)
 %wrong, parsimony refers to most simple explanation, not representation
 
@@ -497,8 +495,6 @@ See figure \ref{pipeline} for an overview. %more text.
 	both should rely on one and the same dependency stating the relation
 	between size and shade, not on two dependencies specific to their
 	instances. 
-
-\end{itemize}
 
 \section{Approach}
 
@@ -656,10 +652,11 @@ These two predicates combined give us the set of pivots for a given
 monolithic model:
 
 \begin{align*}
-qpivots := \{ \; \langle R, Q_1, Q_2 \rangle \; | 
-	\; instance(R, E_1, E_2) \\
-	\land \; has(E_1, Q_1) \land has(E_2, Q_2)
-	\land \; samedeps(R, E_1, E_2, M) \} 
+qpivots := \{ \; \langle R, Q_1, Q_2 \rangle \; | \\
+	\; &qinstance(R, Q_1, Q_2, q_1, q_2) \\
+	\land \; &isa(q_1, Q_1) \land isa(q_2, Q_2) \\
+	\land \; &has(E_1, Q_1) \land has(E_2, Q_2) \\
+	\land \; &samedeps(R, E_1, E_2, M) \} 
 \end{align*}
 
 \begin{align*}
