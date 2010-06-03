@@ -43,7 +43,8 @@ struct_rel(R, A, B) :-
 % these partitions, returning a minimized model.  this output can be converted
 % into Garp model fragments
 split(M, MF) :-
-	fragments(M, SF),
+	%fragments(M, SF),
+	SF = [],
 	combined_pivots(M, SF, CF),
 	append(SF, CF, F), 
 	unfragment(M, F, UF),
@@ -140,13 +141,14 @@ generalize(DepI, Dep, Pivot) :-
 	last(Pivot, (R2, _, E2)),
 	qinstance(R1, E1, _, QI1, _, Q1, _Q3),
 	qinstance(R2, _, E2, _, QI2, _, Q2),
+	% min(QI2A, QI2B) ...
 	(	(	DepI = dependency(D, QI1, QI2),
 			Dep = dependency(D, Q1, Q2)
 		)
 	;	(	DepI = dependency(D, QI2, QI1),
 			Dep = dependency(D, Q2, Q1)
 		)
-	).
+	), !.
 
 %try to formulate fragments for dependencies by looking
 %for pivots using a bottom-up strategy
@@ -158,27 +160,31 @@ combined_pivots(M, F, CF) :-
 				isa(Q1, QI1), isa(Q2, QI2), 
 				memberchk(dependency(D, Q1, Q2), Fr))),
 		Rest),
-	write(rest), write(Rest),
+	write(rest), write(Rest), nl,
 	% find all pivot paths in a bottom up fashion
 	findall( [Pivot, DepI],
 		(	member(DepI, Rest),
 			deprels(DepI, Pivot)
 		),
 		Deps),
-	write(deps), write(Deps),
+	write(deps), write(Deps), nl,
 	% group pivot-dep pairs into [pivot|deps] lists
 	groupby(Deps, GDeps),
-	write(gdeps), write(Deps),
-	% samedeps check for n-pivots
-	% TBD.
+	write(gdeps), write(GDeps), nl, nl,
+	% samedeps check for n-pivots:	TBD.
 	% generalize deps
 	findall([ Pivot | DepsSet ],
 		(	member( [ Pivot | DepsI ], GDeps),
 			findall(Dep,
-				(	member(DepII, DepsI),
-					generalize(DepII, Dep)),
+				(	member(DepI, DepsI),
+					write(DepI), nl,
+					generalize(DepI, Dep, Pivot)
+					, write(Dep), nl
+				),
 				Deps),
+			write(deps), write(Deps), nl,
 			list_to_set(Deps, DepsSet)
+			, write(DepsSet), nl
 		),
 		CF).
 
@@ -187,15 +193,23 @@ combined_pivots(M, F, CF) :-
 deprels(dependency(_, QI1, QI2), Pivot) :-
 	has_quantity(EI1, QI1), 
 	has_quantity(EI2, QI2),
+	(rels(EI1, EI2, Pivot)
+	;
+	rels(EI2, EI1, Pivot)).
+
+% hack to support min: write more general code
+deprels(dependency(_, _QI1, min(QI2A, QI2B)), Pivot) :-
+	has_quantity(EI1, QI2A), 
+	has_quantity(EI2, QI2B),
 	rels(EI1, EI2, Pivot).
 
 rels(EI1, EI2, [ (R, E1, E2) ]) :-
-	struct_rel(R, EI1, EI2), !,
-	isa(EI1, E1), isa(EI2, E2).
+	struct_rel(R, EI1, EI2),
+	isa(E1, EI1), isa(E2, EI2), !.
 
 rels(EI1, EI3, [ (R, E1, E2) | PivotRest ]) :-
-	struct_rel(R, EI1, EI2),
-	isa(EI1, E1), isa(EI2, E2), 
+	struct_rel(R, EI1, EI2), \+ R = self,
+	isa(E1, EI1), isa(E2, EI2), 
 	rels(EI2, EI3, PivotRest).
 	
 % turn list of key-value pairs into list of lists where the head is the key.
