@@ -37,9 +37,33 @@ error-free data.}
 \newpage
 
 \section{Introduction}
+Qualitative Reasoning is the field of research that concerns modeling conceptual
+knowledge. Many approaches have been taken to formalize this knowledge and in
+recent years a lot of succesfull appliance has been shown. The modeling however
+is a complex and time consuming task, so an automated modeling algorithm is
+desirable. Although the basis for this algorithm has been succesfully defined
+by Buisman, and later extended by Liem and Van Weelden, there are still some
+things missing to making this algorithm useable in practice. The current
+approach makes strong assumptions about the input, which limits the
+applicability. Also, the output of this automated modeling is a monolithic
+(single, often large) model fragment. In qualitative reasoning, the reusability
+of fragments is an important feature, so in this paper we introduce a
+procedure which can divide the monolithic fragment into smaller, reusable
+fragments which are easier to comprehend.
+
+We will start with a literature review as an introduction to the field and to
+supply insight in approaches that have been attempted in section
+\ref{sec:litrev}. In this review we will cover papers on general Qualitative
+Reasoning (QR) topics and also on the Automated Modeling (AM) topics.
+Then in section \ref{sec:theory} we will introduce the theory on which our
+algorithm is based. The approach itself is explained in section
+\ref{sec:algorithm} and the results are shown in section \ref{sec:results}.
+Finally, section \ref{sec:discussion} and \ref{sec:conclusion} end with a
+discussion and conclusion.
+
 
 \section{Literature Review}
-
+\label{sec:litrev}
 In this section we will review a few of the papers that have contributed
 greatly to the definition of Qualitative Reasoning. We will give a short
 summary of the papers and will conclude with an overview of the current field
