@@ -788,7 +788,7 @@ figure \ref{cv_mono}; for the output, see figure \ref{cv_frags}.
     \includegraphics[scale=0.5]{cv_unfragment-crop.pdf}
 }
 
-\caption{After minimization: seven model fragments for two communicating vessels.}
+\caption{After minimization on quantities: seven model fragments for two communicating vessels.}
 \label{cv_frags}
 \end{figure}
 
@@ -837,9 +837,29 @@ Unfragment: [dependency(equals, flow3, min(pressure4, pressure5))]
 \end{verbatim}
 \end{comment}
 
+\begin{figure}[ht]
+\centering
+\subfigure{
+    \includegraphics[scale=0.5]{cv_fromcontpipe-crop.pdf}
+}
+\subfigure{
+    \includegraphics[scale=0.5]{cv_topipecont-crop.pdf}
+}
+\subfigure{
+    \includegraphics[scale=0.5]{cv_selfcontainer-crop.pdf}
+}
+\subfigure{
+    \includegraphics[scale=0.5]{cv_unfragment-crop.pdf}
+}
+
+\caption{After minimization on entities: four model compositional fragments for communicating vessels.}
+\label{cv_frags}
+\end{figure}
+
 Three communicating vessels.
 %more text
 
+\begin{comment}
 \begin{verbatim}
 Input:
 [dependency(inf_pos, flow3, amount5), 
@@ -892,6 +912,7 @@ Unfragment:
 [dependency(equals, flow3, min(pressure4, pressure5)), 
 dependency(equals, flow4, min(pressure5, pressure6))]
 \end{verbatim}
+\end{comment}
 
 
 \subsection{Population dynamics}
