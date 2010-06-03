@@ -47,7 +47,11 @@ of research and possible future work.
 %more text?
 
 \subsection{Qualitative Reasoning}
-
+Qualitative Reasoning is an approach from Artificial Intelligence that 
+provides means to express conceptual knowledge such as the physical system 
+structure, causality, etc.
+This enables us to reason about phenomena for which numerical information 
+is sparse or missing.
 The following papers describe the foundations of qualitative reasoning.
 %more text
 
@@ -106,37 +110,23 @@ Forbus has reviewed his own work and the impact of his work in
 \subsubsection{Garp3 - Workbench for Qualitative Modelling and Simulation
 (Bredeweg et al.)}
 
-Garp is an implementation of Qualitative Process Theory with a focus on
+Garp3 is an implementation of Qualitative Process Theory with a focus on
 educational uses.
 
-1. Introduction
-Qualitative Reasoning is an approach from AI that provides means to express
-conceptual knowledge such as the physical system structure, causality, the
-start and end of processes, the assumptions and conditions under which facts
-are true, qualitative destinct behaviors, etc.  phenomena for which numerical
-information is sparse or missing. Tools are being build to take a graphical
-approach to building qualitative models. Out approacht want to preserve the
-full expressiveness of the QR formalism and want to adreess domain experts and
+Tools are being build to take a graphical approach to building qualitative 
+models. With the introduction of Garp3, Bredeweg et al. want to preserve the
+full expressiveness of the QR formalism and to address domain experts and
 support them in articulating and capturing their conceptual knowledge. The
 software uses a diagrammatic approach for representing model content.
 
-2. Background \& Characteristics
-QR is a research area within AI that appeals to both fundamental reserach on
-human cognition and to practical applications in indrustry. Humans are very
-good in reasoning about the physical world using only fuzzy and qualitative
-information (gentner and stevens 1983). Also experts refrain from using
-numerical data but rather talk about cause-effect relationships. Ultimately a
-robot should have the ability to understand this knowledge.
-
-Conceptual models are defined as models that improce our understanding of
-systems and their behaviour. in QR, quantities that describe the dynamic
-features of a system typically hold qualitative information concerning the
-current magnitude and direction of change, using an interval scale, consisting
-of an ordered set of labels, eg {zero, low, medium, high}. such a set of labels
+In Qualitative Reasoning, quantities that describe the dynamic features of a 
+system typically hold qualitative information concerning the current magnitude 
+and direction of change, using an interval scale, consisting of an ordered set 
+of labels, e.g. {zero, low, medium, high}. such a set of labels
 is called a quantity space. Landmarks are specific labels within this set
 (acutally points) that refer to situations in which the behaviour of the system
 changes significantly. For instance, a susbstance reaching its boiling
-tempurature will stop getting hotter and start boiling.  in qualitative
+tempurature will stop getting hotter and start boiling. In qualitative
 simulations, the behavior of the system is represented as a graph of states
 that reflect qualitatively distinct system behavior. There is a set of
 dependencies that capture cause-effect relationships between quantities,
@@ -144,53 +134,63 @@ defined in such a way that they are both closely resembeling the conceptual
 notions of human reasoning, as well as allowing automated computation because
 they are grounded in mathematical formalisms. Two typical dependencies are
 direct influences and proportionalities.
+
 A QR engine has inference mechanisms to assemble the appropriate set of
 dependencies that describes a system in a certain state of behaviour. Two
 aspects are important for this approach: behaviour can be inferred from the
 physical structure of the system, and knowledge about system behaviour is
 stored in small fragments with conditional information detailing when such a
-fragment is applicable (WE FOCUS ON THIS).
+fragment is applicable.
 
-3. Representation and reasoning overview
+\vspace{0.8em}
+
 Simulation is done by the Garp3 reasoning engine, using a state-by-state
-strategy. Find-states constructs initial nodes in the state-graph based on the
-scenario and model fragments. Then Find-transitions determines all possible
-changes which form transition scenarios which are inputted into the find-states
-procedure again.  
-The reasoning process relies heavily on inequality reasoning.
+strategy. The \emph{find-states} algorithm constructs initial nodes in the 
+state-graph based on the scenario and model fragments. Then the 
+\emph{find-transitions} algorithm determines all possible changes which form 
+transition scenarios. These are inputted into the find-states procedure again.  
 
-4. Inequality reasoning: the mathematical engine
-inequality relations typically change during the simulation, thereby
-representing the dynamic aspects of the modelled system.  Points in a quantity
+The reasoning process relies heavily on inequality reasoning.
+The mathematical engine inequality relations typically change during the 
+simulation, thereby representing the dynamic aspects of the modelled system. 
+Points in a quantity 
 space are called landmarks and the intervals between are defined by these
 landmarks. The core inequality reasoning only considers these landmarks and not
 the intervals. Inequalities can specify the relation between several types of
 model ingredients. The following five types of inequality relations are used in
-Garp3: $Quantity \leftrightarrow Q$, $Q \leftrightarrow Landmark$, $L
-\leftrightarrow L$, $Derivative \leftrightarrow D$, $D \leftrightarrow 0$.  at
-the user-level representation, quantity values, landmarks and derivatives are
+Garp3: \emph{Quantity} $\leftrightarrow$ \emph{Quantity}, \emph{Quantity} 
+$\leftrightarrow$ \emph{Landmark}, \emph{Landmark} $\leftrightarrow$ 
+\emph{Landmark}, \emph{Derivative} $\leftrightarrow$ \emph{Derivative}, 
+\emph{Derivative} $\leftrightarrow$ \emph{Zero}.  
+
+At the user-level representation, quantity values, landmarks and derivatives are
 used, while at mathematical level, only landmarks exist and are used to
 describe the others (for both magnitudes and derivative quantity spaces).
 
 All the relations in the internal mathematical model of Garp3 have the
-following form: Sum11  rel  Sum2 with $rel \rightarrow \{>,\ge,=\}$. The following
+following form: $Sum_1$ $rel$ $Sum_2$ with $rel \rightarrow \{>,\ge,=\}$. The following
 three basic principles are used to make inferences in the Garp3 inequality
 reasoning engine:
 
-- Bais algembraic simplification
-- Anti-symmetry
-- Transitivity
+\begin{itemize}
+\item Bais algembraic simplification
+\item Anti-symmetry
+\item Transitivity
+\end{itemize}
+For example:
+\begin{itemize}
+\item $A>B$, $B>C$ (given)
+\item $(A>B)\&(B>C) \rightarrow A+B>B+C$ (transitivity)
+\item $A+B>B+C \rightarrow A>C$ (simplification)
+\end{itemize}
 
-Example:
-
-- $A>B$, $B>C$ (given)
-- $(A>B)\&(B>C) \rightarrow A+B>B+C$ (transitivity)
-- $A+B>B+C \rightarrow A>C$ (simplification)
-
-7. Discussion
 Garp3 does not discriminate explicitly between inequality statements that
-should be treated as always true (e.g. inflow - outflow = net-flow), and those
-that may change during simulation (eg. $Tx < Txboil \rightarrow Tx = Txboil$).
+should be treated as always true (e.g. \emph{inflow} - \emph{outflow} = 
+\emph{net-flow}), and those that may change during simulation 
+(eg. $T_x < T_xboil \rightarrow T_x = T_xboil$).
+
+\vspace{0.8em}
+
 2nd order derivatives are important for sound simulations, but complete
 validity cannot be guaranteed. This issue is in principle unsolvable, but does
 not form a problem for the level of detail of models built in Garp3.  
@@ -198,19 +198,12 @@ not form a problem for the level of detail of models built in Garp3.
 Future work will focus mainly on improving usability of the software in terms
 of GUI and debugging options.
 
-8. Conclusions
-The Garp3 workbench offers easy access to sphisticated qualitative simulation
-software, providing users the possibility to use QR technology withou having to
-understand low-level implementation details of such automated reasoners. An
-increasing number of domain experts are using the workbench to capture
-qualitative knowledge of system dynamics.  
-
-Transitive inference is worth mentioning, because it computes a full transitive
-closure of not a standard partial ordder but one that can be extended with new
-nodes via additions and substractions. Heuristics are employed to keep the
-search space within reasonable boundaries.
-
-%more text
+Bredeweg et al. conclude that the Garp3 workbench offers easy access to 
+sophisticated qualitative simulation software, providing users the 
+possibility to use QR technology withou having to understand low-level 
+implementation details of such automated reasoners. An increasing number of 
+domain experts are using the workbench to capture qualitative knowledge of 
+system dynamics.  
 
 \subsubsection{Algal bloom in the Danube Delta (Cioca et al.)}
 
@@ -342,6 +335,7 @@ fragments allow the user to focus on what happens in a small part of the
 model, without having to worry about the other 'components'. For example in a
 model describing a population, seperate fragments could describe processes
 like birth, death, emigration, etc.
+%maybe reference to paper BredewegEtAl, they say fragments are important in QR
 
 Recent work on automated modeling \cite{buisman, liem, vanweelden} has focused
 on generating a correct model based on a full-envisionment behavior graph. The
