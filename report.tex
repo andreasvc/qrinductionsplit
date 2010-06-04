@@ -10,15 +10,19 @@
 %\usepackage[utf8x]{inputenc}
 
 \title{Model Minimization in Qualitative Reasoning}
-\author{Andreas van Cranenburgh \\ 0440949 \\ acranenb@science.uva.nl 
-\and Hanne Nijhuis \\ 0364568 \\ hnijhuis@science.uva.nl}
+\author{Andreas van Cranenburgh\footnote{0440949, \texttt{acranenb@science.uva.nl}}
+\and Hanne Nijhuis\footnote{0364568, \texttt{hnijhuis@science.uva.nl}}}
 
 \begin{document}
 \maketitle
+\begin{center}
+Term project, University of Amsterdam \\
+Supervisor: Floris Linnebank
+\end{center}
 
 %perhaps picture here (something to do with minimization)
 
-\vspace{15em}
+\vspace{10em}
 
 \abstract{Qualitative Process theory provides a way of modeling causality in a
 system on a qualitative level. Previous work has attempted to automatically
@@ -28,7 +32,10 @@ the induced models re-usable. The resulting minimization algorithm is general
 enough to apply to user created models as well. We also sketch other possible
 improvements for model induction, based on the exploitation of human
 intuitions about systems rather than the current reliance on complete and
-error-free data.}
+error-free data.\footnote{{\bf Acknowledgements}: we wish to thank Floris
+Linnebank, Jochem Liem and Carsten van Weelden for helpful suggestions. It goes
+without saying that the opinions expressed in this report are entirely our
+own responsibility.}
 
 \newpage
 
@@ -114,7 +121,7 @@ Naive physics attempts the herculean\footnote{or foolish, depending on your
 disposition} task of explicitly formalizing all the required knowledge to
 derive fragments of modern physics in a qualitative manner. The fundamental
 question at stake here is how deep the rabbit hole goes in terms of the
-required background knowledge which is so much taken for granted by mortals.
+required background knowledge which is so much taken for granted by humans.
 
 A few assumptions of their approach characterize their methodology:
 
@@ -612,7 +619,7 @@ First the problem will be stated, then an algorithm, and finally in section
 \subsection{Problem statement}
 
 We take a monolithic model and divide it into several smaller fragments. To do
-so, we need to comply to the following ranked list of
+so, we apply the following ranked list of
 constraints:\footnote{Note that the terminology in this section of ranked
 constraints, candidates and optimality is of course a nod to Optimality
 Theory \cite{princesmolensky}}
@@ -659,7 +666,7 @@ without further claims of optimality.
 \item[structural relation]
 	A structural relation is a named relation between entities. They denote
 	the physical configuration of a system. For example a container that is
-	connected to a pipe can be denoted as $struct\_rel(from, container_left,
+	connected to a pipe can be denoted as $struct\_rel(from, container\_left,
 	pipe1)$.
 
 \item[pivot]
@@ -673,7 +680,7 @@ without further claims of optimality.
 \subsection{Algorithm}
 \label{sec:algorithm}
 
-Overview:
+A general overview of the algorithm:
 
 \begin{itemize}
 
@@ -732,7 +739,7 @@ sketched.}  First two helper definitions. The first defines a structural
 relation between two entity classes:
 
 \begin{align*}
-einstance(R, E_1, E_2) :=
+instance(R, E_1, E_2) :=
 	\exists e_1, e_2 \; [ &struct\_rel(R, e_1, e_2) & \\
 	\land \; &isa(e_1, E_1) \land isa(e_2, E_2) ]
 \end{align*}
@@ -808,8 +815,12 @@ epivots := \{ \; \langle R, E_1, E_2 \rangle \; | \\
 	\land &samedeps(R, E_1, E_2, M) \} 
 \end{align*}
 
-After defining the pivots we simply map them to their dependencies to obtain
-minimized, modular fragments:
+The choice of using $qpivots$ or $epivots$ is a coarse parameter for the grain
+size of the resulting fragments. See section \ref{sec:results} for examples
+of both.
+
+After defining the pivots we simply collected the dependencies belonging
+to each to obtain minimized, modular fragments:
 
 \begin{align*}
 qfragments := \{ \; \{ \; dependency&(d, Q_1, Q_2) \; | \; \\
@@ -829,12 +840,16 @@ efragments := \{ \; \{ \; dependency&(d, Q_1, Q_2) \; | \; \\
 	\langle R, E_2, E_1 \rangle \in epivots \; \}
 \end{align*}
 
-Note that while in this definition pivots are restricted to single triples of a
-relation and two quantities, the definition should be generalized so that
-pivots can be merged into multiple triples when they are applicable under the
-same conditions. This is in fact what we have done in our implementation,
-where we derive pivots in a bottom-up fashion for the dependencies that remain
-after the first pass of finding single condition pivots.
+Note that in this definition pivots are restricted to single triples of a
+relation and two quantities or entities. The definition should be generalized
+so that pivots can be merged into multiple triples when they are applicable
+under the same dependencies. This is in fact what we have done in our
+implementation, where we derive pivots in a bottom-up fashion for the
+dependencies that remain after the first pass of finding single condition
+pivots. This allows the generalization of dependencies between entities that
+are not connected through a single structural relation, as well as more
+complicated dependencies, viz.\ addition and subtraction, which are effectively
+relations between three quantities.
 
 The communicating vessels model provides an example (see figure \ref{cv_mono}),
 where there is a dependency between two containers, even though they are not
@@ -860,7 +875,7 @@ API.
 %FIXME remove this whining and hack a garp interface together.
 
 To avoid having to deal with these implementation matters we have based our
-current proof of concept implementation on our own representation (as Prolog
+proof of concept implementation\footnote{Source code available at: \url{http://github.com/andreasvc/qrinductionsplit}} on our own representation (as Prolog
 facts). Our implementation expects as its input a flat list of dependencies,
 and as background knowledge the scenario and entity hierarchy. Because of this
 the evaluation had to be done manually. We induced the models using the
@@ -871,7 +886,9 @@ proportionalities, which cannot be determined from the data using induction
 
 For all the models that we tested, the minimized fragments returns identical 
 state graphs compared to the original models. This demonstrates that the
-minimization transformation preserves the behavior of the system.
+minimization transformation preserves the behavior of the system. Another
+promising feature of the results is that the fragments correspond well with
+the original fragments as designed by experts.
 
 %\subsection{Evaluated Models}
 
@@ -922,7 +939,8 @@ Set of struct rels:
 \subfigure{
     \includegraphics[scale=0.5]{ts_sizeshade-crop.pdf}
 }
-\caption{After minimization: two model fragments for growth and size of shade}
+\caption{After minimization: two model fragments
+for growth and size of shade}
 \label{ts_frags}
 \end{figure}
 
@@ -996,7 +1014,8 @@ Unfragment: []
 \subfigure{
     \includegraphics[scale=0.5]{sb_out-crop.pdf}
 }
-\caption{After minimization: two model fragments for flows going in and out respectively.}
+\caption{After minimization: two model fragments
+for flows going in and out respectively.}
 \label{sb_frags}
 \end{figure}
 
@@ -1050,7 +1069,8 @@ minimized using entities.
     \includegraphics[scale=0.5]{cv_unfragment-crop.pdf}
 }
 
-\caption{After minimization on quantities: seven model fragments for two communicating vessels.}
+\caption{After minimization on quantities:
+seven model fragments for the communicating vessels.}
 \label{cv_frags}
 \end{figure}
 
@@ -1114,7 +1134,8 @@ Unfragment: [dependency(equals, flow3, min(pressure4, pressure5))]
     \includegraphics[scale=0.5]{cv_unfragment-crop.pdf}
 }
 
-\caption{After minimization on entities: four model compositional fragments for communicating vessels.}
+\caption{After minimization on entities:
+four model compositional fragments for communicating vessels.}
 \label{cv_frags2}
 \end{figure}
 
@@ -1193,6 +1214,9 @@ general and to model minimization in particular.
 
 \subsection{Model minimization}
 
+Although the minimization algorithm already works quite well, much remains to
+be done if it is to become a full-fledged minimization procedure for arbitrary
+Garp models. We will sketch some of the remaining work in the this section.
 %more text
 
 \subsubsection{Modular fragments as input}
@@ -1215,6 +1239,11 @@ more advanced method would turn this into an inheritance hierarchy, to avoid
 duplication and to increase re-use and clarity.
 
 \subsection{Model induction}
+
+Initially we intended for this project to be about model induction. Because of
+this we thought out several possible enhancements and replacements for the
+current AM algorithm. While they are less relevant to our main aim, they are
+part of the vision of supporting the capturing of conceptual knowledge.
 
 \subsubsection{Conditions}
 
@@ -1280,8 +1309,8 @@ on which we tested our approach were correctly splitted into fragments, which
 show identical behavior compared to the original models. Furthermore, the
 fragments correspond well with fragments made by experts.
 
-Our approach is general enough that it applies both to Automatic Modeling and to
-models made by beginners. From now on, minimizing qualitative models in Garp
+Our approach is general enough that it applies both to Automatic Modeling and
+to models made by beginners. From now on, minimizing qualitative models in Garp
 can be done automatically, at least for the subset of models supported by the
 proof of concept implementation.
 
